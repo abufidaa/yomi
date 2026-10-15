@@ -214,6 +214,8 @@ nav button.on svg{background:color-mix(in srgb,var(--gold) 22%,transparent)}
 .ptab th{color:var(--gold);font-weight:600}
 .ptab tr.today td{background:color-mix(in srgb,var(--gold) 16%,transparent);font-weight:600}
 .appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:7;display:flex;align-items:center;gap:10px;margin:-16px -16px 12px;padding:10px 16px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.upcard{cursor:pointer;border-color:color-mix(in srgb,var(--gold) 55%,var(--line));background:var(--pattern),var(--card)}
+.upcard b{font-size:15px}
 .vbadge{display:inline-block;vertical-align:middle;font-family:var(--fb);font-size:10px;font-weight:700;background:linear-gradient(150deg,#DCB96A,#B08A3E);color:#0B152F;border-radius:20px;padding:1px 8px;margin-inline-start:4px}
 .appbar img{width:40px;height:40px;border-radius:12px;background:#fff;object-fit:contain;border:1px solid var(--line)}
 .ab-t{flex:1;min-width:0}.ab-t b{display:block;font-family:var(--fh);font-size:19px;font-weight:800;line-height:1.25}.ab-t span{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -292,10 +294,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.١</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٢</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.١</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٢</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -304,6 +306,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     </div>
     <div class="npc-b"><button class="hbtn ghost" id="npcMute"></button><button class="hbtn ghost" id="npcQibla">🧭 القبلة</button><button class="hbtn ghost" id="npcAdhkar">📿 أذكار بعد الصلاة</button></div>
   </div>
+  <div class="card upcard" id="lastUpd" hidden></div>
   <button class="btn pri" id="voiceUnlock" hidden style="width:100%;margin-bottom:10px">🔊 دوس هنا عشان أشغّل الصوت</button>
   <div class="hero" id="hero" aria-live="polite">
     <div class="top"><span id="clock"></span><span id="dayname"></span></div>
@@ -454,6 +457,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <button class="tile" data-sub="monthly"><i>🕰️</i>مواقيت الشهر</button>
     <a class="tile" id="mosqTile" target="_blank" rel="noopener" style="text-decoration:none"><i>🕌</i>المساجد القريبة</a>
     <button class="tile" data-sub="zakat"><i>💰</i>حاسبة الزكاة</button>
+    <button class="tile" data-sub="log"><i>🤖</i>سجل التحديثات</button>
   </div>
   <div class="card">
     <h3>الشكل</h3>
@@ -616,6 +620,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   </div>
   <div class="card"><h3>النتيجة</h3><p id="zkOut" style="margin:0;line-height:1.9"></p></div>
   <p class="sub">النصاب = ٨٥ جرام دهب عيار ٢٤. ده حساب تقريبي ومش بيتحفظ، وفي الحالات الخاصة اسأل أهل العلم.</p>
+</section>
+<section class="view" id="v-log">
+  <div class="row" style="justify-content:space-between"><h2>سجل التحديثات</h2><button class="btn" data-back="1">رجوع</button></div>
+  <p class="sub" style="margin:-8px 0 12px">كل تعديل اتعمل في التطبيق، بيتجاب على طول من جيت هب. اللي جنبه 🤖 عمله Claude.</p>
+  <div id="logList"><p class="sub">بيجيب السجل…</p></div>
 </section>
 </div>
 <div id="zen" class="zen" hidden><div class="zin">
@@ -1957,6 +1966,22 @@ if(!(window.claude&&window.claude.use)){
   b.querySelector('button').onclick=close;setTimeout(()=>b.classList.add('show'),1500);setTimeout(close,10000)})();
 if('serviceWorker' in navigator){const had=!!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!window.__yr){window.__yr=1;location.reload()}})}
+</script>
+<script>
+/* سجل التحديثات: بيجيب آخر التعديلات من جيت هب مباشرة */
+SUBS.push('log');
+function agoAr(d){const s=(Date.now()-new Date(d))/1000;if(s<60)return'دلوقتي حالًا';const m=Math.floor(s/60);if(m<60)return'من '+ar(m)+' دقيقة';const hh=Math.floor(m/60);if(hh<24)return'من '+ar(hh)+' ساعة';return'من '+ar(Math.floor(hh/24))+' يوم'}
+function renderLog(){const L=window.__log;if(!L||!L.length)return;
+  const c=$('lastUpd');c.hidden=false;c.innerHTML='<div class="row" style="justify-content:space-between"><b></b><span class="sub"></span></div><p style="margin:6px 0 0;line-height:1.7"></p>';
+  c.querySelector('b').textContent=L[0].bot?'🤖 آخر تحديث من Claude':'آخر تحديث';c.querySelector('.sub').textContent=agoAr(L[0].d);c.querySelector('p').textContent=L[0].m;c.onclick=()=>go('log');
+  const box=$('logList');box.innerHTML='';
+  L.forEach((x,i)=>{const it=el('div','item','<div class="row" style="justify-content:space-between;align-items:flex-start"><b style="flex:1"></b><span class="sub"></span></div><div class="sub" style="margin-top:4px"></div>');
+    it.querySelector('b').textContent=(x.bot?'🤖 ':'👤 ')+x.m;it.querySelector('.row .sub').textContent=agoAr(x.d);
+    it.querySelectorAll('.sub')[1].textContent=(x.bot?'عمله Claude':'رفعته انت')+' · '+new Intl.DateTimeFormat('ar-EG',{weekday:'long',day:'numeric',month:'long',hour:'numeric',minute:'2-digit'}).format(new Date(x.d));
+    if(i===0)it.style.borderColor='var(--gold)';box.appendChild(it)})}
+async function loadLog(){try{const r=await fetch('https://api.github.com/repos/abufidaa/yomi/commits?per_page=20',{cache:'no-store'});if(!r.ok)return;
+  const j=await r.json();window.__log=j.map(c=>({m:c.commit.message.split('\n')[0],d:c.commit.author.date,bot:c.commit.author.name==='Claude'}));renderLog()}catch(e){}}
+loadLog();setInterval(loadLog,3*60*1000);setInterval(()=>{try{renderLog()}catch(e){}},60*1000);
 </script>
 </body>
 </html>
