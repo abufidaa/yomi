@@ -10,6 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
+<meta name="app-version" content="20261015203013">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -216,6 +217,7 @@ nav button.on svg{background:color-mix(in srgb,var(--gold) 22%,transparent)}
 .appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:7;display:flex;align-items:center;gap:10px;margin:-16px -16px 12px;padding:10px 16px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .upcard{cursor:pointer;border-color:color-mix(in srgb,var(--gold) 55%,var(--line));background:var(--pattern),var(--card)}
 .upcard b{font-size:15px}
+#voiceUnlock{padding-left:78px}
 .vbadge{display:inline-block;vertical-align:middle;font-family:var(--fb);font-size:10px;font-weight:700;background:linear-gradient(150deg,#DCB96A,#B08A3E);color:#0B152F;border-radius:20px;padding:1px 8px;margin-inline-start:4px}
 .appbar img{width:40px;height:40px;border-radius:12px;background:#fff;object-fit:contain;border:1px solid var(--line)}
 .ab-t{flex:1;min-width:0}.ab-t b{display:block;font-family:var(--fh);font-size:19px;font-weight:800;line-height:1.25}.ab-t span{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -294,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٢</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٣</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٢</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٣</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -458,6 +460,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <a class="tile" id="mosqTile" target="_blank" rel="noopener" style="text-decoration:none"><i>🕌</i>المساجد القريبة</a>
     <button class="tile" data-sub="zakat"><i>💰</i>حاسبة الزكاة</button>
     <button class="tile" data-sub="log"><i>🤖</i>سجل التحديثات</button>
+  </div>
+  <div class="card">
+    <h3>التحديثات</h3>
+    <div class="set"><div>الإصدار اللي عندك<small class="verNow"></small></div><button class="btn pri hardBtn">🔄 كسر الكاش وتحديث</button></div>
+    <p class="sub" style="margin:4px 0 0">التطبيق بيدوّر على التحديثات لوحده كل دقيقتين وكل ما تفتحه. الزرار ده بيمسح النسخة المحفوظة ويجيب آخر نسخة من النت على طول، وعلاماتك وإعداداتك مش بتتمسح.</p>
   </div>
   <div class="card">
     <h3>الشكل</h3>
@@ -624,6 +631,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <section class="view" id="v-log">
   <div class="row" style="justify-content:space-between"><h2>سجل التحديثات</h2><button class="btn" data-back="1">رجوع</button></div>
   <p class="sub" style="margin:-8px 0 12px">كل تعديل اتعمل في التطبيق، بيتجاب على طول من جيت هب. اللي جنبه 🤖 عمله Claude.</p>
+  <div class="card"><div class="set" style="border:0;padding:0"><div>الإصدار اللي عندك<small class="verNow"></small></div><button class="btn pri hardBtn">🔄 كسر الكاش</button></div></div>
   <div id="logList"><p class="sub">بيجيب السجل…</p></div>
 </section>
 </div>
@@ -1982,6 +1990,26 @@ function renderLog(){const L=window.__log;if(!L||!L.length)return;
 async function loadLog(){try{const r=await fetch('https://api.github.com/repos/abufidaa/yomi/commits?per_page=20',{cache:'no-store'});if(!r.ok)return;
   const j=await r.json();window.__log=j.map(c=>({m:c.commit.message.split('\n')[0],d:c.commit.author.date,bot:c.commit.author.name==='Claude'}));renderLog()}catch(e){}}
 loadLog();setInterval(loadLog,3*60*1000);setInterval(()=>{try{renderLog()}catch(e){}},60*1000);
+</script>
+<script>
+/* كسر الكاش: بيقارن الإصدار اللي عندك بآخر إصدار على جيت هب، ولو فيه جديد بيحدّث لوحده */
+const APP_V=(document.querySelector('meta[name=app-version]')||{}).content||'0';
+function verLabel(v){const m=String(v).match(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)/);if(!m)return'';
+  const d=new Date(Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5]));return'اتحدّث '+new Intl.DateTimeFormat('ar-EG',{day:'numeric',month:'long',hour:'numeric',minute:'2-digit'}).format(d)}
+document.querySelectorAll('.verNow').forEach(e=>e.textContent=verLabel(APP_V)||'—');
+async function hardRefresh(v){
+  try{if('caches' in window){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)))}}catch(e){}
+  try{if(navigator.serviceWorker){const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()))}}catch(e){}
+  const u=new URL(location.href);u.searchParams.set('v',v||Date.now());location.replace(u.toString())}
+document.querySelectorAll('.hardBtn').forEach(b=>b.onclick=()=>{if(!navigator.onLine){toast('محتاج نت عشان تجيب آخر نسخة');return}
+  b.disabled=true;b.textContent='بيحدّث…';try{localStorage.setItem('yomi:justUpdated','manual')}catch(e){}hardRefresh()});
+async function checkVersion(){if(!navigator.onLine)return;try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();
+  if(!j.v||j.v===APP_V)return;const k='yomi:tried-'+j.v;let t=0;try{t=+sessionStorage.getItem(k)||0}catch(e){}
+  if(Date.now()-t<120000)return;try{sessionStorage.setItem(k,String(Date.now()));localStorage.setItem('yomi:justUpdated',j.v)}catch(e){}hardRefresh(j.v)}catch(e){}}
+checkVersion();setInterval(checkVersion,120000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checkVersion()});
+try{const ju=localStorage.getItem('yomi:justUpdated');if(ju){localStorage.removeItem('yomi:justUpdated');setTimeout(()=>toast('✨ اتحدّث التطبيق لآخر إصدار'),1800)}}catch(e){}
+try{const u=new URL(location.href);if(u.searchParams.has('v')){u.searchParams.delete('v');history.replaceState(null,'',u.pathname+u.search+u.hash)}}catch(e){}
 </script>
 </body>
 </html>
