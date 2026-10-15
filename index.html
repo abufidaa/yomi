@@ -214,6 +214,7 @@ nav button.on svg{background:color-mix(in srgb,var(--gold) 22%,transparent)}
 .ptab th{color:var(--gold);font-weight:600}
 .ptab tr.today td{background:color-mix(in srgb,var(--gold) 16%,transparent);font-weight:600}
 .appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:7;display:flex;align-items:center;gap:10px;margin:-16px -16px 12px;padding:10px 16px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.vbadge{display:inline-block;vertical-align:middle;font-family:var(--fb);font-size:10px;font-weight:700;background:linear-gradient(150deg,#DCB96A,#B08A3E);color:#0B152F;border-radius:20px;padding:1px 8px;margin-inline-start:4px}
 .appbar img{width:40px;height:40px;border-radius:12px;background:#fff;object-fit:contain;border:1px solid var(--line)}
 .ab-t{flex:1;min-width:0}.ab-t b{display:block;font-family:var(--fh);font-size:19px;font-weight:800;line-height:1.25}.ab-t span{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .abchip{font:inherit;font-size:13px;font-weight:700;border:1px solid var(--gold);background:color-mix(in srgb,var(--gold) 14%,var(--card));color:var(--ink);border-radius:20px;padding:6px 12px;cursor:pointer;white-space:nowrap}
@@ -291,10 +292,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.١</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي</b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.١</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -1950,7 +1951,7 @@ if(!(window.claude&&window.claude.use)){
 @media (prefers-reduced-motion:reduce){.updb{transition:none}}
 </style>
 <script>
-(function(){const K='yomi:upd-1',b=document.getElementById('updBanner');let seen=null;try{seen=localStorage.getItem(K)}catch(e){}
+(function(){const K='yomi:upd-2',b=document.getElementById('updBanner');let seen=null;try{seen=localStorage.getItem(K)}catch(e){}
   if(seen){b.remove();return}
   const close=()=>{b.classList.remove('show');try{localStorage.setItem(K,'1')}catch(e){}setTimeout(()=>b.remove(),700)};
   b.querySelector('button').onclick=close;setTimeout(()=>b.classList.add('show'),1500);setTimeout(close,10000)})();
