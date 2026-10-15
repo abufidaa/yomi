@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261015203645">
+<meta name="app-version" content="20261015204215">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٤</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٥</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٤</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٥</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -503,7 +503,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <label class="btn pri" style="display:inline-block;margin:6px 0 12px;cursor:pointer">➕ ضيف أذان من جهازك<input type="file" accept="audio/*" id="adFile" hidden></label>
     <div class="sub" style="margin:4px 0">صوت كل صلاة</div>
     <div id="adPer"></div>
-    <div class="set"><div>نغمة التنبيهات<small>للفقرات والتنبيهات العادية</small></div><select id="toneSel"><option value="chime">ترانيم</option><option value="bell">جرس</option><option value="soft">هادية</option><option value="tick">قصيرة</option></select></div>
+    <div class="set"><div>نغمة التنبيهات<small>اختارها وهتسمعها على طول</small></div><select id="toneSel"><option value="chime">ترانيم</option><option value="bell">جرس</option><option value="soft">هادية</option><option value="tick">قصيرة</option></select></div>
     <div class="set"><div>صوت المنادي<small>اختار صوت راجل طبيعي من الأصوات اللي على جهازك</small></div><select id="voiceSel" style="max-width:180px"></select></div>
     <div class="set"><div>سرعة الكلام</div><input type="range" id="vRate" min="0.7" max="1.2" step="0.05" style="width:140px"></div>
     <div class="row" style="padding-top:8px"><button class="btn" id="voiceTest2">🔊 اسمع الصوت</button></div>
@@ -2081,6 +2081,70 @@ function renderFreeAd(){const box=$('freeAd');if(!box)return;box.innerHTML='';
 const _rAN=renderAdhanNames;renderAdhanNames=function(){_rAN();renderFreeAd()};
 /* أول مرة: نزّل أذان جاهز لوحده عشان الأذان يشتغل بصوت حقيقي من غير ما تعمل حاجة */
 setTimeout(async()=>{try{if(!local.get('freeAdAuto',false)&&navigator.onLine&&!adhanList().length){if(await addFree(FREE_ADHANS[0],true)){local.set('freeAdAuto',true);toast('🎙️ ضفت لك أذان بصوت حقيقي، وهيشتغل في مواعيد الصلاة')}}}catch(e){}},6000);
+</script>
+<script>
+/* ===== نغمات طبيعية: كلها متولّدة جوه التطبيق ===== */
+const TONES=[['chime','🎶 ترانيم'],['bell','🔔 جرس'],['soft','🌙 هادية'],['tick','• قصيرة'],['birds','🐦 عصافير'],['stream','💧 خرير المية'],['drops','💧 قطرات مية'],['rain','🌧️ مطر'],['waves','🌊 موج البحر'],['wind','🍃 نسيم'],['crickets','🌾 صراصير الليل'],['dove','🕊️ هديل حمام'],['bowl','🪷 جرس رنّان'],['crystal','✨ كريستال'],['marimba','🎵 ماريمبا']];
+(function(){const s=$('toneSel');s.innerHTML='';TONES.forEach(([v,n])=>{const o=el('option');o.value=v;o.textContent=n;s.appendChild(o)});s.value=profile.settings.tone||'chime'})();
+const actx=()=>new (window.AudioContext||window.webkitAudioContext)();
+function nbuf(a,sec,brown){const n=Math.floor(a.sampleRate*sec),b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);let l=0;
+  for(let i=0;i<n;i++){const w=Math.random()*2-1;if(brown){l=(l+.02*w)/1.02;d[i]=l*3.5}else d[i]=w}return b}
+const closeLater=(a,s)=>setTimeout(()=>{try{a.close()}catch(e){}},s*1000+400);
+function env(g,t,peak,att,rel){g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(peak,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+att+rel)}
+function sine(a,out,t,f,dur,peak,type){const o=a.createOscillator(),g=a.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);env(g,t,peak,.01,dur);o.connect(g);g.connect(out);o.start(t);o.stop(t+dur+.05);return o}
+function noiseSeg(a,t,dur,brown){const s=a.createBufferSource();s.buffer=nbuf(a,dur,brown);s.start(t);return s}
+const NAT={
+ birds(){const a=actx(),t0=a.currentTime,m=a.createGain();m.gain.value=.11;m.connect(a.destination);
+  const chirp=(t,f1,f2,d)=>{const o=a.createOscillator(),g=a.createGain();o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+d*.55);o.frequency.exponentialRampToValueAtTime(f1*1.08,t+d);env(g,t,1,.008,d);o.connect(g);g.connect(m);o.start(t);o.stop(t+d+.03)};
+  let t=t0+.05;for(let i=0;i<13;i++){const f=2600+Math.random()*1700;chirp(t,f,f*(1.2+Math.random()*.35),.05+Math.random()*.08);t+=.07+Math.random()*.13;if(i===5)t+=.35}
+  t=t0+.55;for(let i=0;i<9;i++){chirp(t,1850,2450,.045);t+=.06}closeLater(a,2.6)},
+ stream(){const a=actx(),t0=a.currentTime,s=noiseSeg(a,t0,3.4),bp=a.createBiquadFilter(),g=a.createGain();bp.type='bandpass';bp.Q.value=.9;
+  for(let i=0;i<34;i++)bp.frequency.setValueAtTime(800+Math.random()*1700,t0+i*.1);
+  g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(.09,t0+.6);g.gain.setValueAtTime(.09,t0+2.6);g.gain.linearRampToValueAtTime(0,t0+3.3);
+  s.connect(bp);bp.connect(g);g.connect(a.destination);
+  for(let i=0;i<12;i++){const t=t0+.3+Math.random()*2.6,o=a.createOscillator(),gg=a.createGain(),f=450+Math.random()*700;o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(f*2.3,t+.05);env(gg,t,.05,.004,.06);o.connect(gg);gg.connect(a.destination);o.start(t);o.stop(t+.1)}
+  closeLater(a,3.5)},
+ drops(){const a=actx(),t0=a.currentTime,lp=a.createBiquadFilter();lp.type='lowpass';lp.frequency.value=3000;lp.connect(a.destination);
+  [0,.42,.7,1.25,1.5].forEach((dt,i)=>{const t=t0+dt,o=a.createOscillator(),g=a.createGain(),f=650+Math.random()*500;o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(f*1.9,t+.035);env(g,t,.22,.003,.16);o.connect(g);g.connect(lp);o.start(t);o.stop(t+.2)});closeLater(a,2)},
+ rain(){const a=actx(),t0=a.currentTime,s=noiseSeg(a,t0,3.5),hp=a.createBiquadFilter(),g=a.createGain();hp.type='highpass';hp.frequency.value=1500;
+  g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(.06,t0+.7);g.gain.setValueAtTime(.06,t0+2.7);g.gain.linearRampToValueAtTime(0,t0+3.4);s.connect(hp);hp.connect(g);g.connect(a.destination);
+  for(let i=0;i<40;i++){const t=t0+.2+Math.random()*3,c=noiseSeg(a,t,.015),cg=a.createGain();cg.gain.value=.05+Math.random()*.05;c.connect(cg);cg.connect(a.destination)}closeLater(a,3.6)},
+ waves(){const a=actx(),t0=a.currentTime,s=noiseSeg(a,t0,4.2,true),lp=a.createBiquadFilter(),g=a.createGain();lp.type='lowpass';lp.frequency.setValueAtTime(400,t0);lp.frequency.linearRampToValueAtTime(1100,t0+1.7);lp.frequency.linearRampToValueAtTime(350,t0+4);
+  g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(.35,t0+1.7);g.gain.linearRampToValueAtTime(.12,t0+2.8);g.gain.linearRampToValueAtTime(0,t0+4.1);s.connect(lp);lp.connect(g);g.connect(a.destination);closeLater(a,4.3)},
+ wind(){const a=actx(),t0=a.currentTime,s=noiseSeg(a,t0,3.8),bp=a.createBiquadFilter(),g=a.createGain();bp.type='bandpass';bp.Q.value=2.5;bp.frequency.setValueAtTime(300,t0);bp.frequency.linearRampToValueAtTime(950,t0+1.6);bp.frequency.linearRampToValueAtTime(420,t0+3.6);
+  g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(.16,t0+1.4);g.gain.linearRampToValueAtTime(0,t0+3.7);s.connect(bp);bp.connect(g);g.connect(a.destination);closeLater(a,3.9)},
+ crickets(){const a=actx(),t0=a.currentTime;for(let c=0;c<4;c++)for(let p=0;p<7;p++)sine(a,a.destination,t0+c*.55+p*.035,4400+c*30,.018,.05);closeLater(a,2.5)},
+ dove(){const a=actx(),t0=a.currentTime,lp=a.createBiquadFilter();lp.type='lowpass';lp.frequency.value=900;lp.connect(a.destination);
+  [[0,.28,430,520],[.34,.75,520,450],[1.25,.25,440,500],[1.55,.32,500,450]].forEach(([dt,d,f1,f2])=>{const t=t0+dt,o=a.createOscillator(),g=a.createGain(),v=a.createOscillator(),vg=a.createGain();
+    o.frequency.setValueAtTime(f1,t);o.frequency.linearRampToValueAtTime(f2,t+d);v.frequency.value=7;vg.gain.value=9;v.connect(vg);vg.connect(o.frequency);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.22,t+d*.3);g.gain.linearRampToValueAtTime(0,t+d);o.connect(g);g.connect(lp);o.start(t);v.start(t);o.stop(t+d+.02);v.stop(t+d+.02)});closeLater(a,2.1)},
+ bowl(){const a=actx(),t0=a.currentTime;[[432,.16],[436,.1],[1170,.06],[2330,.03]].forEach(([f,p])=>{const o=a.createOscillator(),g=a.createGain();o.frequency.value=f;g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(p,t0+.02);g.gain.exponentialRampToValueAtTime(.0001,t0+3.6);o.connect(g);g.connect(a.destination);o.start(t0);o.stop(t0+3.7)});closeLater(a,3.8)},
+ crystal(){const a=actx(),t0=a.currentTime;[1568,2093,2637,3136,2637].forEach((f,i)=>{sine(a,a.destination,t0+i*.12,f,1.1,.06);sine(a,a.destination,t0+i*.12,f*2.01,.5,.015)});closeLater(a,2)},
+ marimba(){const a=actx(),t0=a.currentTime;[523,659,784,1047].forEach((f,i)=>{sine(a,a.destination,t0+i*.14,f,.45,.2);sine(a,a.destination,t0+i*.14,f*4,.08,.05)});closeLater(a,1.2)}};
+const _pt=playTone;playTone=function(k){if(NAT[k]){try{NAT[k]()}catch(e){}return}_pt(k)};
+
+/* ===== أذانات أكتر: من ويكيميديا كومنز وأرشيف الإنترنت (رخص مفتوحة) ===== */
+const AR='https://archive.org/download/adhan.recordings.from.doha.qatar/';
+FREE_ADHANS.push(
+ {id:'free-4',name:'أذان جميل — Adam-synagda',url:'https://upload.wikimedia.org/wikipedia/commons/b/b0/Beautiful_adhan.ogg',credit:'ويكيميديا كومنز · CC0 ملكية عامة',len:'دقيقتين ونص'},
+ {id:'free-5',name:'أقدم تسجيل للأذان (مكة، القرن ١٩)',url:'https://upload.wikimedia.org/wikipedia/commons/4/41/Oldest_recording_of_the_Quran_1885.oga',credit:'ويكيميديا كومنز · ملكية عامة',len:'دقيقة ونص'},
+ {id:'doha-fajr',name:'أذان الفجر — الدوحة',url:AR+'Adhan_Doha_Qatar_01_Fajr_Adhan.ogg',credit:'تسجيل من مساجد الدوحة · أرشيف الإنترنت · ملكية عامة',len:'أذان كامل',pr:'fajr'},
+ {id:'doha-dhuhr',name:'أذان الظهر — الدوحة',url:AR+'Adhan_Doha_Qatar_02_Dhuhr_Adhan.ogg',credit:'تسجيل من مساجد الدوحة · أرشيف الإنترنت · ملكية عامة',len:'أذان كامل',pr:'dhuhr'},
+ {id:'doha-asr',name:'أذان العصر — الدوحة',url:AR+'Adhan_Doha_Qatar_03_Asr_Adhan.ogg',credit:'تسجيل من مساجد الدوحة · أرشيف الإنترنت · ملكية عامة',len:'أذان كامل',pr:'asr'},
+ {id:'doha-maghrib',name:'أذان المغرب — الدوحة',url:AR+'Adhan_Doha_Qatar_04_Maghrib_Adhan.ogg',credit:'تسجيل من مساجد الدوحة · أرشيف الإنترنت · ملكية عامة',len:'أذان كامل',pr:'maghrib'},
+ {id:'doha-isha',name:'أذان العشاء — الدوحة',url:AR+'Adhan_Doha_Qatar_05_Isha_Adhan.ogg',credit:'تسجيل من مساجد الدوحة · أرشيف الإنترنت · ملكية عامة',len:'أذان كامل',pr:'isha'});
+/* لو التنزيل اتمنع، نحفظه كرابط ويشتغل وقت الأذان من النت */
+addFree=async function(a,quiet){if(adhanList().find(x=>x.id===a.id))return true;
+  let saved=false;try{const r=await fetch(a.url);if(r.ok){await fput(a.id,await r.blob());saved=true}}catch(e){}
+  adhanList().push(saved?{id:a.id,name:a.name}:{id:a.id,name:a.name,url:a.url});saveProfile();
+  if(!quiet)toast(saved?'اتضاف «'+a.name+'» وبيشتغل من غير نت':'اتضاف «'+a.name+'» وهيشتغل من النت');renderFreeAd();_rAN();return true};
+const _pf=playFile;playFile=async function(id){if(await _pf(id))return true;const e=adhanList().find(x=>x.id===id);if(!e||!e.url)return false;
+  stopAdhan();adhanAudio=new Audio(e.url);adhanAudio.onended=()=>{stopAdhan();toast('اللهم رب هذه الدعوة التامة…')};await adhanAudio.play();$('adhanStop').hidden=false;return true};
+const _rFA=renderFreeAd;renderFreeAd=function(){_rFA();const box=$('freeAd');if(!box)return;
+  const b=el('button','btn pri');b.style.cssText='width:100%;margin:2px 0 10px';b.textContent='🕌 خلّي كل صلاة بأذانها من مساجد الدوحة';
+  b.onclick=async()=>{b.disabled=true;b.textContent='بينزل الـ ٥ أذانات…';const af=profile.settings.adhanFor=profile.settings.adhanFor||{};
+    for(const a of FREE_ADHANS.filter(x=>x.pr)){await addFree(a,true);af[a.pr]=a.id}saveProfile();_rAN();renderFreeAd();toast('تمام، كل صلاة بقى ليها أذانها')};
+  box.prepend(b)};
 </script>
 </body>
 </html>
