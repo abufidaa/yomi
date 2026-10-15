@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261015203013">
+<meta name="app-version" content="20261015203645">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٣</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٤</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٣</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٤</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -496,7 +496,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   </div>
   <div class="card">
     <h3>صوت الأذان والمنادي</h3>
-    <div class="sub" style="margin:4px 0 6px">مكتبة الأذان</div>
+    <div class="sub" style="margin:4px 0 6px">أذانات جاهزة مجانية</div>
+    <div id="freeAd"></div>
+    <div class="sub" style="margin:12px 0 6px">مكتبة الأذان عندك</div>
     <div id="adLib"></div>
     <label class="btn pri" style="display:inline-block;margin:6px 0 12px;cursor:pointer">➕ ضيف أذان من جهازك<input type="file" accept="audio/*" id="adFile" hidden></label>
     <div class="sub" style="margin:4px 0">صوت كل صلاة</div>
@@ -584,6 +586,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   <div class="row" style="justify-content:space-between"><h2>اتجاه القبلة</h2><button class="btn" data-back="1">رجوع</button></div>
   <div class="card" style="text-align:center">
     <div class="compass"><div class="dial" id="dial"><span class="cn">ش</span><span class="cs">ج</span><span class="ce">ق</span><span class="cw">غ</span></div><div class="needle" id="needle"></div><div class="hub"></div></div>
+    <p id="qibStat" class="qstat">دوس الزرار وامسك الموبايل مفرود قدامك</p>
     <p id="qibInfo" style="margin:0 0 12px"></p>
     <button class="btn pri" id="qibLive">استخدم بوصلة الموبايل</button>
     <p class="sub" style="margin:10px 0 0">على الكمبيوتر: «ش» هو الشمال، والكعبة في اتجاه السهم. على الموبايل دوس الزرار ولف بالموبايل.</p>
@@ -1924,8 +1927,8 @@ function npcTick(){const now=new Date(),m=now.getHours()*60+now.getMinutes()+now
   $('npcName').textContent=PN[nx];$('npcTime').textContent='الساعة '+fmt(t%1440)+(t>=1440?' بكرة':'');$('npcCount').textContent=hms(left);
   $('npcArc').style.strokeDashoffset=String(276.5*(1-frac));
   const muted=!!(profile.settings.mute||{})[nx];$('npcMute').textContent=muted?'🔕 الأذان مقفول':'🔔 الأذان شغال';$('npcMute').dataset.p=nx;
-  const hh=Math.floor(left/3600),mm=Math.floor(left%3600/60);$('abNext').textContent='🕌 '+PN[nx]+' بعد '+(hh?ar(hh)+':'+ar(pad(mm)):ar(mm)+' د');
-  const hj=hijri(now);$('abDate').textContent=DAYS[now.getDay()]+(hj.txt?' · '+hj.txt:'')}
+  const hh=Math.floor(left/3600),mm=Math.floor(left%3600/60);$('abNext').textContent='🕌 '+PN[nx]+' '+(hh?ar(hh)+':'+ar(pad(mm)):ar(mm)+' د');
+  const hj=hijri(now);$('abDate').textContent=DSH[now.getDay()]+(hj.txt?' · '+hj.txt:'')}
 $('npcMute').onclick=()=>{const p=$('npcMute').dataset.p,mu=profile.settings.mute=profile.settings.mute||{};if(mu[p])delete mu[p];else mu[p]=1;saveProfile();npcTick();toast(mu[p]?'أذان '+PN[p]+' مقفول':'أذان '+PN[p]+' رجع')};
 $('npcQibla').onclick=()=>go('qibla');
 $('npcAdhkar').onclick=()=>{aSel='p';openWird('a')};
@@ -2010,6 +2013,74 @@ checkVersion();setInterval(checkVersion,120000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checkVersion()});
 try{const ju=localStorage.getItem('yomi:justUpdated');if(ju){localStorage.removeItem('yomi:justUpdated');setTimeout(()=>toast('✨ اتحدّث التطبيق لآخر إصدار'),1800)}}catch(e){}
 try{const u=new URL(location.href);if(u.searchParams.has('v')){u.searchParams.delete('v');history.replaceState(null,'',u.pathname+u.search+u.hash)}}catch(e){}
+</script>
+<style>
+.ab-t span{white-space:normal;font-size:11.5px;line-height:1.4}
+.abchip{padding:6px 10px;font-size:12.5px}
+.qstat{font-family:var(--fh);font-weight:800;font-size:20px;margin:0 0 6px;min-height:30px;transition:color .3s}
+.compass{transition:border-color .3s,box-shadow .3s}
+.compass.near{border-color:var(--gold);box-shadow:0 0 0 5px color-mix(in srgb,var(--gold) 25%,transparent)}
+.compass.aligned{border-color:#2F9E6E;box-shadow:0 0 0 7px rgba(47,158,110,.28),0 0 36px rgba(47,158,110,.55)}
+.compass.aligned .needle{background:linear-gradient(to top,transparent,#2F9E6E)}
+.compass.aligned .hub{background:#2F9E6E}
+.qstat.ok{color:#2F9E6E}
+</style>
+<script>
+/* ===== القبلة: اهتزاز وصوت ولون أخضر لما تتجه صح ===== */
+let qAligned=false,qNear=false,qLastBuzz=0,qStarted=false,qSmooth=null;
+const qDiff=()=>{let d=(qiblaBearing()-(qHead||0))%360;if(d>180)d-=360;if(d<-180)d+=360;return d};
+function qiblaFeedback(){if(qHead===null)return;const d=qDiff(),a=Math.abs(d),c=document.querySelector('.compass'),s=$('qibStat');if(!c||!s)return;
+  if(!qAligned&&a<=5){qAligned=true;try{navigator.vibrate&&navigator.vibrate([120,60,120,60,250])}catch(e){}playTone('chime');toast('✅ انت متجه للقبلة');qLastBuzz=Date.now()}
+  else if(qAligned&&a>10)qAligned=false;
+  if(qAligned&&Date.now()-qLastBuzz>4000){try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}qLastBuzz=Date.now()}
+  const near=!qAligned&&a<=20;if(near&&!qNear){try{navigator.vibrate&&navigator.vibrate(25)}catch(e){}}qNear=near;
+  c.classList.toggle('aligned',qAligned);c.classList.toggle('near',near);s.classList.toggle('ok',qAligned);
+  s.textContent=qAligned?'✅ انت متجه للقبلة، اثبت كده':(d>0?'↻ لف ناحية اليمين ':'↺ لف ناحية الشمال ')+ar(Math.round(a))+'°'}
+const _renderQibla=renderQibla;renderQibla=function(){_renderQibla();qiblaFeedback()};
+function startCompass(fromTap){if(qStarted)return;
+  const go2=()=>{qStarted=true;const hnd=e=>{let v=null;if(e.webkitCompassHeading!=null)v=e.webkitCompassHeading;else if(e.absolute&&e.alpha!=null)v=360-e.alpha;
+      if(v==null)return;if(qSmooth===null)qSmooth=v;else{let dv=((v-qSmooth+540)%360)-180;qSmooth=(qSmooth+dv*.25+360)%360}qHead=qSmooth;renderQibla()};
+    window.addEventListener('deviceorientationabsolute',hnd);window.addEventListener('deviceorientation',hnd);
+    $('qibStat').textContent='لف بالموبايل ببطء…';
+    setTimeout(()=>{if(qHead===null){qStarted=false;$('qibStat').textContent='البوصلة مش متاحة هنا';toast('البوصلة مش متاحة على الجهاز ده، استعمل الاتجاه المكتوب')}},3500)};
+  if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){if(!fromTap)return;
+    DeviceOrientationEvent.requestPermission().then(r=>{if(r==='granted')go2();else toast('محتاج تسمح باستخدام البوصلة')}).catch(()=>{})}else go2()}
+$('qibLive').onclick=()=>{unlock();startCompass(true)};
+const _goQ=go;go=function(v){_goQ(v);if(v==='qibla')setTimeout(()=>startCompass(false),300)};
+
+/* ===== صوت المنادي أهدى: نغمة إعلان قبل الكلام ووقفات طبيعية ===== */
+if(profile.settings.vRate==null)profile.settings.vRate=.9;
+const _speak=speak;
+speak=function(t){if(!t)return;const s=profile.settings;
+  if(!s.voice||s.silent===dkey(new Date())||!unlocked)return _speak(t);
+  try{speechSynthesis.cancel()}catch(e){}playTone('soft');setTimeout(()=>_speak(t),650)};
+adhanCall=async function(p){const s=profile.settings,n=s.name?'يا '+s.name+'، ':'';
+  const say=p==='fajr'?n+'حيّ على الصلاة. دخل وقت صلاة الفجر، والصلاة خير من النوم.':n+'حيّ على الصلاة. دخل وقت صلاة '+PN[p]+'.';
+  if((s.mute||{})[p]||adhanChoice(p)==='off'){toast('حان وقت صلاة '+PN[p]);try{if('Notification' in window&&Notification.permission==='granted')new Notification('حان وقت صلاة '+PN[p],{body:'الصلاة في وقتها'})}catch(e){}return}
+  let ok=false;if(s.silent!==dkey(new Date()))ok=await playAdhan(p);
+  alertUser('حان وقت صلاة '+PN[p],'الصلاة في وقتها',ok?null:say)};
+
+/* ===== أذانات مجانية من ويكيميديا كومنز (رخصة CC BY-SA) ===== */
+const FREE_ADHANS=[
+ {id:'free-1',name:'أذان — Aaqib Azeez',url:'https://upload.wikimedia.org/wikipedia/commons/7/7d/The_Adhan_-_Muslim_Call_to_Prayer_-_Aaqib_Azeez.mp3',credit:'رفعه Atcovi على ويكيميديا كومنز · CC BY-SA 4.0',len:'دقيقة ونص'},
+ {id:'free-2',name:'أذان طويل — Andrewler',url:'https://upload.wikimedia.org/wikipedia/commons/8/86/Azan.ogg',credit:'رفعه Andrewler على ويكيميديا كومنز · CC BY-SA 4.0',len:'٣ دقايق'},
+ {id:'free-3',name:'أذان قصير — Jarih',url:'https://upload.wikimedia.org/wikipedia/commons/1/16/Adhan_wiki.oga',credit:'رفعه Jarih على ويكيميديا كومنز · CC BY-SA',len:'نص دقيقة'}];
+let freePrev=null;
+async function addFree(a,quiet){if(adhanList().find(x=>x.id===a.id))return true;
+  try{const r=await fetch(a.url);if(!r.ok)throw 0;const b=await r.blob();await fput(a.id,b);adhanList().push({id:a.id,name:a.name});saveProfile();
+    if(!quiet)toast('اتضاف «'+a.name+'» وبقى يشتغل من غير نت');renderFreeAd();renderAdhanNames();return true}
+  catch(e){if(!quiet)toast('مقدرتش أنزّله دلوقتي، اتأكد من النت');return false}}
+function renderFreeAd(){const box=$('freeAd');if(!box)return;box.innerHTML='';
+  FREE_ADHANS.forEach(a=>{const have=!!adhanList().find(x=>x.id===a.id),r=el('div','item','<div class="row" style="justify-content:space-between"><div><b></b><div class="sub"></div></div><span class="row"><button class="btn" data-a="p" aria-label="اسمع">▶</button><button class="btn pri" data-a="d"></button></span></div>');
+    r.querySelector('b').textContent='🎙️ '+a.name;r.querySelector('.sub').textContent=a.len+' · '+a.credit;
+    const d=r.querySelector('[data-a=d]');d.textContent=have?'✓ عندك':'⬇️ ضيف';d.disabled=have;
+    d.onclick=async()=>{d.disabled=true;d.textContent='بينزل…';if(!await addFree(a)){d.disabled=false;d.textContent='⬇️ ضيف'}};
+    const pb=r.querySelector('[data-a=p]');pb.onclick=()=>{unlock();if(freePrev){freePrev.pause();const was=freePrev.dataset.id;freePrev=null;document.querySelectorAll('#freeAd [data-a=p]').forEach(x=>x.textContent='▶');if(was===a.id)return}
+      freePrev=new Audio(a.url);freePrev.dataset.id=a.id;freePrev.play().catch(()=>toast('مقدرتش أشغّله، اتأكد من النت'));pb.textContent='⏸';freePrev.onended=()=>{pb.textContent='▶';freePrev=null}};
+    box.appendChild(r)})}
+const _rAN=renderAdhanNames;renderAdhanNames=function(){_rAN();renderFreeAd()};
+/* أول مرة: نزّل أذان جاهز لوحده عشان الأذان يشتغل بصوت حقيقي من غير ما تعمل حاجة */
+setTimeout(async()=>{try{if(!local.get('freeAdAuto',false)&&navigator.onLine&&!adhanList().length){if(await addFree(FREE_ADHANS[0],true)){local.set('freeAdAuto',true);toast('🎙️ ضفت لك أذان بصوت حقيقي، وهيشتغل في مواعيد الصلاة')}}}catch(e){}},6000);
 </script>
 </body>
 </html>
