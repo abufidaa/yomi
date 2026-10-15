@@ -1942,5 +1942,20 @@ if(!(window.claude&&window.claude.use)){
   const s=document.getElementById('syncNote');if(s)s.textContent='بياناتك محفوظة على الجهاز ده';
 }
 </script>
+<div id="updBanner" class="updb" role="status"><span>✅ التطبيق اتحدّث مباشرة من Claude، وأي تعديل جديد هيوصلك لوحده</span><button aria-label="قفل">✕</button></div>
+<style>
+.updb{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:50%;transform:translate(-50%,-180%);z-index:40;display:flex;align-items:center;gap:10px;width:max-content;max-width:calc(100vw - 24px);background:linear-gradient(150deg,#1B3A6B,#0B152F);color:#F3E2BC;border:1px solid #D4AF6A;border-radius:16px;padding:12px 14px;font:600 14px/1.6 var(--fb);box-shadow:0 14px 30px rgba(0,0,0,.3);transition:transform .6s cubic-bezier(.2,.9,.3,1.2)}
+.updb.show{transform:translate(-50%,0)}
+.updb button{flex-shrink:0;background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:10px;width:30px;height:30px;cursor:pointer;font:inherit}
+@media (prefers-reduced-motion:reduce){.updb{transition:none}}
+</style>
+<script>
+(function(){const K='yomi:upd-1',b=document.getElementById('updBanner');let seen=null;try{seen=localStorage.getItem(K)}catch(e){}
+  if(seen){b.remove();return}
+  const close=()=>{b.classList.remove('show');try{localStorage.setItem(K,'1')}catch(e){}setTimeout(()=>b.remove(),700)};
+  b.querySelector('button').onclick=close;setTimeout(()=>b.classList.add('show'),1500);setTimeout(close,10000)})();
+if('serviceWorker' in navigator){const had=!!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!window.__yr){window.__yr=1;location.reload()}})}
+</script>
 </body>
 </html>
