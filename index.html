@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016040313">
+<meta name="app-version" content="20261016040817">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٠</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.١</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٠</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.١</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -500,10 +500,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <div class="gen">
       <b>✨ مولّد الصوت الطبيعي</b>
       <p class="sub" style="margin:4px 0 8px;line-height:1.8">الجمل مكتوبة زي ما بتتنطق بالمصري عشان الصوت يطلع عامية: «أوم» مش «قوم»، و«دلوأتي» مش «دلوقتي». صوت راجل طبيعي اسمه «كريم» بيتولّد على موبايلك نفسه. أول مرة بينزّل الصوت (حوالي ٦٠ ميجا)، وبعدها بيشتغل من غير نت. اكتب الجملة ودوس «ولّد واسمع».</p>
+      <div class="sub" style="margin:0 0 4px">بيناديك بـ</div>
+      <div class="chips" id="genCall" style="margin-bottom:8px"></div>
       <div class="sub" style="margin:0 0 4px">الصوت</div>
       <div class="chips" id="genVoices" style="margin-bottom:8px"></div>
       <div class="set" style="padding:4px 0 10px;border:0"><div>سرعة الكلام <small id="genSpeedL"></small></div><input type="range" id="genSpeed" min="0.8" max="1.2" step="0.05" style="width:150px"></div>
-      <textarea id="genText" style="width:100%;min-height:70px">يَلّا يا محمود، أوم صَلّي الفَجْر. الصَّلاةُ خَيْرٌ مِنَ النَّوْم.</textarea>
+      <textarea id="genText" style="width:100%;min-height:70px">يَلّا يا محمود، أوم صَلّي الفَجْر. الصَّلاة خير مِن النُّوم.</textarea>
       <div class="row" style="margin-top:8px"><button class="btn pri" id="genBtn">✨ ولّد واسمع</button><select id="genSlot" style="flex:1;min-width:0"></select><button class="btn" id="genSave" disabled>💾 احفظه</button></div>
       <p class="sub" id="genStatus" style="margin:8px 0 0"></p>
       <button class="btn" id="genAll" style="width:100%;margin-top:8px">✨ ولّد كل الجمل المقترحة مرة واحدة</button>
@@ -2242,8 +2244,8 @@ async function ttsLoad(){if(!ttsMod)ttsMod=await import(TTS_URL);return ttsMod}
 async function genVoice(text,status){const t=await ttsLoad();let shown=false;
   return await t.predict({text,voiceId:VOICE_ID},p=>{if(p&&p.total){const pc=Math.round(p.loaded/p.total*100);if(pc<100){shown=true;status&&status('بينزّل صوت كريم أول مرة: '+ar(pc)+'٪')}else if(shown)status&&status('بيولّد…')}})}
 const genSay=m=>{const s=$('genStatus');if(s)s.textContent=m};
-const PHRASES={'p:fajr':'يَلّا يا {n}، قُوم صَلّي الفَجْر. الصَّلاة خَيْرٌ مِنَ النَّوْم.','p:dhuhr':'الظُّهْر أَذَّن يا {n}. سِيب اللي في إيدَك، وقُوم صَلّي.','p:asr':'العَصْر أَذَّن. يَلّا نِلْحَق الصَّلاة في وَقْتها.','p:maghrib':'المَغْرِب أَذَّن. يَلّا عَلى الصَّلاة.','p:isha':'العِشا أَذَّن يا {n}. قُوم صَلّي، وخَلَّص يومك عَلى خَيْر.','pre':'فاضِل شُوَيَّة عَلى الأذان. قُوم اتْوَضّى وجَهِّز نَفْسَك.'};
-const phraseFor=(k,fallback)=>(PHRASES[k]||fallback||'').replace(/\{n\}/g,profile.settings.name||'محمود');
+const PHRASES={'p:fajr':'يَلّا يا {n}، قُوم صَلّي الفَجْر. الصَّلاة خير مِن النُّوم.','p:dhuhr':'الظُّهْر أَذَّن يا {n}. سِيب اللي في إيدَك، وقُوم صَلّي.','p:asr':'العَصْر أَذَّن. يَلّا نِلْحَق الصَّلاة في وَقْتها.','p:maghrib':'المَغْرِب أَذَّن. يَلّا عَلى الصَّلاة.','p:isha':'العِشا أَذَّن يا {n}. قُوم صَلّي، وخَلَّص يومك عَلى خَيْر.','pre':'فاضِل شُوَيَّة عَلى الأذان. قُوم اتْوَضّى وجَهِّز نَفْسَك.'};
+const phraseFor=(k,fallback)=>personalize(PHRASES[k]||fallback||'');
 function fillGenSlots(){const s=$('genSlot');if(!s)return;const v=s.value;s.innerHTML='';
   [...REC_SLOTS.map(([k,t])=>[k,t]),...dayBlocks(new Date()).map(({b})=>['b:'+b.id,'▶ '+b.title])].forEach(([k,t])=>{const o=el('option');o.value=k;o.textContent='لـ: '+t;s.appendChild(o)});if(v)s.value=v}
 async function saveRec(k,blob){await fput('rec:'+k,blob);(profile.settings.recs=profile.settings.recs||{})[k]=1;saveProfile()}
@@ -2303,7 +2305,7 @@ const _rr2=renderRec;renderRec=function(){_rr2();renderGenVoices()};
 <script>
 /* ===== جمل بالعامية المصرية مكتوبة زي ما بتتنطق ===== */
 Object.assign(PHRASES,{
- 'p:fajr':'يَلّا يا {n}، أوم صَلّي الفَجْر. الصَّلاةُ خَيْرٌ مِنَ النَّوْم، رَبِّنا يِبارِك في يومَك.',
+ 'p:fajr':'يَلّا يا {n}، أوم صَلّي الفَجْر. الصَّلاة خير مِن النُّوم، رَبِّنا يِبارِك في يومَك.',
  'p:dhuhr':'الضُّهْر أدِّن يا {n}. سيب اللي في إيدَك، وأوم صَلّي، وارجَع كَمِّل.',
  'p:asr':'العَصْر أدِّن. يَلّا نِلْحَأ الصَّلا في وَأتها.',
  'p:maghrib':'المَغْرِب أدِّن. يَلّا عَ الصَّلا، وأول أدكار المِسا.',
@@ -2339,7 +2341,30 @@ const BLOCK_PH={
  fwife:'وَأت مِراتَك. اُعُد مَعاها مِن غير موبايل.',
  fwird:'أبل ما تِنام، اِئرا وِردَك، واسأل نَفسَك: عَمَلت إيه النَّهارده؟',
  fwitr:'يَلّا صَلّي الوِتر، وأول أدكار النُّوم. تِصبَح عَلى خير يا {n}.'};
-function blockPhrase(id,title){const t=BLOCK_PH[id];return(t||'يَلّا، دِلوَأتي وَأت '+title+'.').replace(/\{n\}/g,profile.settings.name||'محمود')}
+function blockPhrase(id,title){return personalize(BLOCK_PH[id]||'يَلّا، دِلوَأتي وَأت '+title+'.')}
+</script>
+<script>
+/* ===== النداء: بابا، عمو، أخويا، ماما… مع تظبيط المؤنث ===== */
+const CALLS=[['name','باسمك','m'],['baba','بابا','m'],['babi','بابي','m'],['amo','عمو','m'],['akhoya','أخويا','m'],['habibi','حبيبي','m'],['mama','ماما','f'],['mami','مامي','f'],['ukhti','أختي','f'],['tant','طنط','f'],['habibti','حبيبتي','f']];
+const FEMW=[['واُعُد مع مِراتَك وِولادَك','واُعُدي مع جوزِك وِولادِك'],['اُعُد مَعاها','اُعُدي مَعاه'],['وَأت مِراتَك','وَأت جوزِك'],['مع مِراتَك','مع جوزِك'],
+ ['أوم صَلّي','أومي صَلّي'],['أوم اتْوَضّا','أومي اتْوَضّي'],['جَهِّز نفسَك','جَهِّزي نفسِك'],['سيب اللي في إيدَك','سيبي اللي في إيدِك'],['وارجَع كَمِّل','وارجَعي كَمِّلي'],
+ ['وأول أدكار','وأولي أدكار'],['خَلَّص يومَك','خَلَّصي يومِك'],['يومَك','يومِك'],['ابْدأ','ابْدَئي'],['سيب الموبايل','سيبي الموبايل'],['إنَّك تِطَوَّر نَفسَك','إنِّك تِطَوَّري نَفسِك'],
+ ['اتْعَلِّم','اتْعَلِّمي'],['وِانتَ','وِانتي'],['راجِع','راجْعي'],['واسْمَع','واسْمَعي'],['اِأفِل الإشعارات','اِأفِلي الإشعارات'],['ورَكِّز','ورَكِّزي'],['سَجِّل','سَجِّلي'],['واكتِب','واكتِبي'],
+ ['خُد راحة','خُدي راحة'],['واهْدا','واهْدي'],['داكِر','داكْري'],['والعَب','والعَبي'],['نَيِّم','نَيِّمي'],['اِئرا وِردَك','اِئري وِردِك'],['واسأل نَفسَك','واسألي نَفسِك'],['عَمَلت إيه','عَمَلتي إيه'],
+ ['تِنام','تِنامي'],['تِصبَح','تِصبَحي'],['اُعُد مَعاهُم','اُعُدي مَعاهُم'],['ورَوَّأ','ورَوَّأي'],['اعمِل','اعمِلي'],['اتْجَهِّز','اتْجَهِّزي'],['اغْتِسِل','اغْتِسْلي'],['وحُط','وحُطّي'],
+ ['صِل رَحْمَك','صِلي رَحْمِك'],['وكَلِّم حَد مِن قَرايبَك','وكَلِّمي حَد مِن قَرايبِك'],['اُدعي رَبِّنا','اُدعي رَبِّنا'],['نَفسَك','نَفسِك']];
+function callee(){const c=CALLS.find(x=>x[0]===(profile.settings.callAs||'name'))||CALLS[0];return{addr:c[0]==='name'?(profile.settings.name||'محمود'):c[1],fem:c[2]==='f'}}
+function personalize(t){const c=callee();t=String(t);if(!/\{n\}/.test(t))t='يا {n}، '+t;t=t.replace(/\{n\}/g,c.addr);if(c.fem)FEMW.forEach(([a,b])=>{t=t.split(a).join(b)});return t}
+function renderCalls(){const c=$('genCall');if(!c)return;c.innerHTML='';const cur=profile.settings.callAs||'name';
+  CALLS.forEach(([id,n])=>{const b=el('button',cur===id?'on':'');b.textContent=id==='name'?'يا '+(profile.settings.name||'محمود'):'يا '+n;
+    b.onclick=()=>{profile.settings.callAs=id;saveProfile();renderCalls();const k=$('genSlot').value;$('genSlot').dispatchEvent(new Event('change'));toast('هيناديك: '+callee().addr)};c.appendChild(b)})}
+/* ===== أصوات أرق ===== */
+GEN_STYLES.splice(1,0,['soft','🌸 رقيق',1.1],['warm','☕ دافي وهادي',.96]);
+function soften(blob,amt){return(async()=>{const a=new (window.AudioContext||window.webkitAudioContext)();let buf;try{buf=await a.decodeAudioData(await blob.arrayBuffer())}finally{try{a.close()}catch(e){}}
+  const x=buf.getChannelData(0),y=new Float32Array(x.length);let p=0;for(let i=0;i<x.length;i++){p=p+amt*(x[i]-p);y[i]=p}return wavEnc(y,buf.sampleRate)})()}
+const _vfx=voiceFx;voiceFx=async function(b,p,s){const st=genStyle()[0];
+  if(st==='soft')return soften(await _vfx(b,p,s*.94),.55);if(st==='warm')return soften(await _vfx(b,p,s*.92),.45);return _vfx(b,p,s)};
+const _rr3=renderRec;renderRec=function(){_rr3();renderCalls()};
 </script>
 </body>
 </html>
