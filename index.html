@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016115120">
+<meta name="app-version" content="20261016120517">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٦</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٧</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٦</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٧</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -3339,6 +3339,17 @@ applyPron=(function(orig){return function(t){return isFus()?t:orig(t)}})(applyPr
 /* جمل التجربة بالفصحى */
 const TRY=()=>L('هَيّا إِلى الصَّلاةِ.','يلا نصلي.');
 gsSay=(function(orig){return function(lang,text){text=String(text).replace(/يلا نصلي\./g,TRY()).replace(/السلام عليكم يا (.+?)\. ده صوت التطبيق، لو سامعه بالعربي اختاره\./,(m,n)=>L('السَّلامُ عَلَيْكُمْ يا '+n+'. هذا صَوْتُ التَّطْبِيقِ.',m));if(isFus()&&profile.settings.smooth!==false)text=smoothAr(text);return orig(lang,text)}})(gsSay);
+</script>
+<script>
+/* ===== ٣.٧: إعادة ضبط الصوت للأساسي ===== */
+function resetVoice(silent){const s=profile.settings;Object.assign(s,{vLang:'ar',vRate:.92,vPitch:1,pitchManual:1,voiceName:'',smooth:true,dialect:'fusha',nightQuiet:true,voice:true});
+  saveProfile();applyDialect();try{pickVoice();renderGS();renderCmp();syncInputs()}catch(e){}
+  if(!silent){unlock();try{speechSynthesis.cancel()}catch(e){}setTimeout(()=>speak(personalize('يا {n}، رَجَعَ الصَّوْتُ إِلى إِعْداداتِهِ الأَساسِيَّةِ. هَيّا إِلى الصَّلاةِ.')),300);toast('♻️ الصوت رجع للإعدادات الأساسية')}}
+/* مرة واحدة للكل: نرجّع الصوت للأساسي */
+if(!profile.settings.vreset1){profile.settings.vreset1=1;resetVoice(true)}
+(function(){const c=el('div','card','<h3>♻️ إعادة ضبط الصوت</h3><p class="sub" style="margin:0 0 8px;line-height:1.8">لو الصوت بقى سريع أو لهجته غريبة، الزرار ده بيرجّعه للإعدادات الأساسية: فصحى سلسة، وسرعة هادية، ولغة عربية عامة.</p><button class="btn pri" id="vReset" style="width:100%">♻️ رجّع الصوت للأساسي</button>'+
+  '<p class="sub" style="margin:10px 0 0;line-height:1.8">ولو لسه سريع: افتح <b>إعدادات الموبايل ← تحويل النص إلى كلام</b> (الرد الصوتي)، ودوس <b>«إعادة التعيين»</b> اللي تحت. ده بيرجّع سرعة ودرجة صوت الموبايل نفسه للأساسي، لأنهم بيأثروا على التطبيق.</p>');
+  const v=$('v-s-voice');(v.querySelector(':scope > p.sub')||v.firstElementChild).after(c);$('vReset').onclick=()=>resetVoice(false)})();
 </script>
 </body>
 </html>
