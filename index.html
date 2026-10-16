@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016040817">
+<meta name="app-version" content="20261016041754">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.١</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٢</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.١</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٢</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -472,7 +472,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <div class="styles" id="stylePick"></div>
     <div class="set"><div>خط العناوين</div><select id="lookFh"><option value="modern">كايرو</option><option value="ruqaa">رقعة</option><option value="naskh">نسخ</option><option value="kufi">كوفي</option></select></div>
     <div class="set"><div>خط الكلام</div><select id="lookFb"><option value="cairo">كايرو</option><option value="tajawal">تجوّل</option><option value="almarai">المراعي</option><option value="plex">بلكس</option></select></div>
-    <div class="set"><div>فاتح ولا غامق</div><select id="lookTheme"><option value="auto">زي الجهاز</option><option value="light">فاتح</option><option value="dark">غامق</option></select></div>
+    <div class="set"><div>فاتح ولا غامق</div><select id="lookTheme"><option value="auto">زي الجهاز</option><option value="light">فاتح</option><option value="dark">غامق</option><option value="night">تلقائي: غامق بعد العشاء</option></select></div>
     <div class="set"><div>حجم الكلام</div><select id="lookFont"><option value="normal">عادي</option><option value="big">كبير</option></select></div>
     <div class="set"><div>اسكت النهارده<small>يوقف الصوت لحد بكرة، والتنبيهات المكتوبة تفضل شغالة</small></div><label class="sw"><input type="checkbox" id="optSilent"><span></span></label></div>
   </div>
@@ -2366,5 +2366,222 @@ const _vfx=voiceFx;voiceFx=async function(b,p,s){const st=genStyle()[0];
   if(st==='soft')return soften(await _vfx(b,p,s*.94),.55);if(st==='warm')return soften(await _vfx(b,p,s*.92),.45);return _vfx(b,p,s)};
 const _rr3=renderRec;renderRec=function(){_rr3();renderCalls()};
 </script>
+<style>
+.grp{font-family:var(--fh);font-weight:800;font-size:16px;margin:18px 0 8px;display:flex;align-items:center;gap:8px}
+.grp::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.tiles.t3{grid-template-columns:repeat(3,1fr)}.tiles.t3 .tile{flex-direction:column;justify-content:center;text-align:center;font-size:13px;padding:12px 4px;gap:6px}
+.srch{width:100%;margin:2px 0 6px;padding:12px 14px;border-radius:14px;font-size:16px}
+.daycard{background:var(--pattern),var(--card);border:1px solid color-mix(in srgb,var(--gold) 50%,var(--line))}
+.daycard .q{font-family:var(--fh);font-weight:700;font-size:17px;line-height:1.7;color:var(--ink)}
+.daycard .ln{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.daycard .ln span{font-size:13px;background:var(--soft);border-radius:20px;padding:4px 10px}
+.npc.scene{background-size:cover!important;background-position:center!important}
+.scenes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.scn{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:12px;padding:0;overflow:hidden;cursor:pointer;background:var(--card);color:var(--ink)}
+.scn i{display:block;height:64px;background-size:cover;background-position:center}.scn span{display:block;padding:6px 2px}.scn.on{outline:3px solid var(--gold)}
+.hon{position:fixed;inset:0;z-index:35;background:rgba(5,10,25,.82);display:flex;align-items:center;justify-content:center;padding:20px}
+.hon[hidden]{display:none}
+.hon .box{background:var(--pattern),linear-gradient(160deg,#1B3A6B,#0B152F);color:#fff;border:1px solid #D4AF6A;border-radius:26px;padding:26px 20px;max-width:380px;width:100%;text-align:center;animation:pop .5s ease;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.hon .medal{width:120px;height:120px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:58px;box-shadow:0 0 0 6px rgba(255,255,255,.12),0 0 40px var(--mc,#DCB96A)}
+.hon h2{color:#F3E2BC;margin:4px 0}.hon h2::after{margin:6px auto 0}
+.hon .tier{display:inline-block;font-size:12px;font-weight:700;border-radius:20px;padding:2px 12px;color:#0B152F;background:var(--mc,#DCB96A)}
+.hon p{line-height:1.8;opacity:.92}
+.bgrid{display:grid;gap:8px}
+.brow{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:10px;background:var(--card)}
+.brow .bi{font-size:28px;width:46px;height:46px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--soft)}
+.brow .bt{flex:1;min-width:0}.brow .bt b{display:block;font-size:14px}.brow .bt small{color:var(--muted);font-size:12px}
+.brow .tiers{display:flex;gap:3px;margin-top:4px}.brow .tiers i{width:16px;height:16px;border-radius:50%;background:var(--soft);border:1px solid var(--line)}
+.brow .bar2{height:6px;border-radius:3px;background:var(--soft);overflow:hidden;margin-top:6px}.brow .bar2 i{display:block;height:100%;background:linear-gradient(90deg,#B08A3E,#DCB96A)}
+#aList .acard .at{font-size:var(--azfs,19px)}
+</style>
+<script>
+/* ================= الإصدار ٢.٢: تنظيم + ثيمات بصور + تكريم وأوسمة + ٢٠ فكرة ================= */
+const cardOf=id=>{const e=$(id);return e?e.closest('.card'):null};
+function subTop(id,node){const v=$('v-'+id),a=v.querySelector(':scope > p.sub')||v.firstElementChild;a.after(node)}
+function mkSub(id,title,intro){const s=el('section','view');s.id='v-'+id;s.innerHTML='<div class="row" style="justify-content:space-between"><h2></h2><button class="btn">رجوع</button></div>'+(intro?'<p class="sub" style="margin:-8px 0 12px"></p>':'');
+  s.querySelector('h2').textContent=title;if(intro)s.querySelector('p').textContent=intro;s.querySelector('button').onclick=()=>go('set');$('v-set').after(s);SUBS.push(id);return s}
+function tile(icon,label,fn){const b=el('button','tile','<i></i><span></span>');b.querySelector('i').textContent=icon;b.querySelector('span').textContent=label;b.onclick=fn;return b}
+
+/* ---- ١) تنظيم «المزيد»: أدوات + إعدادات مقسّمة ---- */
+(function(){const V=$('v-set'),oldTiles=V.querySelector('.tiles');if(!oldTiles)return;
+  const byId=s=>oldTiles.querySelector('[data-sub="'+s+'"]'),plan=$('openPlan'),mosq=$('mosqTile');
+  const S={adhan:mkSub('s-adhan','🕌 الأذان والصلاة','مواقيت الصلاة، وصوت الأذان، والتنبيهات.'),voice:mkSub('s-voice','🔊 الأصوات والنداء','الصوت اللي بيكلمك، وإزاي يناديك، وتسجيلاتك.'),
+    adhkar:mkSub('s-adhkar','📿 الأذكار والورد','تذكيرات الأذكار، وأهداف الورد والتركيز.'),look:mkSub('s-look','🎨 الثيمات والمظهر','الألوان، والصور، والخطوط.'),app:mkSub('s-app','⚙️ التطبيق','التحديثات، والتثبيت، وبياناتك.')};
+  [['s-adhan',['geoBtn','optNotif','adLib']],['s-voice',['optVoice']],['s-adhkar',['qTarget']],['s-look',['stylePick']],['s-app',['resetDay']]].forEach(([s,ids])=>ids.forEach(i=>{const c=cardOf(i);if(c)$('v-'+s).appendChild(c)}));
+  $('v-s-voice').appendChild($('recCard'));
+  const upd=V.querySelector('.hardBtn');if(upd)subTop('s-app',upd.closest('.card'));
+  const sn=$('syncNote');if(sn)$('v-s-app').appendChild(sn);
+  /* نقل اختيار صوت المنادي لصفحة الأصوات */
+  const vs=$('voiceSel').closest('.set'),vr=$('vRate').closest('.set'),vt=$('voiceTest2').closest('.row'),tip=$('voiceTip');const vc=el('div','card','<h3>صوت الجهاز</h3><p class="sub" style="margin:0 0 6px">ده الصوت اللي بيتكلم لو مفيش تسجيل للجملة. أصوات Google العربي فيها أصوات ستات ناعمة.</p>');
+  [vs,vr,vt,tip].forEach(x=>x&&vc.appendChild(x));$('v-s-voice').appendChild(vc);
+  /* بناء الصفحة الجديدة */
+  const h2=V.querySelector('h2'),search=el('input','srch');search.placeholder='🔍 دوّر على أي حاجة في التطبيق';search.setAttribute('aria-label','بحث');h2.after(search);
+  const groups=[['🛠️ أدوات العبادة',[byId('qibla'),byId('names'),byId('hadith'),byId('duas'),byId('hcal'),byId('monthly'),mosq,byId('zakat'),byId('hifz')]],
+    ['📅 تنظيم يومك',[plan,byId('habits'),byId('backlog'),byId('goals'),byId('kids'),byId('occ')]],
+    ['⚙️ الإعدادات',[tile('🕌','الأذان والصلاة',()=>go('s-adhan')),tile('🔊','الأصوات والنداء',()=>go('s-voice')),tile('📿','الأذكار والورد',()=>go('s-adhkar')),tile('🎨','الثيمات والمظهر',()=>go('s-look')),tile('🏅','الأوسمة والتكريم',()=>go('stats')),tile('⚙️','التطبيق',()=>go('s-app'))]],
+    ['📲 التطبيق',[byId('install'),byId('log')]]];
+  let after=search;groups.forEach(([t,items])=>{const g=el('div','grp');g.textContent=t;const tg=el('div','tiles t3');items.filter(Boolean).forEach(x=>tg.appendChild(x));after.after(g);g.after(tg);after=tg});
+  oldTiles.remove();
+  search.oninput=()=>{const q=norm(search.value.trim());V.querySelectorAll('.tiles .tile').forEach(t=>{t.style.display=!q||norm(t.textContent).includes(q)?'':'none'});
+    V.querySelectorAll('.grp').forEach(g=>{const tg=g.nextElementSibling;g.style.display=[...tg.children].some(t=>t.style.display!=='none')?'':'none'})};
+})();
+
+/* ---- ٢) الوش: ترتيب أوضح ---- */
+(function(){const npc=$('npc'),dc=el('div','card daycard','<div class="q" id="dqQuote"></div><div class="ln" id="dqLine"></div><div class="row" style="margin-top:10px"><input id="niyya" style="flex:1;min-width:0" placeholder="✍️ نيتك النهارده إيه؟"></div>');
+  npc.after(dc);dc.after(document.querySelector('.qgrid'));const lu=$('lastUpd');if(lu)$('daily').after(lu);
+  $('niyya').onchange=e=>{const k=dkey(new Date());day(k).niyya=e.target.value.trim().slice(0,140);saveDay(k);toast('ربنا يتقبّل نيتك')}})();
+const QUOTES=['خطوة صغيرة كل يوم أحسن من قفزة كبيرة مرة واحدة.','«أحبُّ الأعمال إلى الله أدومُها وإن قلّ»','اللي يبدأ يومه بالفجر، يومه كله بركة.','مش مطلوب تبقى كامل، مطلوب تفضل مكمّل.','كل صفحة بتقراها نور في قلبك.','الشغل بنية صالحة عبادة.','بيتك أولى بأحسن وقتك.','النهارده فرصة جديدة، متضيّعهاش.','ركّز في حاجة واحدة، وخلّصها صح.','«وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَىٰ»','اللي زرعته النهارده، هتحصده بكرة.','الاستمرار أهم من الحماس.','صلاتك في وقتها، يومك في نظامه.','ابدأ بالأهم، والباقي هيمشي.','ابتسامتك في وش ولادك صدقة.','كل إنجاز كبير بدأ بخطوة صغيرة.','ربنا مع اللي بيحاول.','«فَإِنَّ مَعَ الْعُسْرِ يُسْرًا»','خلّي نيتك لله، وسيب الباقي عليه.','مفيش يوم عادي، فيه يوم مستغل ويوم ضايع.'];
+function renderDayCard(){const now=new Date(),k=dkey(now),d=day(k),pt=prayerTimes(now),m=nowMin();if(!$('dqQuote'))return;
+  $('dqQuote').textContent='✨ '+QUOTES[(doyOf(now)+now.getHours())%QUOTES.length];
+  const left=FIVE.filter(p=>!d.prayers[p]&&pt[p]<=m).length,rem=FIVE.filter(p=>pt[p]>m).length,pg=Math.max(0,profile.settings.qTarget-(d.pages||0));
+  const L=$('dqLine');L.innerHTML='';[d.plan?'🎯 '+d.plan:'🎯 لسه محددتش مهمة النهارده','📖 '+(pg?'فاضل '+ar(pg)+' صفحة':'وردك كمل ✓'),'🕌 '+(left?'فيه '+ar(left)+' صلاة ماتعلّمتش':'صلواتك متعلّمة')+(rem?' · فاضل '+ar(rem):'')]
+    .forEach(t=>{const s=el('span');s.textContent=t;L.appendChild(s)});
+  const n=$('niyya');if(n&&document.activeElement!==n)n.value=d.niyya||''}
+
+/* ---- ٣) ثيمات بصور مرسومة ---- */
+const SCENES={
+ none:['بدون صورة',''],
+ mosque:['مسجد وقت الغروب',"<defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#2B1B4A'/><stop offset='.6' stop-color='#C2185B'/><stop offset='1' stop-color='#FF9E40'/></linearGradient></defs><rect width='400' height='220' fill='url(#g)'/><circle cx='300' cy='150' r='42' fill='#FFD180' opacity='.9'/><g fill='#1A1033'><rect x='0' y='180' width='400' height='40'/><path d='M120 180v-50a40 40 0 0 1 80 0v50z'/><rect x='95' y='90' width='10' height='90'/><path d='M95 90l5-14 5 14z'/><rect x='215' y='90' width='10' height='90'/><path d='M215 90l5-14 5 14z'/><path d='M150 130a10 10 0 0 1 20 0'/><rect x='40' y='150' width='60' height='30'/><rect x='220' y='150' width='70' height='30'/></g>"],
+ night:['ليل وهلال',"<defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#050A1F'/><stop offset='1' stop-color='#1B2B5A'/></linearGradient></defs><rect width='400' height='220' fill='url(#g)'/>"+[[30,30],[80,60],[140,25],[200,70],[250,30],[330,55],[370,20],[60,110],[170,120],[230,100],[290,130],[360,110],[20,160],[110,170],[320,180]].map(([x,y])=>"<circle cx='"+x+"' cy='"+y+"' r='1.6' fill='#fff' opacity='.85'/>").join('')+"<circle cx='300' cy='70' r='30' fill='#F3E2BC'/><circle cx='313' cy='62' r='27' fill='#0E1838'/><path d='M0 220v-30q100-20 200 0t200-5v35z' fill='#0A1230'/>"],
+ desert:['صحرا وقت الفجر',"<defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#3A2A6A'/><stop offset='.55' stop-color='#FF8A65'/><stop offset='1' stop-color='#FFE0B2'/></linearGradient></defs><rect width='400' height='220' fill='url(#g)'/><circle cx='120' cy='140' r='34' fill='#FFE082'/><path d='M0 160q100-40 220 0t180-10v70H0z' fill='#C77D3A'/><path d='M0 190q120-30 250 5t150-15v40H0z' fill='#A0602A'/><path d='M0 210q150-20 400 0v10H0z' fill='#7A4520'/>"],
+ mountains:['جبال وشروق',"<defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#1E3C72'/><stop offset='1' stop-color='#F6A86B'/></linearGradient></defs><rect width='400' height='220' fill='url(#g)'/><circle cx='200' cy='150' r='36' fill='#FFD59E'/><path d='M0 170l70-70 60 50 70-80 80 90 60-50 60 60v50H0z' fill='#2E3B55'/><path d='M0 200l90-50 70 30 80-45 90 55 70-30v60H0z' fill='#1A2338'/>"],
+ sea:['بحر هادي',"<defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#0F2027'/><stop offset='.55' stop-color='#2C5364'/><stop offset='.62' stop-color='#F7B267'/><stop offset='.63' stop-color='#12324A'/><stop offset='1' stop-color='#0B1E30'/></linearGradient></defs><rect width='400' height='220' fill='url(#g)'/><circle cx='200' cy='130' r='26' fill='#FFD59E'/>"+[0,1,2,3,4].map(i=>"<rect x='"+(185-i*6)+"' y='"+(146+i*12)+"' width='"+(30+i*12)+"' height='3' rx='1.5' fill='#FFD59E' opacity='"+(.7-i*.12)+"'/>").join('')],
+ palms:['نخيل وواحة',"<defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#134E5E'/><stop offset='1' stop-color='#E6B566'/></linearGradient></defs><rect width='400' height='220' fill='url(#g)'/><circle cx='280' cy='120' r='30' fill='#FFE7A8'/><g fill='#0F2A24'><rect x='0' y='195' width='400' height='25'/><path d='M80 195q5-60 0-110h6q6 50 0 110z'/><path d='M83 85q-40-10-60 15 25-5 60-12zM83 85q40-12 62 10-27-4-62-7zM83 85q-15-30-45-35 22 12 45 37zM83 85q20-30 50-32-25 12-50 34z'/><path d='M330 195q4-45 0-80h5q5 38 0 80z'/><path d='M332 115q-30-8-45 12 18-4 45-9zM332 115q30-9 47 8-20-3-47-6zM332 115q-12-22-34-27 16 9 34 29z'/></g>"]};
+const scenePng=id=>SCENES[id]&&SCENES[id][1]?'url("data:image/svg+xml,'+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220' preserveAspectRatio='xMidYMid slice'>"+SCENES[id][1]+"</svg>")+'")':'';
+function applyScene(){const id=profile.settings.scene||'mosque',n=$('npc');if(!n)return;const u=scenePng(id);
+  if(u){n.classList.add('scene');n.style.background='linear-gradient(180deg,rgba(8,14,32,.25),rgba(8,14,32,.78)),'+u;n.style.color='#fff'}else{n.classList.remove('scene');n.style.background='';n.style.color=''}}
+(function(){const c=el('div','card','<h3>صورة الكارت الرئيسي</h3><div class="scenes" id="scenePick"></div>');subTop('s-look',c)})();
+function renderScenes(){const g=$('scenePick');if(!g)return;g.innerHTML='';const cur=profile.settings.scene||'mosque';
+  Object.keys(SCENES).forEach(id=>{const b=el('button','scn'+(id===cur?' on':''),'<i></i><span></span>');b.querySelector('i').style.backgroundImage=scenePng(id)||'none';if(id==='none')b.querySelector('i').style.background='var(--hero)';
+    b.querySelector('span').textContent=SCENES[id][0];b.onclick=()=>{profile.settings.scene=id;saveProfile();applyScene();renderScenes();toast('🎨 '+SCENES[id][0])};g.appendChild(b)})}
+/* وضع ليلي تلقائي بعد العشاء */
+const _al=applyLook;applyLook=function(){_al();const s=profile.settings;if(s.theme==='night'){const pt=prayerTimes(new Date()),m=nowMin();document.documentElement.setAttribute('data-theme',(m>=pt.isha||m<pt.fajr)?'dark':'light')}};
+setInterval(()=>{try{if(profile.settings.theme==='night')applyLook()}catch(e){}},60000);
+
+/* ---- ٤) النداء والأصوات بقوايم اختيار + نداء تكتبه بنفسك ---- */
+CALLS.push(['custom','✍️ اكتب النداء بنفسك','m']);
+callee=function(){const s=profile.settings,c=CALLS.find(x=>x[0]===(s.callAs||'name'))||CALLS[0];
+  if(c[0]==='custom')return{addr:(s.callCustom||'حبيبي').replace(/^يا\s*/,''),fem:!!s.callFem};return{addr:c[0]==='name'?(s.name||'محمود'):c[1],fem:c[2]==='f'}};
+renderCalls=function(){const c=$('genCall');if(!c)return;c.innerHTML='';const s=profile.settings,sel=el('select');sel.style.width='100%';
+  CALLS.forEach(([id,n])=>{const o=el('option');o.value=id;o.textContent=id==='name'?'يا '+(s.name||'محمود'):id==='custom'?n:'يا '+n;sel.appendChild(o)});sel.value=s.callAs||'name';c.appendChild(sel);
+  const cw=el('div','row');cw.style.cssText='margin-top:6px;display:'+((s.callAs==='custom')?'flex':'none');cw.innerHTML='<input placeholder="مثلًا: يا أبو يوسف" style="flex:1;min-width:0"><select><option value="m">بتنادي راجل</option><option value="f">بتنادي ست</option></select>';
+  const ci=cw.querySelector('input'),cg=cw.querySelector('select');ci.value=s.callCustom||'';cg.value=s.callFem?'f':'m';c.appendChild(cw);
+  const upd=()=>{saveProfile();$('genSlot').dispatchEvent(new Event('change'))};
+  sel.onchange=()=>{s.callAs=sel.value;cw.style.display=sel.value==='custom'?'flex':'none';upd()};ci.onchange=()=>{s.callCustom=ci.value.trim().slice(0,30);upd()};cg.onchange=()=>{s.callFem=cg.value==='f';upd()}};
+renderGenVoices=function(){const c=$('genVoices');if(!c)return;c.innerHTML='';const sel=el('select');sel.style.width='100%';
+  GEN_STYLES.forEach(([id,n])=>{const o=el('option');o.value=id;o.textContent=n;sel.appendChild(o)});sel.value=genStyle()[0];c.appendChild(sel);
+  sel.onchange=()=>{profile.settings.genStyle=sel.value;saveProfile();$('genSave').disabled=true;genBlob=null};
+  $('genSpeed').value=genSpeed();$('genSpeedL').textContent=genSpeed()<.97?'(أبطأ)':genSpeed()>1.03?'(أسرع)':'(عادي)'};
+GEN_STYLES.forEach(s=>{if(s[0]==='soft')s[2]=1.06});
+
+/* ---- ٥) تكريم بشاشة كاملة + أوسمة كتير بمستويات ---- */
+(function(){const d=el('div','hon','<div class="box"><div class="medal" id="hoMedal"></div><span class="tier" id="hoTier"></span><h2 id="hoTitle"></h2><p id="hoText"></p><div class="hrow" style="justify-content:center"><button class="hbtn" id="hoOk">الحمد لله 🤍</button><button class="hbtn ghost" id="hoShare">📤 شارك</button></div></div>');d.id='honor';d.hidden=true;document.body.appendChild(d)})();
+const TIERS=[['برونزي','#CD7F32'],['فضي','#C0C0C0'],['دهبي','#DCB96A'],['ماسي','#8FD3FF'],['أسطوري','#C77DFF'],['قدوة','#5CC0A6']];
+const sumDays=f=>allDayKeys().reduce((a,k)=>a+(f(day(k))||0),0);
+const cntDays=f=>allDayKeys().filter(k=>f(day(k),k)).length;
+const adhAll=(d,key)=>ADHKAR[key].items.every((it,i)=>((d.adhkar||{})[key]||[])[i]>=it[1]);
+const kDate=k=>{const[y,m,dd]=k.split('-').map(Number);return new Date(y,m-1,dd)};
+function streak70(){const now=new Date();let s=0,i=pct(now)>=.7?0:1;for(;i<400;i++){if(pct(addDays(now,-i))>=.7)s++;else break}return s}
+function totalPts(){return allDayKeys().reduce((a,k)=>a+dayPoints(k),0)}
+const BADGES2=[
+ ['fajr','🌅','الفجر في وقته','أيام ورا بعض صليت فيها الفجر',()=>fajrStreak(),[3,7,14,30,60,100]],
+ ['pray','🕌','صلاة في وقتها','عدد الصلوات اللي صليتها في وقتها',()=>sumDays(d=>FIVE.filter(p=>d.prayers[p]).length),[25,100,300,1000,3000]],
+ ['five','⭐','يوم كامل صلوات','أيام صليت فيها الخمس صلوات في وقتها',()=>cntDays(d=>FIVE.every(p=>d.prayers[p])),[1,7,30,100,365]],
+ ['pages','📖','صفحات القرآن','عدد الصفحات اللي قريتها',()=>sumDays(d=>d.pages),[50,200,604,2000,6040]],
+ ['khatma','🏆','الختمات','عدد الختمات',()=>profile.quran.khatmas,[1,3,5,10,30]],
+ ['amorn','☀️','أذكار الصباح','أيام كمّلت فيها أذكار الصباح',()=>cntDays(d=>adhAll(d,'m')),[1,7,30,100,365]],
+ ['aeve','🌙','أذكار المساء','أيام كمّلت فيها أذكار المساء',()=>cntDays(d=>adhAll(d,'e')),[1,7,30,100,365]],
+ ['tasbih','📿','التسبيح','عدد التسبيحات',()=>sumDays(d=>Object.values(d.tasbih||{}).reduce((a,b)=>a+b,0)),[500,5000,33000,100000]],
+ ['focus','🎯','جلسات التركيز','عدد جلسات التركيز',()=>sumDays(d=>d.focus),[5,25,100,300,1000]],
+ ['habits','✅','العادات','مرات عملت فيها عادة من عاداتك',()=>sumDays(d=>Object.values(d.habits||{}).filter(Boolean).length),[10,50,200,500,1500]],
+ ['water','💧','الماية','أيام شربت فيها ٨ أكواب',()=>cntDays(d=>(d.water||0)>=8),[3,14,60,180]],
+ ['review','📝','المحاسبة','أيام حاسبت فيها نفسك',()=>cntDays(d=>d.review&&d.review.ibada),[3,14,60,180]],
+ ['chal','💪','تحدي النهارده','تحديات يومية خلصتها',()=>cntDays(d=>d.chal),[3,14,60,180]],
+ ['perfect','📜','يوم ١٠٠٪','أيام خلّصت فيها كل حاجة',()=>cntDays((d,k)=>pct(kDate(k))>=1),[1,5,20,50,150]],
+ ['steady','🔥','الاستمرار','أيام ورا بعض خلّصت فيها ٧٠٪ أو أكتر',()=>streak70(),[3,7,14,30,60,100]],
+ ['names','✨','أسماء الله الحسنى','أسماء حفظتها',()=>Object.keys(profile.names||{}).length,[10,33,66,99]],
+ ['hifz','📗','الحفظ','أجزاء محفوظة',()=>Object.keys(profile.hifz||{}).length,[1,5,15,30]],
+ ['weekly','🗓️','تحدي الأسبوع','تحديات أسبوعية خلصتها',()=>Object.keys(profile.weekly||{}).length,[1,4,12,52]],
+ ['level','👑','المستوى','المستوى اللي وصلتله',()=>Math.floor(Math.sqrt(totalPts()/40))+1,[3,5,10,20,30]]];
+const tierOf=(v,th)=>th.filter(t=>v>=t).length;
+let honorQ=[],honorOpen=false;
+function showHonor(x){honorQ.push(x);if(!honorOpen)nextHonor()}
+function nextHonor(){const x=honorQ.shift();if(!x){honorOpen=false;$('honor').hidden=true;return}honorOpen=true;
+  const t=TIERS[Math.max(0,(x.tier||1)-1)];$('honor').style.setProperty('--mc',x.color||t[1]);$('hoMedal').textContent=x.icon;$('hoTier').textContent=x.tierName||('وسام '+t[0]);
+  $('hoTitle').textContent=x.title;$('hoText').textContent=x.text;$('honor').hidden=false;try{navigator.vibrate&&navigator.vibrate([80,50,80,50,200])}catch(e){}celebrate('🏅 '+x.title);
+  $('hoShare').onclick=async()=>{const t2='🏅 '+x.title+' — '+x.text+'\nمن تطبيق «يومي»';try{if(navigator.share){await navigator.share({text:t2});return}}catch(e){}try{await navigator.clipboard.writeText(t2);toast('اتنسخ، الصقه في واتساب')}catch(e){toast(t2)}}}
+$('hoOk').onclick=nextHonor;
+const HON_TXT=['بداية حلوة، كمّل!','ما شاء الله، انت ماشي صح.','إنجاز كبير، ربنا يثبّتك.','ده مستوى ناس قليلة توصله.','انت قدوة، ربنا يتقبّل.','ما شاء الله تبارك الله.'];
+function checkHonors(){const b=profile.badges2=profile.badges2||{},first=!profile.settings.b2init;let changed=false;
+  BADGES2.forEach(([id,ic,name,desc,f,th])=>{let v=0;try{v=f()||0}catch(e){}const t=tierOf(v,th),had=b[id]||0;
+    if(t>had){b[id]=t;changed=true;if(!first)showHonor({icon:ic,tier:t,title:name+' — '+TIERS[t-1][0],text:desc+': '+ar(th[t-1])+'. '+HON_TXT[Math.min(t-1,HON_TXT.length-1)]})}});
+  if(first){profile.settings.b2init=1;changed=true}
+  const k=dkey(new Date());if(pct(new Date())>=1&&local.get('cert',null)!==k){local.set('cert',k);showHonor({icon:'📜',color:'#5CC0A6',tierName:'شهادة إنجاز',title:'خلّصت يومك ١٠٠٪',text:'كل صلاة وكل خطوة في يومك اتعملت. ما شاء الله، ربنا يبارك في وقتك.'})}
+  if(changed)saveProfile();renderBadges2()}
+(function(){const st=$('v-stats'),c=el('div','card','<h3>🏅 أوسمتك</h3><p class="sub" id="b2sum" style="margin:0 0 8px"></p><div class="bgrid" id="b2"></div>');const old=$('badges');if(old){const oc=old.closest('.card');oc.hidden=true;oc.after(c)}else st.appendChild(c)})();
+function renderBadges2(){const g=$('b2');if(!g)return;g.innerHTML='';const b=profile.badges2||{};let got=0,all=0;
+  BADGES2.forEach(([id,ic,name,desc,f,th])=>{let v=0;try{v=f()||0}catch(e){}const t=b[id]||0;got+=t;all+=th.length;const nx=th[t];
+    const r=el('div','brow','<div class="bi"></div><div class="bt"><b></b><small></small><div class="tiers"></div><div class="bar2"><i></i></div></div>');r.querySelector('.bi').textContent=ic;
+    r.querySelector('b').textContent=name+(t?' · '+TIERS[t-1][0]:'');r.querySelector('small').textContent=nx!=null?desc+': '+ar(Math.min(v,nx))+' من '+ar(nx):'خلّصت كل مستويات الوسام ده 👑';
+    if(t)r.querySelector('.bi').style.boxShadow='0 0 0 3px '+TIERS[t-1][1];
+    const ts=r.querySelector('.tiers');th.forEach((_,i)=>{const d=el('i');if(i<t){d.style.background=TIERS[i][1];d.style.borderColor=TIERS[i][1]}ts.appendChild(d)});
+    const prev=t?th[t-1]:0;r.querySelector('.bar2 i').style.width=(nx!=null?Math.min(100,Math.max(0,(v-prev)/(nx-prev)*100)):100)+'%';g.appendChild(r)});
+  $('b2sum').textContent='جمعت '+ar(got)+' وسام من '+ar(all)+'. كل وسام ليه مستويات: برونزي، وفضي، ودهبي، وأعلى.'}
+const _rs=renderStats;renderStats=function(){_rs();try{checkHonors()}catch(e){console.error(e)}};
+
+/* ---- ٦) تحدي الأسبوع ---- */
+const WEEKLY=['صلّي الخمس صلوات في وقتها ٣ أيام الأسبوع ده','اقرا جزء كامل في يوم واحد','صوم الاتنين أو الخميس','زور أو كلّم ٣ من قرايبك','خلّص ٥ جلسات تركيز','نام بدري ٣ أيام','اقرا سورة الكهف يوم الجمعة','احفظ ٥ أسماء جديدة من أسماء الله الحسنى','خلّي يوم كامل من غير سوشيال ميديا','اعمل خروجة مع العيلة'];
+const weekKey=d=>{const x=new Date(d);x.setDate(x.getDate()-((x.getDay()+1)%7));return dkey(x)};
+function renderWeekly(){const box=$('nowCards');if(!box)return;const wk=weekKey(new Date()),done=!!(profile.weekly||{})[wk],n=Math.floor(new Date(wk).getTime()/6048e5)%WEEKLY.length;
+  const c=el('div','card','<h3>🗓️ تحدي الأسبوع</h3><p style="margin:0 0 8px"></p><button class="btn"></button>');c.querySelector('p').textContent=WEEKLY[(n+WEEKLY.length)%WEEKLY.length];
+  const b=c.querySelector('button');b.className='btn'+(done?'':' pri');b.textContent=done?'✓ خلّصته':'خلّصته';
+  b.onclick=()=>{const w=profile.weekly=profile.weekly||{};if(w[wk])delete w[wk];else{w[wk]=1;celebrate('تحدي الأسبوع خلص 🗓️')}saveProfile();renderNowCards();renderStats()};box.appendChild(c)}
+const _rnc2=renderNowCards2;renderNowCards2=function(){_rnc2();renderWeekly()};
+
+/* ---- ٧) تذكيرات الأذكار والسور والصيام ---- */
+(function(){const c=el('div','card','<h3>تذكيرات</h3>'),rows=[['rmM','أذكار الصباح','بعد الفجر بنص ساعة'],['rmE','أذكار المساء','بعد العصر بربع ساعة'],['rmKahf','سورة الكهف','يوم الجمعة الساعة ٩ الصبح'],['rmMulk','سورة الملك','قبل النوم الساعة ١٠ بالليل'],['rmFast','صيام الاتنين والخميس والأيام البيض','الليلة اللي قبلها الساعة ٩']];
+  rows.forEach(([id,t,s])=>{const r=el('div','set','<div><span></span><small></small></div><label class="sw"><input type="checkbox"><span></span></label>');r.querySelector('div span').textContent=t;r.querySelector('small').textContent=s;
+    const i=r.querySelector('input');i.checked=profile.settings[id]!==false;i.onchange=()=>{profile.settings[id]=i.checked;saveProfile()};c.appendChild(r)});
+  const fs=el('div','set','<div>حجم خط الأذكار</div><span class="row"><button class="btn">أ−</button><button class="btn">أ+</button></span>');const[bm,bp]=fs.querySelectorAll('button');
+  const setF=d=>{profile.settings.azfs=Math.max(15,Math.min(30,(profile.settings.azfs||19)+d));saveProfile();document.documentElement.style.setProperty('--azfs',profile.settings.azfs+'px')};bm.onclick=()=>setF(-1);bp.onclick=()=>setF(1);c.appendChild(fs);
+  subTop('s-adhkar',c);document.documentElement.style.setProperty('--azfs',(profile.settings.azfs||19)+'px')})();
+function remindTick(){const s=profile.settings,now=new Date(),k=dkey(now),m=nowMin(),pt=prayerTimes(now),d=day(k);
+  const fire=(id,cond,title,body,go2)=>{if(s[id]===false||!cond||local.get('rm:'+id,'')===k)return;local.set('rm:'+id,k);alertUser(title,body,title);if(go2)toast(body)};
+  fire('rmM',m>=pt.fajr+30&&m<pt.fajr+120&&!adhAll(d,'m'),'وقت أذكار الصباح','افتح «وردي» ← الأذكار');
+  fire('rmE',m>=pt.asr+15&&m<pt.maghrib&&!adhAll(d,'e'),'وقت أذكار المساء','افتح «وردي» ← الأذكار');
+  fire('rmKahf',now.getDay()===5&&m>=540&&m<600,'النهارده الجمعة','متنساش سورة الكهف والصلاة على النبي ﷺ');
+  fire('rmMulk',m>=1320&&m<1380,'قبل ما تنام','اقرا سورة الملك، المانعة من عذاب القبر');
+  const tm=addDays(now,1),hp=hparts(tm);fire('rmFast',m>=1260&&m<1320&&(tm.getDay()===1||tm.getDay()===4||(hp&&hp.d>=13&&hp.d<=15)),'بكرة يوم صيام','لو ناوي تصوم، متنساش السحور')}
+setInterval(()=>{try{remindTick()}catch(e){}},30000);
+
+/* ---- ٨) تعديل مواقيت الصلاة بالدقايق ---- */
+const _ptm=prayerTimes;prayerTimes=function(d){const o=_ptm(d),off=profile.settings.ptOff;if(!off)return o;const r=Object.assign({},o);FIVE.forEach(p=>{r[p]=o[p]+(Number(off[p])||0)});return r};
+(function(){const c=el('div','card','<h3>تعديل المواقيت</h3><p class="sub" style="margin:0 0 6px">لو مواقيت مسجدك مختلفة شوية، زوّد أو نقّص دقايق لكل صلاة.</p>');
+  FIVE.forEach(p=>{const r=el('div','set','<div></div><input type="number" min="-30" max="30" style="width:80px">');r.querySelector('div').textContent=PN[p];const i=r.querySelector('input');i.value=(profile.settings.ptOff||{})[p]||0;
+    i.onchange=()=>{const v=Math.max(-30,Math.min(30,parseInt(i.value,10)||0));i.value=v;(profile.settings.ptOff=profile.settings.ptOff||{})[p]=v;saveProfile();renderAll(true);toast('اتظبط '+PN[p])};c.appendChild(r)});
+  const loc=cardOf('geoBtn');if(loc)loc.after(c)})();
+
+/* ---- ٩) ملخص الشهر ---- */
+(function(){const c=el('div','card','<h3>📅 ملخص الشهر</h3><div id="mSum"></div>');const st=$('v-stats');const anchor=$('b2')?$('b2').closest('.card'):null;if(anchor)anchor.after(c);else st.appendChild(c)})();
+function renderMonthSum(){const box=$('mSum');if(!box)return;const now=new Date(),cm=now.getMonth(),lm=(cm+11)%12;
+  const agg=mo=>{let pr=0,pg=0,fc=0,pf=0;allDayKeys().forEach(k=>{const x=kDate(k);if(x.getMonth()!==mo||(now-x)>400*864e5)return;const d=day(k);pr+=FIVE.filter(p=>d.prayers[p]).length;pg+=d.pages||0;fc+=d.focus||0;if(pct(x)>=1)pf++});return[pr,pg,fc,pf]};
+  const a=agg(cm),b=agg(lm);box.innerHTML='';[['🕌 صلوات في وقتها',0],['📖 صفحات قرآن',1],['🎯 جلسات تركيز',2],['📜 أيام ١٠٠٪',3]].forEach(([t,i])=>{const r=el('div','set','<div></div><b></b>');
+    r.querySelector('div').textContent=t;const df=a[i]-b[i];r.querySelector('b').textContent=ar(a[i])+(b[i]||a[i]?' ('+(df>=0?'+':'−')+ar(Math.abs(df))+' عن الشهر اللي فات)':'');box.appendChild(r)})}
+
+/* ---- ١٠) أذكار تضيفها بنفسك للسبحة + افتح وردك في المصحف ---- */
+(profile.zikrCustom||[]).forEach(z=>{if(!ZIKR.includes(z))ZIKR.push(z)});
+(function(){const tc=$('wz');if(!tc)return;const r=el('div','row','<input placeholder="➕ ضيف ذكر خاص بيك" style="flex:1;min-width:0"><button class="btn">ضيف</button>');r.style.marginTop='10px';
+  r.querySelector('button').onclick=()=>{const v=r.querySelector('input').value.trim().slice(0,60);if(!v)return;(profile.zikrCustom=profile.zikrCustom||[]).push(v);ZIKR.push(v);profile.zikr.i=ZIKR.length-1;saveProfile();r.querySelector('input').value='';renderWird();toast('اتضاف للسبحة')};tc.appendChild(r);
+  const kc=$('wq'),ob=el('button','btn pri');ob.textContent='📖 افتح وردي في المصحف';ob.style.cssText='width:100%;margin-top:10px';
+  ob.onclick=()=>{if(!qdReady()){toast('المصحف لسه بيتحمّل');return}const pg=Math.min(604,profile.quran.page+1);for(let s=0;s<114;s++){const i=QD.p[s].findIndex(x=>x>=pg);if(i>=0){openWird('m');openSurah(s+1,i+1);return}}};kc&&kc.appendChild(ob)})();
+
+/* ---- ١١) جولة التعريف تاني ---- */
+(function(){const b=el('button','btn');b.textContent='👋 شوف جولة التعريف تاني';b.style.cssText='width:100%;margin-bottom:12px';b.onclick=()=>{local.set('tourDone',false);maybeTour()};$('v-s-app').appendChild(b)})();
+
+/* ربط الكل بالرسم */
+const _rx=renderExtras;renderExtras=function(){_rx();[renderDayCard,renderScenes,applyScene,renderMonthSum].forEach(f=>{try{f()}catch(e){console.error(e)}})};
+setInterval(()=>{try{renderDayCard()}catch(e){}},60000);
+try{applyLook();renderAll(true)}catch(e){}
+</script>
+
 </body>
 </html>
