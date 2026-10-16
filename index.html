@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016043354">
+<meta name="app-version" content="20261016044058">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٤</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٥</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٤</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٥</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -2636,6 +2636,101 @@ function egy(t){if(!t)return t;t=String(t).trim();const C=callee(),N=C.addr,F=C.
   const R={'وقت أذكار الصباح':'يا '+N+'، وأت أدكار الصباح. يَلّا نأولهم سوا.','وقت أذكار المساء':'يا '+N+'، وأت أدكار المسا. يَلّا نأولهم سوا.','النهارده الجمعة':'النهارده الجمعة يا '+N+'. متنساش سورة الكهف، وصَلّي على النبي كتير.','قبل ما تنام':'أبل ما تنام يا '+N+'، إئرا سورة الملك.','بكرة يوم صيام':'بكرة يوم صيام يا '+N+'. لو ناوي، متنساش السحور.','حان وقت صلاة الفجر':'يا '+N+'، الفجر أدّن.'};
   if(R[t])return fem(R[t]);
   return fem(egyWords(t))}
+</script>
+<style>
+.clockm{position:fixed;inset:0;z-index:36;background:#000;color:#F3E2BC;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+.clockm[hidden]{display:none}.clockm .t{font-family:var(--fh);font-size:clamp(64px,22vw,150px);font-weight:800;direction:ltr;line-height:1}
+.clockm .d{opacity:.7;font-size:18px}.clockm .n{margin-top:18px;font-size:20px;color:#DCB96A}
+.msg2{background:color-mix(in srgb,var(--gold) 14%,var(--card));border-radius:12px;padding:8px 12px;margin-top:8px;font-size:14px}
+.abtheme{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:50%;width:34px;height:34px;cursor:pointer;flex-shrink:0}
+</style>
+<div id="clockMode" class="clockm" hidden role="dialog" aria-label="ساعة السرير"><div class="t" id="cmT"></div><div class="d" id="cmD"></div><div class="n" id="cmN"></div><div class="d" style="margin-top:30px;font-size:13px">دوس في أي حتة عشان تخرج</div></div>
+<script>
+/* ======== ٢.٥: أصوات Google على أندرويد + مين يقول الجمل + ٢٠ فكرة ======== */
+const isAndroid=/Android/i.test(navigator.userAgent);
+/* على أندرويد كروم مش بيعرض أصوات Google بالاسم؛ بيستخدم الصوت اللي في إعدادات الموبايل */
+const _rvs=renderVoiceSel;renderVoiceSel=function(){_rvs();if(arVoices().length)return;const s=$('voiceSel'),tip=$('voiceTip');if(!s)return;
+  s.innerHTML='<option>صوت إعدادات الموبايل ✓</option>';s.disabled=true;
+  if(isAndroid&&tip){tip.innerHTML='';const d=el('div');d.style.lineHeight='1.9';
+    d.innerHTML='على أندرويد، المتصفح مش بيعرض أصوات Google بالاسم جوه أي موقع أو تطبيق ويب. التطبيق <b>بيتكلم بالصوت اللي انت اخترته في إعدادات الموبايل</b> (زي «الصوت III»). ولو عايز تغيّره: <b>الإعدادات ← تحويل النص إلى كلام ← ⚙️ ← تثبيت بيانات الصوت ← العربية</b>، واختار صوت تاني.';tip.appendChild(d)}};
+/* مين يقول الجمل؟ */
+(function(){const c=el('div','card','<h3>مين يقول الجمل؟</h3><div class="set" style="border:0;padding:0"><div>الاختيار العام<small>تقدر تغيّره لكل جملة تحت</small></div><select id="vMode" style="max-width:200px"><option value="auto">التسجيل أو المتولّد لو موجود، وإلا Google</option><option value="google">صوت Google دايمًا</option></select></div>');
+  const g=document.querySelector('#v-s-voice .gs');(g||$('recCard')).after(c);$('vMode').value=profile.settings.voiceMode||'auto';
+  $('vMode').onchange=e=>{profile.settings.voiceMode=e.target.value;saveProfile();renderRec();toast(e.target.value==='google'?'صوت Google هيقول كل حاجة':'التسجيلات أولًا')}})();
+const _rr4=recRow;recRow=function(k,title,hint){const r=_rr4(k,title,hint),u=profile.settings.recUse||{},s=el('select');s.style.cssText='margin-top:8px;width:100%';
+  [['auto','يقولها: تلقائي'],['google','يقولها: صوت Google'],['rec','يقولها: التسجيل أو المتولّد']].forEach(([v,n])=>{const o=el('option');o.value=v;o.textContent=n;s.appendChild(o)});
+  s.value=u[k]||'auto';s.onchange=()=>{(profile.settings.recUse=profile.settings.recUse||{})[k]=s.value;saveProfile();toast('اتظبط')};r.appendChild(s);return r};
+/* وضع عدم الإزعاج */
+(function(){const c=el('div','card','<h3>🤫 عدم الإزعاج</h3><div class="set"><div>اسكت في وقت معيّن<small>الأذان بس هو اللي يتكلم</small></div><label class="sw"><input type="checkbox" id="dndOn"><span></span></label></div><div class="row" style="padding-top:8px"><label class="fld" style="flex:1">من<input type="time" id="dndFrom"></label><label class="fld" style="flex:1">لحد<input type="time" id="dndTo"></label></div>');
+  $('v-s-voice').appendChild(c);const s=profile.settings;$('dndOn').checked=!!s.dnd;$('dndFrom').value=s.dndFrom||'09:00';$('dndTo').value=s.dndTo||'12:30';
+  $('dndOn').onchange=e=>{s.dnd=e.target.checked;saveProfile()};$('dndFrom').onchange=e=>{s.dndFrom=e.target.value;saveProfile()};$('dndTo').onchange=e=>{s.dndTo=e.target.value;saveProfile()}})();
+function inDnd(){const s=profile.settings;if(!s.dnd)return false;const m=nowMin(),a=toMin(s.dndFrom||'09:00'),b=toMin(s.dndTo||'12:30');return a<=b?(m>=a&&m<b):(m>=a||m<b)}
+const _spk3=speak;speak=function(t){if(!t)return;const isAdhan=/حيّ على الصلاة|أدّن/.test(t);if(inDnd()&&!isAdhan)return;
+  const k=recSlotFor(t),s=profile.settings,u=(s.recUse||{})[k];
+  if(k&&(u==='google'||(u!=='rec'&&s.voiceMode==='google')))return _spk2(t);return _spk3(t)};
+
+/* ---- أفكار جديدة ---- */
+/* ١) ساعة السرير */
+function openClock(){$('clockMode').hidden=false;clockTick();try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(w=>{window.__cmw=w}).catch(()=>{})}catch(e){}}
+function clockTick(){if($('clockMode').hidden)return;const n=new Date(),hj=hijri(n);$('cmT').textContent=pad(n.getHours()%12||12)+':'+pad(n.getMinutes());
+  $('cmD').textContent=DAYS[n.getDay()]+' · '+(hj.txt||'');$('cmN').textContent=$('npcName').textContent+' بعد '+$('npcCount').textContent}
+$('clockMode').onclick=()=>{$('clockMode').hidden=true;try{window.__cmw&&window.__cmw.release()}catch(e){}};setInterval(clockTick,1000);
+/* ٢) زرار تبديل الألوان في الشريط اللي فوق */
+(function(){const b=el('button','abtheme');b.setAttribute('aria-label','فاتح ولا غامق');const paint=()=>{const t=profile.settings.theme||'auto';b.textContent=t==='dark'?'🌙':t==='light'?'☀️':'🌓'};paint();
+  b.onclick=()=>{const order=['auto','light','dark','night'],t=profile.settings.theme||'auto';profile.settings.theme=order[(order.indexOf(t)+1)%order.length];saveProfile();applyLook();paint();try{syncInputs()}catch(e){}
+    toast({auto:'زي الموبايل',light:'فاتح',dark:'غامق',night:'غامق بعد العشاء'}[profile.settings.theme])};$('abNext').before(b)})();
+/* ٣) إضافات للزرار + */
+const _rfab=renderFab;renderFab=function(){_rfab();const m=$('fabMenu'),add=(t,f)=>{const b=el('button','btn');b.textContent=t;b.onclick=()=>{m.hidden=true;f()};m.insertBefore(b,m.lastElementChild)};
+  add('🕰️ ساعة السرير',openClock);add('😴 قيلولة ٢٠ دقيقة',()=>{local.set('nap',Date.now()+20*60000);toast('😴 هصحّيك بعد ٢٠ دقيقة، سيب التطبيق مفتوح')})};
+/* ٤) كارت يومك: إنجاز + مناسبة جاية + رمضان + رسالة من امبارح */
+const _rdc=renderDayCard;renderDayCard=function(){_rdc();const L=$('dqLine');if(!L)return;const now=new Date(),k=dkey(now),d=day(k),add=t=>{const s=el('span');s.textContent=t;L.appendChild(s)};
+  add('📊 إنجاز النهارده '+ar(Math.round(pct(now)*100))+'٪');
+  const oc=(profile.occ||[]).map(o=>({o,n:occDays(o)})).filter(x=>x.n>3&&x.n<=30).sort((a,b)=>a.n-b.n)[0];if(oc)add('🎉 '+oc.o.name+' بعد '+ar(oc.n)+' يوم');
+  const hp=hparts(now);if(hp&&hp.m===9){const pt=prayerTimes(now),m=nowMin();add(m<pt.maghrib?'🌙 الفطار بعد '+dur(pt.maghrib-m):'🌙 الإمساك '+fmt(prayerTimes(addDays(now,1)).fajr-10))}
+  const dc=document.querySelector('.daycard');dc.querySelectorAll('.msg2').forEach(x=>x.remove());
+  if(d.msg){const mm=el('div','msg2');mm.textContent='💌 رسالة منك لنفسك: '+d.msg;dc.appendChild(mm)}
+  if(nowMin()>=1080&&!dc.querySelector('#tmMsg')){const r=el('div','row','<input id="tmMsg" style="flex:1;min-width:0" placeholder="💌 اكتب رسالة لنفسك بكرة الصبح">');r.style.marginTop='8px';dc.appendChild(r);
+    const tk=dkey(addDays(now,1)),i=r.querySelector('input');i.value=day(tk).msg||'';i.onchange=()=>{day(tk).msg=i.value.trim().slice(0,160);saveDay(tk);toast('هتلاقيها الصبح 💌')}}};
+/* ٥) الصلاة على النبي يوم الجمعة + نجم البيت */
+const _rnc3=renderNowCards2;renderNowCards2=function(){_rnc3();const box=$('nowCards'),now=new Date(),k=dkey(now),d=day(k);
+  if(now.getDay()===5){const c=el('div','card','<h3>ﷺ الصلاة على النبي</h3><p class="sub" style="margin:0 0 8px">النهارده الجمعة، أكتر من الصلاة على النبي ﷺ</p><button class="btn pri" style="width:100%;font-size:18px"></button>');
+    const b=c.querySelector('button'),paint=()=>{b.textContent='اللهم صلِّ على محمد · '+ar(d.salawat||0)};paint();b.onclick=()=>{d.salawat=(d.salawat||0)+1;paint();try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}clearTimeout(timers.sl);timers.sl=setTimeout(()=>saveDay(k),700);if(d.salawat%100===0)celebrate('ما شاء الله، '+ar(d.salawat)+' صلاة على النبي ﷺ')};box.appendChild(c)}
+  const kids=(profile.kids||[]).filter(x=>x.stars>0).sort((a,b)=>b.stars-a.stars);if(kids.length){const c=el('div','card');c.innerHTML='<h3>⭐ نجم البيت</h3>';const p=el('p');p.style.margin='0';p.textContent=kids[0].name+' معاه '+ar(kids[0].stars)+' نجمة'+(kids[1]?'، وبعده '+kids[1].name+' ('+ar(kids[1].stars)+')':'');c.appendChild(p);c.onclick=()=>go('kids');c.style.cursor='pointer';box.appendChild(c)}};
+/* ٦) تذكيرات زيادة */
+(function(){const c=el('div','card','<h3>تذكيرات زيادة</h3>'),rows=[['rmIst','ساعة الاستجابة يوم الجمعة','قبل المغرب بـ ٤٥ دقيقة',true],['rmQiyam','قيام الليل','أول الثلث الأخير من الليل',false],['rmWake','صحيان قبل الفجر','قبل الفجر بنص ساعة للتهجد',false],['rmDuha','صلاة الضحى','بعد الشروق بـ ٢٠ دقيقة',false],['rmHifz','مراجعة الحفظ','الساعة ٨ ونص بالليل',true],['rmWater','شرب الماية','كل ساعتين من ١٠ الصبح لـ ٨ بالليل',false]];
+  rows.forEach(([id,t,s,def])=>{const r=el('div','set','<div><span></span><small></small></div><label class="sw"><input type="checkbox"><span></span></label>');r.querySelector('div span').textContent=t;r.querySelector('small').textContent=s;
+    const i=r.querySelector('input');i.checked=profile.settings[id]==null?def:!!profile.settings[id];i.onchange=()=>{profile.settings[id]=i.checked;saveProfile()};c.appendChild(r)});$('v-s-adhkar').appendChild(c)})();
+function tick25(){const s=profile.settings,now=new Date(),k=dkey(now),m=nowMin(),pt=prayerTimes(now),on=(id,def)=>s[id]==null?def:!!s[id];
+  const fire=(id,cond,title,say)=>{if(!cond||local.get('rm:'+id,'')===k)return;local.set('rm:'+id,k);alertUser(title,'',say||title)};
+  if(on('rmIst',true))fire('rmIst',now.getDay()===5&&m>=pt.maghrib-45&&m<pt.maghrib-30,'ساعة الاستجابة','دي آخر ساعة من يوم الجمعة، ساعة إجابة. اُدعي ربنا.');
+  const night=(prayerTimes(addDays(now,1)).fajr+1440)-pt.maghrib,third=(pt.maghrib+Math.round(night*2/3))%1440;
+  if(on('rmQiyam',false))fire('rmQiyam',m>=third&&m<third+10,'قيام الليل','دلوقتي الثلث الأخير من الليل. لو تقدر، أوم صلّي ركعتين.');
+  if(on('rmWake',false))fire('rmWake',m>=pt.fajr-30&&m<pt.fajr-20,'فاضل نص ساعة على الفجر','صباح الخير، فاضل نص ساعة على الفجر. أوم اتوضّا وصلّي ركعتين.');
+  if(on('rmDuha',false))fire('rmDuha',m>=pt.sunrise+20&&m<pt.sunrise+35,'وقت الضحى','دخل وأت الضحى. ركعتين وتبدأ يومك.');
+  if(on('rmHifz',true)&&typeof hifzSuggest==='function'){const sg=hifzSuggest();fire('rmHifz',!!sg&&m>=1230&&m<1245,'مراجعة الحفظ','وأت مراجعة الحفظ. راجع الجزء '+(sg?sg.j:'')+'.')}
+  if(on('rmWater',false)&&m>=600&&m<=1200&&m%120<2){const kk='rmWater'+Math.floor(m/120);if(local.get('rm:'+kk,'')!==k){local.set('rm:'+kk,k);alertUser('💧 اشرب كوباية ماية','','اشرب كوباية ماية.')}}
+  const nap=local.get('nap',0);if(nap&&Date.now()>=nap){local.set('nap',0);alertUser('😴 القيلولة خلصت','','يَلّا، القيلولة خِلصت. أوم كمّل يومك.')}}
+setInterval(()=>{try{tick25()}catch(e){}},30000);
+/* ٧) دعاء الختم في التكريم */
+const _ch=checkHonors;checkHonors=function(){_ch();const s=profile.settings,kh=profile.quran.khatmas||0;if(s.khSeen==null){s.khSeen=kh;saveProfile();return}
+  if(kh>s.khSeen){s.khSeen=kh;saveProfile();showHonor({icon:'🏆',color:'#DCB96A',tierName:'ختمة رقم '+ar(kh),title:'مبروك الختمة',text:'اللهم ارحمني بالقرآن، واجعله لي إمامًا ونورًا وهدًى ورحمة. اللهم تقبّل منا.'})}};
+/* ٨) الأحاديث: علّم اللي قريته */
+const _rh=renderHadith;renderHadith=function(){_rh();if(!isAct('hadith'))return;const R=profile.hdRead=profile.hdRead||{};const items=[...document.querySelectorAll('#hdList .item')];
+  items.forEach((it,i)=>{const key=hdTab+i,b=el('button','btn'+(R[key]?'':' pri'));b.style.marginTop='8px';b.textContent=R[key]?'✓ قريته':'علّم إني قريته';
+    b.onclick=e=>{e.stopPropagation();if(R[key])delete R[key];else{R[key]=1;toast('بارك الله فيك')}saveProfile();renderHadith()};it.appendChild(b)});
+  const n=Object.keys(R).filter(x=>x.startsWith(hdTab)).length,tot=HD[hdTab].length;let s=$('hdProg');if(!s){s=el('p','sub');s.id='hdProg';$('hdList').before(s)}s.textContent='قريت '+ar(n)+' من '+ar(tot);
+  if(n===tot&&!R['done-'+hdTab]){R['done-'+hdTab]=1;saveProfile();showHonor({icon:'📜',tierName:'إنجاز',title:'خلّصت '+(hdTab==='nawawi'?'الأربعين النووية':'الأحاديث القدسية'),text:'ما شاء الله، قريتهم كلهم. ربنا يجعلهم في ميزان حسناتك.'})}};
+/* ٩) أحسن يوم في الأسبوع */
+const _rms=renderMonthSum;renderMonthSum=function(){_rms();const box=$('mSum');if(!box)return;const now=new Date(),sum=[0,0,0,0,0,0,0],cnt=[0,0,0,0,0,0,0];
+  for(let i=1;i<=56;i++){const d=addDays(now,-i);sum[d.getDay()]+=pct(d);cnt[d.getDay()]++}let best=0;for(let i=1;i<7;i++)if(sum[i]/cnt[i]>sum[best]/cnt[best])best=i;
+  if(sum[best]>0){const r=el('div','set','<div>⭐ أحسن يوم ليك في الأسبوع</div><b></b>');r.querySelector('b').textContent=DAYS[best];box.appendChild(r)}};
+/* ١٠) نسخة احتياطية */
+(function(){const c=el('div','card','<h3>📦 نسخة احتياطية</h3><p class="sub" style="margin:0 0 8px">بياناتك محفوظة على الموبايل ده بس. خد نسخة واحفظها عندك، وترجّعها على أي جهاز. (ملفات الأذان والتسجيلات مش بتتنسخ.)</p><div class="row"><button class="btn pri" id="bkOut">📤 خد نسخة</button><button class="btn" id="bkIn">📥 رجّع نسخة</button></div><textarea id="bkTxt" hidden style="width:100%;margin-top:8px;min-height:120px;direction:ltr;font-size:12px"></textarea><button class="btn" id="bkGo" hidden style="margin-top:8px">✅ رجّعها دلوقتي</button>');
+  $('v-s-app').appendChild(c);
+  $('bkOut').onclick=async()=>{const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('yomi:'))o[k]=localStorage.getItem(k)}const t=JSON.stringify({yomi:1,at:new Date().toISOString(),data:o});
+    const ta=$('bkTxt');ta.hidden=false;ta.value=t;$('bkGo').hidden=true;try{if(navigator.share){await navigator.share({title:'نسخة يومي',text:t});return}}catch(e){}try{await navigator.clipboard.writeText(t);toast('اتنسخت، احفظها في ملاحظاتك أو ابعتها لنفسك')}catch(e){ta.select();toast('انسخ الكلام اللي في المربع')}};
+  $('bkIn').onclick=()=>{const ta=$('bkTxt');ta.hidden=false;ta.value='';ta.placeholder='الصق النسخة هنا';$('bkGo').hidden=false;ta.focus()};
+  $('bkGo').onclick=()=>{try{const j=JSON.parse($('bkTxt').value);if(!j||!j.data)throw 0;if(!confirm('ده هيستبدل بياناتك الحالية. متأكد؟'))return;Object.keys(j.data).forEach(k=>{if(k.startsWith('yomi:'))localStorage.setItem(k,j.data[k])});toast('✅ اترجّعت، بيفتح تاني…');setTimeout(()=>location.reload(),900)}catch(e){toast('النسخة دي مش سليمة')}}})();
 </script>
 </body>
 </html>
