@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016042411">
+<meta name="app-version" content="20261016043354">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٣</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٤</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٣</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٤</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -1344,7 +1344,7 @@ try{pickVoice();speechSynthesis.addEventListener('voiceschanged',pickVoice)}catc
 function speak(t){
   if(!profile.settings.voice||!t||!('speechSynthesis' in window)||profile.settings.silent===dkey(new Date()))return;
   if(!unlocked){pendingSay.push(t);pendingSay=pendingSay.slice(-2);showUnlock();return}
-  try{const u=new SpeechSynthesisUtterance(t);u.lang=profile.settings.vLang||(arVoice?arVoice.lang:'ar');if(arVoice&&!profile.settings.vLang)u.voice=arVoice;u.rate=profile.settings.vRate||.95;u.pitch=profile.settings.vPitch||1;speechSynthesis.speak(u)}catch(e){}
+  try{const u=new SpeechSynthesisUtterance(egy(t));u.lang=profile.settings.vLang||(arVoice?arVoice.lang:'ar');if(arVoice&&!profile.settings.vLang)u.voice=arVoice;u.rate=profile.settings.vRate||.95;u.pitch=profile.settings.vPitch||1;speechSynthesis.speak(u)}catch(e){}
 }
 function showUnlock(){const b=$('voiceUnlock');if(b)b.hidden=!(profile.settings.voice&&!unlocked&&'speechSynthesis' in window)}
 function unlock(){
@@ -2607,10 +2607,35 @@ function renderGS(){const box=$('gsTests');if(!box)return;box.innerHTML='';const
     cb.onclick=()=>{profile.settings.vLang=lg;profile.settings.voice=true;saveProfile();renderGS();toast('✅ هيتكلم بالإعداد ده');try{syncInputs()}catch(e){}};box.appendChild(r)});
   $('gsPitch').value=profile.settings.vPitch||1;const pv=profile.settings.vPitch||1;$('gsPL').textContent=pv<.97?'(أتقل)':pv>1.03?'(أنعم)':'(عادي)'}
 $('gsPitch').oninput=e=>{profile.settings.vPitch=Number(e.target.value);renderGS()};$('gsPitch').onchange=()=>{saveProfile();gsSay(profile.settings.vLang||'ar','ده الصوت بعد التظبيط')};
-$('gsFajr').onclick=()=>{unlock();const t=(typeof phraseFor==='function'?phraseFor('p:fajr'):'قوم صلي الفجر').replace(/[\u064B-\u0652]/g,'');gsSay(profile.settings.vLang||(arVoice?arVoice.lang:'ar'),t)};
+$('gsFajr').onclick=()=>{unlock();const t=egy('حيّ على الصلاة. دخل وقت صلاة الفجر، والصلاة خير من النوم.');gsSay(profile.settings.vLang||(arVoice?arVoice.lang:'ar'),t)};
 /* لو اخترت صوت Google، الجمل اللي مالهاش تسجيل بتتقال بيه */
 const _rx2=renderExtras;renderExtras=function(){_rx2();try{renderGS()}catch(e){}};
 try{renderGS()}catch(e){}
+</script>
+<script>
+/* ===== كل كلام صوت الجهاز بالعامية المصرية ===== */
+const EGY_MIN={1:'دئيأة',2:'دئيأتين',3:'تلات دأايأ',4:'أربع دأايأ',5:'خمس دأايأ',6:'ست دأايأ',7:'سبع دأايأ',8:'تمن دأايأ',9:'تسع دأايأ',10:'عشر دأايأ',15:'ربع ساعة',20:'تلت ساعة',25:'خمسة وعشرين دئيأة',30:'نص ساعة',40:'أربعين دئيأة',45:'ساعة إلا ربع',60:'ساعة'};
+const EGY_FEM=[['أوم اتوضّا','أومي اتوضّي'],['أوم صَلّي','أومي صَلّي'],['خُد راحة','خُدي راحة'],['متنساش','متنسيش'],['إئرا','إئري'],['ما تنام','ما تنامي'],['لو ناوي','لو ناوية'],['برافو عليك','برافو عليكي'],['خلَّصت','خلَّصتي'],['وصَلّي على النبي','وصَلّي على النبي']];
+const toLat=s=>String(s).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+const egyMin=n=>EGY_MIN[+n]||(n+' دئيأة');
+const EGY_PR={'الفجر':'الفجر','الظهر':'الضهر','العصر':'العصر','المغرب':'المغرب','العشاء':'العشا'};
+const EGY_W=[['قومي','أومي'],['قوم','أوم'],['دلوقتي','دلوأتي'],['الوقت','الوأت'],['وقت','وأت'],['وقتها','وأتها'],['دقايق','دأايأ'],['دقيقة','دئيأة'],['دقيقتين','دئيأتين'],['قبل','أبل'],['اقفل','اأفل'],['قفل','أفل'],['اقرأ','إئرا'],['اقرا','إئرا'],['نقرا','نئرا'],['قريت','أريت'],['قول','أول'],['نقول','نأول'],['قولوا','أولوا'],['الظهر','الضهر'],['أذكار','أدكار'],['الأذكار','الأدكار'],['أذّن','أدّن'],['أذن','أدّن'],['الأذان','الأدان'],['اتوضّى','اتوضّا'],['اتوضى','اتوضّا'],['يلا','يَلّا'],['طريق','طريء'],['الطريق','الطريء'],['اقعد','اُعُد'],['قاعد','أاعد'],['خلصت','خلَّصت'],['العشاء','العشا'],['حقيقي','حئيئي'],['قلبك','ألبك'],['قريب','أريب'],['قرايبك','أرايبك']];
+const EGY_RX=EGY_W.map(([a,b])=>[new RegExp('(^|[\\s،.؟!:])'+a+'(?=$|[\\s،.؟!:])','g'),'$1'+b]);
+function egyWords(t){t=String(t).replace(/([0-9٠-٩]+)\s*(دقايق|دقيقة|د)(?=$|[\s،.])/g,(m,n)=>egyMin(toLat(n)));EGY_RX.forEach(([r,b])=>{t=t.replace(r,b)});return t}
+function egy(t){if(!t)return t;t=String(t).trim();const C=callee(),N=C.addr,F=C.fem,fem=s=>F?EGY_FEM.concat(FEMW).reduce((a,[x,y])=>a.split(x).join(y),s):s;let m;
+  if((m=t.match(/حيّ على الصلاة\. دخل وقت صلاة (\S+?)[،.]/))){const pr=EGY_PR[m[1]]||m[1];
+    return fem(m[1]==='الفجر'?'يا '+N+'، الفجر أدّن. أوم صَلّي، الصلاة خير من النُّوم.':'يا '+N+'، '+pr+' أدّن. يَلّا أوم صَلّي.')}
+  if((m=t.match(/^باقي ([0-9٠-٩]+) دقايق على صلاة ([^\s،.]+)/)))return fem('يا '+N+'، فاضل '+egyMin(toLat(m[1]))+' على '+(EGY_PR[m[2]]||m[2])+'. أوم اتوضّا وجَهِّز نفسَك.');
+  if((m=t.match(/^(?:يا .+?، )?دلوقتي وقت (.+?)\.(?:\s*(.*))?$/))){const f=dayBlocks(new Date()).find(({b})=>b.title===m[1].trim());return f?blockPhrase(f.b.id,f.b.title):fem('يا '+N+'، دلوأتي وأت '+egyWords(m[1])+'.')}
+  if((m=t.match(/^دلوقتي (.+?)(?:، (.+))?$/)))return 'يَلّا، '+egyWords(m[1])+(m[2]?'، لمدة '+egyWords(m[2]):'')+'.';
+  if((m=t.match(/^خلص وقت (.+)$/)))return 'خلاص، وأت '+egyWords(m[1])+' خِلِص.';
+  if((m=t.match(/^برافو(?: يا .+?)?، خلصت (.+)$/)))return fem('برافو عليك يا '+N+'، خلَّصت '+egyWords(m[1])+'.');
+  if((m=t.match(/^فاضل خمس دقايق على (.+?)، وبعدها (.+)$/)))return 'فاضل خمس دأايأ على '+egyWords(m[1])+'، وبعدها '+egyWords(m[2])+'.';
+  if(/^خلصت جلسة التركيز/.test(t))return fem('برافو يا '+N+'، خلَّصت جلسة التركيز. خُد راحة '+egyWords(t.split('خد راحة ')[1]||'خمس دقايق')+'.');
+  if(/^الراحة خلصت/.test(t))return 'الراحة خِلصت، يَلّا نرجع للشغل.';
+  const R={'وقت أذكار الصباح':'يا '+N+'، وأت أدكار الصباح. يَلّا نأولهم سوا.','وقت أذكار المساء':'يا '+N+'، وأت أدكار المسا. يَلّا نأولهم سوا.','النهارده الجمعة':'النهارده الجمعة يا '+N+'. متنساش سورة الكهف، وصَلّي على النبي كتير.','قبل ما تنام':'أبل ما تنام يا '+N+'، إئرا سورة الملك.','بكرة يوم صيام':'بكرة يوم صيام يا '+N+'. لو ناوي، متنساش السحور.','حان وقت صلاة الفجر':'يا '+N+'، الفجر أدّن.'};
+  if(R[t])return fem(R[t]);
+  return fem(egyWords(t))}
 </script>
 </body>
 </html>
