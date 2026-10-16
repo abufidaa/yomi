@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016114321">
+<meta name="app-version" content="20261016115120">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٥</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٦</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٥</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٦</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -3279,7 +3279,7 @@ genderVoice=function(){profile.settings.voiceName='';saveProfile();pickVoice();t
 /* مفيش أي صوت متولّد أو تسجيل قديم يشتغل */
 recPlay=async function(){return false};profile.settings.recs={};
 /* ٢) فصحى سلسة: من غير تشكيل أواخر الكلمات، فبتتنطق طبيعي */
-const smoothAr=t=>String(t).replace(/[\u064B-\u0650\u0652](?=[\s،.؟!:؛]|$)/g,'');
+const smoothAr=t=>String(t).replace(/(?<![تك])[\u064B-\u0650\u0652](?=[\s،.؟!:؛]|$)/g,'');
 const _egy3=egy;egy=function(t){const r=_egy3(t);return isFus()&&profile.settings.smooth!==false?smoothAr(r):r};
 /* ٣) قارن واختار */
 (function(){const c=el('div','card','<h3>🎧 قارن واختار طريقة الكلام</h3><p class="sub" style="margin:0 0 8px">اسمع نفس الجملة بالطرق التلاتة، واختار اللي يريح ودنك.</p><div id="cmpL"></div><div class="sub" style="margin:10px 0 4px">سرعة الكلام</div><div class="chips" id="spdC"></div>');
@@ -3327,6 +3327,18 @@ const _rx8=renderExtras;renderExtras=function(){_rx8();try{renderPron()}catch(e)
 <script>
 /* ٣.٥: «بابا» تتنطق زي Papa */
 (function(){const s=profile.settings;if(s.pron2)return;s.pron2=1;const m=s.pron=s.pron||{};if(!m['بابا']||m['بابا']==='Baba')m['بابا']='Papa';if(!m['بابي']||m['بابي']==='Babi')m['بابي']='Papi';saveProfile();try{renderPron()}catch(e){}})();
+</script>
+<script>
+/* ===== ٣.٦: النداء بالفصحى المشكّلة: يا أَبِي، يا أُمِّي… ومفيش «يلا» في الفصحى ===== */
+const FCALL={baba:'أَبِي',babi:'أَبِي',mama:'أُمِّي',mami:'أُمِّي',amo:'عَمِّي',tant:'خالَتِي',akhoya:'أَخِي',ukhti:'أُخْتِي',habibi:'حَبِيبِي',habibti:'حَبِيبَتِي'};
+const _callee3=callee;callee=function(){const r=_callee3(),c=profile.settings.callAs;if(isFus()&&FCALL[c])return{addr:FCALL[c],fem:r.fem};return r};
+applyPron=(function(orig){return function(t){return isFus()?t:orig(t)}})(applyPron);
+/* أسماء النداء في القايمة بالعامية والفصحى */
+(function(){const s=$('call2');if(!s)return;const lab={baba:'يا بابا / يا أَبِي',mama:'يا ماما / يا أُمِّي',habibi:'يا حبيبي / يا حَبِيبِي',habibti:'يا حبيبتي / يا حَبِيبَتِي'};[...s.options].forEach(o=>{if(lab[o.value])o.textContent=lab[o.value]});
+  [['amo','يا عمو / يا عَمِّي'],['akhoya','يا أخويا / يا أَخِي'],['ukhti','يا أختي / يا أُخْتِي'],['tant','يا طنط / يا خالَتِي']].forEach(([v,n])=>{if(![...s.options].some(o=>o.value===v)){const o=el('option');o.value=v;o.textContent=n;s.appendChild(o)}});s.value=profile.settings.callAs||'batal'})();
+/* جمل التجربة بالفصحى */
+const TRY=()=>L('هَيّا إِلى الصَّلاةِ.','يلا نصلي.');
+gsSay=(function(orig){return function(lang,text){text=String(text).replace(/يلا نصلي\./g,TRY()).replace(/السلام عليكم يا (.+?)\. ده صوت التطبيق، لو سامعه بالعربي اختاره\./,(m,n)=>L('السَّلامُ عَلَيْكُمْ يا '+n+'. هذا صَوْتُ التَّطْبِيقِ.',m));if(isFus()&&profile.settings.smooth!==false)text=smoothAr(text);return orig(lang,text)}})(gsSay);
 </script>
 </body>
 </html>
