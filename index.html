@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016113914">
+<meta name="app-version" content="20261016114108">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٣</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٤</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٣</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٤</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -3319,6 +3319,10 @@ function renderPron(){const L2=$('prL');if(!L2)return;L2.innerHTML='';const m=pr
   Object.keys(m).filter(w=>!PRON_C[w]).forEach(w=>{const r=el('div','set','<div></div><span class="row"><button class="btn" data-a="p">▶</button><button class="btn dan" data-a="x">✕</button></span>');r.querySelector('div').textContent=w+' ← '+m[w];
     r.querySelector('[data-a=p]').onclick=()=>{unlock();gsSay(profile.settings.vLang||'ar',m[w])};r.querySelector('[data-a=x]').onclick=()=>{delete m[w];saveProfile();renderPron()};L2.appendChild(r)})}
 const _rx8=renderExtras;renderExtras=function(){_rx8();try{renderPron()}catch(e){}};try{renderPron()}catch(e){}
+</script>
+<script>
+/* ٣.٤: «بابا» و«ماما» بالنطق المصري (B زي Ban) كاختيار أساسي */
+(function(){const s=profile.settings;if(s.pron1)return;s.pron1=1;const m=s.pron=s.pron||{};[['بابا','Baba'],['ماما','Mama'],['بابي','Babi'],['مامي','Mami']].forEach(([w,v])=>{if(!m[w])m[w]=v});saveProfile();try{renderPron()}catch(e){}})();
 </script>
 </body>
 </html>
