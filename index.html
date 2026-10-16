@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016112908">
+<meta name="app-version" content="20261016113411">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.١</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٢</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.١</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٢</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -1344,7 +1344,7 @@ try{pickVoice();speechSynthesis.addEventListener('voiceschanged',pickVoice)}catc
 function speak(t){
   if(!profile.settings.voice||!t||!('speechSynthesis' in window)||profile.settings.silent===dkey(new Date()))return;
   if(!unlocked){pendingSay.push(t);pendingSay=pendingSay.slice(-2);showUnlock();return}
-  try{const u=new SpeechSynthesisUtterance(egy(t));u.lang=profile.settings.vLang||(arVoice?arVoice.lang:'ar');if(arVoice&&!profile.settings.vLang)u.voice=arVoice;u.rate=profile.settings.vRate||.95;u.pitch=profile.settings.vPitch||1;speechSynthesis.speak(u)}catch(e){}
+  try{const u=new SpeechSynthesisUtterance(egy(t));u.lang=profile.settings.vLang||(arVoice?arVoice.lang:'ar');if(arVoice&&!profile.settings.vLang)u.voice=arVoice;u.rate=profile.settings.vRate||1;u.pitch=profile.settings.vPitch||1;u.volume=(typeof nightVol==='function'?nightVol():1);u.onstart=()=>{try{talkUI(true)}catch(e){}};u.onend=u.onerror=()=>{try{talkUI(false)}catch(e){}};speechSynthesis.speak(u)}catch(e){}
 }
 function showUnlock(){const b=$('voiceUnlock');if(b)b.hidden=!(profile.settings.voice&&!unlocked&&'speechSynthesis' in window)}
 function unlock(){
@@ -2599,7 +2599,7 @@ try{applyLook();renderAll(true)}catch(e){}
   const ob=$('gsOpen');if(ob)ob.onclick=()=>{location.href='intent:#Intent;action=com.android.settings.TTS_SETTINGS;end';setTimeout(()=>toast('لو ما اتفتحش: الإعدادات ← اكتب «تحويل النص إلى كلام»'),1500)};
 })();
 const GS_LANGS=[['ar','تجربة ١ — عربي عام'],['ar-EG','تجربة ٢ — مصري'],['ar-SA','تجربة ٣ — سعودي'],['ar-XA','تجربة ٤ — عربي (Google)']];
-function gsSay(lang,text){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=lang;u.rate=profile.settings.vRate||.95;u.pitch=profile.settings.vPitch||1;speechSynthesis.speak(u)}catch(e){toast('الجهاز ده مش بيدعم الصوت')}}
+function gsSay(lang,text){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=lang;u.rate=profile.settings.vRate||1;u.pitch=profile.settings.vPitch||1;u.volume=(typeof nightVol==='function'?nightVol():1);u.onstart=()=>{try{talkUI(true)}catch(e){}};u.onend=u.onerror=()=>{try{talkUI(false)}catch(e){}};speechSynthesis.speak(u)}catch(e){toast('الجهاز ده مش بيدعم الصوت')}}
 function renderGS(){const box=$('gsTests');if(!box)return;box.innerHTML='';const cur=profile.settings.vLang||'';
   GS_LANGS.forEach(([lg,n])=>{const r=el('div','vt'+(cur===lg?' on':''),'<span></span><span class="row"><button class="btn" data-a="p">▶ اسمع</button><button class="btn pri" data-a="c"></button></span>');
     r.querySelector('span').textContent=n;const cb=r.querySelector('[data-a=c]');cb.textContent=cur===lg?'✓ ده المختار':'اختار ده';
@@ -3270,5 +3270,37 @@ const _mg=morningGreet;morningGreet=function(){if(!$('setupO').hidden)return;_mg
 const _rx6=renderExtras;renderExtras=function(){_rx6();try{renderSnaps()}catch(e){}};
 </script>
 
+<button id="stopTalk" class="btn" hidden style="position:fixed;left:50%;transform:translateX(-50%);bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:7;box-shadow:0 8px 20px rgba(0,0,0,.25)">🔇 اسكت</button>
+<script>
+/* ================= ٣.٢: صوت Google الأصلي + فصحى سلسة + ٥ أفكار ================= */
+/* ١) صوت Google زي ما هو: من غير تغيير طبقة ولا سرعة */
+if(!profile.settings.nat1){profile.settings.nat1=1;profile.settings.vPitch=1;profile.settings.vRate=1;profile.settings.pitchManual=1;profile.settings.smooth=true;saveProfile()}
+genderVoice=function(){profile.settings.voiceName='';saveProfile();pickVoice();try{renderGS()}catch(e){}};
+/* مفيش أي صوت متولّد أو تسجيل قديم يشتغل */
+recPlay=async function(){return false};profile.settings.recs={};
+/* ٢) فصحى سلسة: من غير تشكيل أواخر الكلمات، فبتتنطق طبيعي */
+const smoothAr=t=>String(t).replace(/[\u064B-\u0650\u0652](?=[\s،.؟!:؛]|$)/g,'');
+const _egy3=egy;egy=function(t){const r=_egy3(t);return isFus()&&profile.settings.smooth!==false?smoothAr(r):r};
+/* ٣) قارن واختار */
+(function(){const c=el('div','card','<h3>🎧 قارن واختار طريقة الكلام</h3><p class="sub" style="margin:0 0 8px">اسمع نفس الجملة بالطرق التلاتة، واختار اللي يريح ودنك.</p><div id="cmpL"></div><div class="sub" style="margin:10px 0 4px">سرعة الكلام</div><div class="chips" id="spdC"></div>');
+  const v=$('v-s-voice');(v.querySelector(':scope > p.sub')||v.firstElementChild).after(c)})();
+const CMP=[['smooth','فصحى سلسة (أنصح بيها)'],['full','فصحى مشكّلة كاملة'],['egy','عامية مصرية']];
+function curMode(){const s=profile.settings;return s.dialect==='egy'?'egy':s.smooth===false?'full':'smooth'}
+function renderCmp(){const L2=$('cmpL');if(!L2)return;L2.innerHTML='';const cur=curMode(),base='يا {n}، حانَ وَقْتُ صَلاةِ الظُّهْرِ. هَيّا إِلى الصَّلاةِ، ثُمَّ نُكْمِلُ عَمَلَنا.';
+  CMP.forEach(([id,n])=>{const r=el('div','vt'+(cur===id?' on':''),'<span></span><span class="row"><button class="btn" data-a="p">▶ اسمع</button><button class="btn pri" data-a="c"></button></span>');r.querySelector('span').textContent=n;
+    const cb=r.querySelector('[data-a=c]');cb.textContent=cur===id?'✓ المختار':'اختار';
+    r.querySelector('[data-a=p]').onclick=()=>{unlock();const nm=callee().addr;let t=id==='egy'?'يا '+nm+'، الضهر أدّن. سيب اللي في إيدك، وأوم صلّي، وارجع كمّل.':base.replace('{n}',nm);if(id==='smooth')t=smoothAr(t);gsSay(profile.settings.vLang||'ar',t)};
+    cb.onclick=()=>{const s=profile.settings;if(id==='egy')s.dialect='egy';else{s.dialect='fusha';s.smooth=id==='smooth'}saveProfile();applyDialect();try{$('dialSel').value=s.dialect}catch(e){}renderCmp();toast('✅ '+n)};L2.appendChild(r)});
+  const sc=$('spdC');sc.innerHTML='';[['🐢 هادي',.85],['عادي',1],['🐇 أسرع',1.15]].forEach(([n,v])=>{const b=el('button',Math.abs((profile.settings.vRate||1)-v)<.01?'on':'');b.textContent=n;b.onclick=()=>{profile.settings.vRate=v;saveProfile();renderCmp();unlock();speak(personalize(L('هذِهِ سُرْعَةُ الكَلامِ.','دي سرعة الكلام.')))};sc.appendChild(b)})}
+/* ٤) كرّر آخر جملة + زرار اسكت */
+let lastSaid='';const _spk7=speak;speak=function(t){if(t)lastSaid=t;return _spk7(t)};
+function talkUI(on){const b=$('stopTalk');if(b)b.hidden=!on}
+$('stopTalk').onclick=()=>{try{speechSynthesis.cancel()}catch(e){}talkUI(false)};
+(function(){const nb=document.querySelector('.npc-b');if(!nb)return;const b=el('button','hbtn ghost');b.textContent='🔁 قول تاني';b.onclick=()=>{unlock();if(lastSaid)speak(lastSaid);else toast('لسه ماقلتش حاجة')};nb.appendChild(b)})();
+/* ٥) صوت أهدى بالليل */
+function nightVol(){if(profile.settings.nightQuiet===false)return 1;const pt=prayerTimes(new Date()),m=nowMin();return(m>=pt.isha+60||m<pt.fajr-30)?.55:1}
+(function(){const c=cardOf('dndOn');if(!c)return;const r=el('div','set','<div>صوت أهدى بالليل<small>بعد العشا بساعة لحد قبل الفجر</small></div><label class="sw"><input type="checkbox" id="nqOn"><span></span></label>');c.appendChild(r);$('nqOn').checked=profile.settings.nightQuiet!==false;$('nqOn').onchange=e=>{profile.settings.nightQuiet=e.target.checked;saveProfile()}})();
+const _rx7=renderExtras;renderExtras=function(){_rx7();try{renderCmp()}catch(e){}};try{renderCmp()}catch(e){}
+</script>
 </body>
 </html>
