@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016114108">
+<meta name="app-version" content="20261016114321">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٤</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٥</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٤</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٥</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -3304,7 +3304,7 @@ const _rx7=renderExtras;renderExtras=function(){_rx7();try{renderCmp()}catch(e){
 </script>
 <script>
 /* ================= ٣.٣: ضبط النطق ================= */
-const PRON_C={'بابا':['بابا','بابَا','بَأبا','باابا','Baba','Baaba','Bāba'],'ماما':['ماما','مامَا','مَأما','Mama','Maama','Māma'],'بابي':['بابي','Babi','Baabi'],'مامي':['مامي','Mami','Maami'],'عمو':['عمو','عَمّو','Amo','3ammo'],'طنط':['طنط','Tant','Taant'],'حبيبي':['حبيبي','حَبيبي','Habibi'],'حبيبتي':['حبيبتي','حَبيبتي','Habibti']};
+const PRON_C={'بابا':['Papa','Pappa','Paapa','بابا','بابَا','بَأبا','باابا','Baba','Baaba','Bāba'],'ماما':['Mama','Mamma','Maama','ماما','مامَا','مَأما','Mama','Maama','Māma'],'بابي':['Papi','Pappi','بابي','Babi','Baabi'],'مامي':['مامي','Mami','Maami'],'عمو':['عمو','عَمّو','Amo','3ammo'],'طنط':['طنط','Tant','Taant'],'حبيبي':['حبيبي','حَبيبي','Habibi'],'حبيبتي':['حبيبتي','حَبيبتي','Habibti']};
 const pronMap=()=>profile.settings.pron||{};
 const reEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 function applyPron(t){const m=pronMap();Object.keys(m).forEach(w=>{if(!m[w]||m[w]===w)return;t=String(t).replace(new RegExp('(^|[\\s،.؟!:])'+reEsc(w)+'(?=$|[\\s،.؟!:])','g'),'$1'+m[w])});return t}
@@ -3323,6 +3323,10 @@ const _rx8=renderExtras;renderExtras=function(){_rx8();try{renderPron()}catch(e)
 <script>
 /* ٣.٤: «بابا» و«ماما» بالنطق المصري (B زي Ban) كاختيار أساسي */
 (function(){const s=profile.settings;if(s.pron1)return;s.pron1=1;const m=s.pron=s.pron||{};[['بابا','Baba'],['ماما','Mama'],['بابي','Babi'],['مامي','Mami']].forEach(([w,v])=>{if(!m[w])m[w]=v});saveProfile();try{renderPron()}catch(e){}})();
+</script>
+<script>
+/* ٣.٥: «بابا» تتنطق زي Papa */
+(function(){const s=profile.settings;if(s.pron2)return;s.pron2=1;const m=s.pron=s.pron||{};if(!m['بابا']||m['بابا']==='Baba')m['بابا']='Papa';if(!m['بابي']||m['بابي']==='Babi')m['بابي']='Papi';saveProfile();try{renderPron()}catch(e){}})();
 </script>
 </body>
 </html>
