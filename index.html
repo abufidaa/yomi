@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016035249">
+<meta name="app-version" content="20261016035810">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٨</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٩</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٨</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٩</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -500,6 +500,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <div class="gen">
       <b>✨ مولّد الصوت الطبيعي</b>
       <p class="sub" style="margin:4px 0 8px;line-height:1.8">صوت راجل طبيعي اسمه «كريم» بيتولّد على موبايلك نفسه. أول مرة بينزّل الصوت (حوالي ٦٠ ميجا)، وبعدها بيشتغل من غير نت. اكتب الجملة ودوس «ولّد واسمع».</p>
+      <div class="sub" style="margin:0 0 4px">الصوت</div>
+      <div class="chips" id="genVoices" style="margin-bottom:8px"></div>
+      <div class="set" style="padding:4px 0 10px;border:0"><div>سرعة الكلام <small id="genSpeedL"></small></div><input type="range" id="genSpeed" min="0.8" max="1.2" step="0.05" style="width:150px"></div>
       <textarea id="genText" style="width:100%;min-height:70px">يَلّا يا محمود، قُوم صَلّي الفَجْر. الصَّلاة خَيْرٌ مِنَ النَّوْم.</textarea>
       <div class="row" style="margin-top:8px"><button class="btn pri" id="genBtn">✨ ولّد واسمع</button><select id="genSlot" style="flex:1;min-width:0"></select><button class="btn" id="genSave" disabled>💾 احفظه</button></div>
       <p class="sub" id="genStatus" style="margin:8px 0 0"></p>
@@ -2266,6 +2269,36 @@ const _rr=recRow;recRow=function(k,title,hint){const r=_rr(k,title,hint),b=el('b
     catch(e){toast('مقدرتش أولّد، اتأكد من النت');genBusy=false;b.disabled=false;b.textContent='✨ ولّد'}};
   r.querySelector('.row').prepend(b);return r};
 const _renderRec0=renderRec;renderRec=function(){_renderRec0();fillGenSlots()};
+</script>
+<script>
+/* ===== أصوات كتير من صوت كريم: تغيير الطبقة مع الحفاظ على الطول ===== */
+const GEN_STYLES=[['man','🧔 راجل',1],['deep','🧔‍♂️ راجل صوت عميق',.88],['woman','🧕 ست',1.24],['boy','👦 ولد صغير',1.4],['girl','👧 بنت صغيرة',1.55]];
+function wsola(x,f){if(Math.abs(f-1)<.01)return x;const N=1024,Hs=512,Ha=Hs/f,tol=256,win=new Float32Array(N);
+  for(let i=0;i<N;i++)win[i]=.5-.5*Math.cos(2*Math.PI*i/N);
+  const out=new Float32Array(Math.ceil(x.length*f)+2*N),nrm=new Float32Array(out.length);let prev=0;
+  for(let k=0;;k++){const nom=Math.round(k*Ha);if(nom+N>=x.length)break;let s=nom;
+    if(k>0){const tgt=Math.min(prev+Hs,x.length-N);let bc=-Infinity;
+      for(let d=-tol;d<=tol;d+=2){const c0=nom+d;if(c0<0||c0+N>x.length)continue;let c=0;for(let i=0;i<N;i+=4)c+=x[c0+i]*x[tgt+i];if(c>bc){bc=c;s=c0}}}
+    const o=k*Hs;for(let i=0;i<N;i++){out[o+i]+=x[s+i]*win[i];nrm[o+i]+=win[i]}prev=s}
+  let len=0;for(let i=0;i<out.length;i++){if(nrm[i]>1e-3){out[i]/=nrm[i];len=i}}return out.subarray(0,len+1)}
+function resamp(y,f){if(Math.abs(f-1)<.01)return y;const n=Math.floor(y.length/f),z=new Float32Array(n);
+  for(let i=0;i<n;i++){const p=i*f,j=Math.floor(p),t=p-j;z[i]=(y[j]||0)*(1-t)+(y[j+1]||0)*t}return z}
+function wavEnc(d,sr){const n=d.length,b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+  w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
+  let pk=0;for(let i=0;i<n;i++)pk=Math.max(pk,Math.abs(d[i]));const g=pk>0?.92/pk:1;
+  for(let i=0,o=44;i<n;i++,o+=2){const s=Math.max(-1,Math.min(1,d[i]*g));v.setInt16(o,s<0?s*32768:s*32767,true)}return new Blob([b],{type:'audio/wav'})}
+async function voiceFx(blob,pitch,speed){if(Math.abs(pitch-1)<.01&&Math.abs(speed-1)<.01)return blob;
+  const a=new (window.AudioContext||window.webkitAudioContext)();let buf;try{buf=await a.decodeAudioData(await blob.arrayBuffer())}finally{try{a.close()}catch(e){}}
+  const x=buf.getChannelData(0),y=wsola(x,pitch/speed),z=resamp(y,pitch);return wavEnc(z,buf.sampleRate)}
+const genStyle=()=>GEN_STYLES.find(s=>s[0]===(profile.settings.genStyle||'man'))||GEN_STYLES[0];
+const genSpeed=()=>profile.settings.genSpeed||1;
+function renderGenVoices(){const c=$('genVoices');if(!c)return;c.innerHTML='';
+  GEN_STYLES.forEach(([id,n])=>{const b=el('button',genStyle()[0]===id?'on':'');b.textContent=n;b.onclick=()=>{profile.settings.genStyle=id;saveProfile();renderGenVoices();$('genSave').disabled=true;genBlob=null};c.appendChild(b)});
+  $('genSpeed').value=genSpeed();$('genSpeedL').textContent=genSpeed()<.97?'(أبطأ)':genSpeed()>1.03?'(أسرع)':'(عادي)'}
+$('genSpeed').oninput=e=>{profile.settings.genSpeed=Number(e.target.value);renderGenVoices()};$('genSpeed').onchange=()=>saveProfile();
+/* كل توليد بيعدّي على الصوت والسرعة المختارين */
+const _gv=genVoice;genVoice=async function(text,status){const raw=await _gv(text,status);status&&status('بيظبط الصوت…');return await voiceFx(raw,genStyle()[2],genSpeed())};
+const _rr2=renderRec;renderRec=function(){_rr2();renderGenVoices()};
 </script>
 </body>
 </html>
