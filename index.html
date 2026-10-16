@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016035810">
+<meta name="app-version" content="20261016040313">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٩</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٠</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٩</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٠</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -499,11 +499,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <p class="sub" style="margin:0 0 10px;line-height:1.8">سجّل الجملة بصوتك أو بصوت حد من بيتك، بالعامية زي ما تحب، والتطبيق هيشغّلها في وقتها بدل صوت الجهاز. مثلًا ابنك يقول: «يلا يا بابا، قوم صلّي الفجر».</p>
     <div class="gen">
       <b>✨ مولّد الصوت الطبيعي</b>
-      <p class="sub" style="margin:4px 0 8px;line-height:1.8">صوت راجل طبيعي اسمه «كريم» بيتولّد على موبايلك نفسه. أول مرة بينزّل الصوت (حوالي ٦٠ ميجا)، وبعدها بيشتغل من غير نت. اكتب الجملة ودوس «ولّد واسمع».</p>
+      <p class="sub" style="margin:4px 0 8px;line-height:1.8">الجمل مكتوبة زي ما بتتنطق بالمصري عشان الصوت يطلع عامية: «أوم» مش «قوم»، و«دلوأتي» مش «دلوقتي». صوت راجل طبيعي اسمه «كريم» بيتولّد على موبايلك نفسه. أول مرة بينزّل الصوت (حوالي ٦٠ ميجا)، وبعدها بيشتغل من غير نت. اكتب الجملة ودوس «ولّد واسمع».</p>
       <div class="sub" style="margin:0 0 4px">الصوت</div>
       <div class="chips" id="genVoices" style="margin-bottom:8px"></div>
       <div class="set" style="padding:4px 0 10px;border:0"><div>سرعة الكلام <small id="genSpeedL"></small></div><input type="range" id="genSpeed" min="0.8" max="1.2" step="0.05" style="width:150px"></div>
-      <textarea id="genText" style="width:100%;min-height:70px">يَلّا يا محمود، قُوم صَلّي الفَجْر. الصَّلاة خَيْرٌ مِنَ النَّوْم.</textarea>
+      <textarea id="genText" style="width:100%;min-height:70px">يَلّا يا محمود، أوم صَلّي الفَجْر. الصَّلاةُ خَيْرٌ مِنَ النَّوْم.</textarea>
       <div class="row" style="margin-top:8px"><button class="btn pri" id="genBtn">✨ ولّد واسمع</button><select id="genSlot" style="flex:1;min-width:0"></select><button class="btn" id="genSave" disabled>💾 احفظه</button></div>
       <p class="sub" id="genStatus" style="margin:8px 0 0"></p>
       <button class="btn" id="genAll" style="width:100%;margin-top:8px">✨ ولّد كل الجمل المقترحة مرة واحدة</button>
@@ -2256,15 +2256,15 @@ $('genBtn').onclick=async()=>{unlock();if(genBusy)return;const txt=$('genText').
   genBusy=false;$('genBtn').disabled=false};
 $('genSave').onclick=async()=>{if(!genBlob)return;const k=$('genSlot').value;await saveRec(k,genBlob);toast('✅ اتحفظ');renderRec()};
 $('genSlot').onchange=()=>{const k=$('genSlot').value,b=k.startsWith('b:')&&dayBlocks(new Date()).find(({b})=>'b:'+b.id===k);
-  $('genText').value=b?'يَلّا، دِلْوَقْتي وَقْت '+b.b.title+'.':phraseFor(k);$('genSave').disabled=true;genBlob=null};
+  $('genText').value=b?blockPhrase(b.b.id,b.b.title):phraseFor(k);$('genSave').disabled=true;genBlob=null};
 $('genAll').onclick=async()=>{unlock();if(genBusy)return;if(!navigator.onLine&&!ttsMod){toast('أول مرة محتاج نت عشان ينزّل الصوت');return}
-  const jobs=[...REC_SLOTS.map(([k])=>[k,phraseFor(k)]),...dayBlocks(new Date()).map(({b})=>['b:'+b.id,'يَلّا، دِلْوَقْتي وَقْت '+b.title+'.'])];
+  const jobs=[...REC_SLOTS.map(([k])=>[k,phraseFor(k)]),...dayBlocks(new Date()).map(({b})=>['b:'+b.id,blockPhrase(b.id,b.title)])];
   genBusy=true;const btn=$('genAll');btn.disabled=true;let ok=0;
   for(let i=0;i<jobs.length;i++){const[k,t]=jobs[i];try{genSay('بيولّد '+ar(i+1)+' من '+ar(jobs.length)+'…');const b=await genVoice(t,genSay);await saveRec(k,b);ok++}catch(e){console.error(e)}}
   genBusy=false;btn.disabled=false;renderRec();genSay(ok?'✅ اتولّد '+ar(ok)+' جملة واتحفظوا، وهيشتغلوا في وقتهم.':'مقدرتش أولّد. اتأكد من النت وجرّب تاني.');if(ok)celebrate('أصواتك جاهزة 🎙️')};
 const _rr=recRow;recRow=function(k,title,hint){const r=_rr(k,title,hint),b=el('button','btn');b.textContent='✨ ولّد';
   b.onclick=async()=>{unlock();if(genBusy)return;genBusy=true;b.disabled=true;b.textContent='…';
-    try{const txt=k.startsWith('b:')?'يَلّا، دِلْوَقْتي وَقْت '+title.replace(/^▶ /,'')+'.':phraseFor(k,hint);const bl=await genVoice(txt,m=>{b.textContent=m.includes('٪')?m.replace(/.*: /,''):'…'});
+    try{const txt=k.startsWith('b:')?blockPhrase(k.slice(2),title.replace(/^▶ /,'')):phraseFor(k,hint);const bl=await genVoice(txt,m=>{b.textContent=m.includes('٪')?m.replace(/.*: /,''):'…'});
       await saveRec(k,bl);toast('✅ اتولّد واتحفظ');genBusy=false;renderRec();recPlay(k)}
     catch(e){toast('مقدرتش أولّد، اتأكد من النت');genBusy=false;b.disabled=false;b.textContent='✨ ولّد'}};
   r.querySelector('.row').prepend(b);return r};
@@ -2299,6 +2299,47 @@ $('genSpeed').oninput=e=>{profile.settings.genSpeed=Number(e.target.value);rende
 /* كل توليد بيعدّي على الصوت والسرعة المختارين */
 const _gv=genVoice;genVoice=async function(text,status){const raw=await _gv(text,status);status&&status('بيظبط الصوت…');return await voiceFx(raw,genStyle()[2],genSpeed())};
 const _rr2=renderRec;renderRec=function(){_rr2();renderGenVoices()};
+</script>
+<script>
+/* ===== جمل بالعامية المصرية مكتوبة زي ما بتتنطق ===== */
+Object.assign(PHRASES,{
+ 'p:fajr':'يَلّا يا {n}، أوم صَلّي الفَجْر. الصَّلاةُ خَيْرٌ مِنَ النَّوْم، رَبِّنا يِبارِك في يومَك.',
+ 'p:dhuhr':'الضُّهْر أدِّن يا {n}. سيب اللي في إيدَك، وأوم صَلّي، وارجَع كَمِّل.',
+ 'p:asr':'العَصْر أدِّن. يَلّا نِلْحَأ الصَّلا في وَأتها.',
+ 'p:maghrib':'المَغْرِب أدِّن. يَلّا عَ الصَّلا، وأول أدكار المِسا.',
+ 'p:isha':'العِشا أدِّن يا {n}. أوم صَلّي، وخَلَّص يومَك عَلى خير.',
+ 'pre':'فاضِل شُوَيَّة عَ الأدان. أوم اتْوَضّا، وجَهِّز نفسَك.'});
+const BLOCK_PH={
+ fajr:'صَباح الخير يا {n}. يَلّا نِصَلّي الفَجر، ونأول أدكار الصَّباح، ونِئرا وِرْدِنا.',
+ sport:'يَلّا بينا عَ الرِّياضة. ابْدأ بإحْما خَمَس دَأايِأ، وبَعدين مَشي أو تَمارين.',
+ bfast:'وَأت الفِطار مع البيت. سيب الموبايل، واُعُد مع مِراتَك وِولادَك.',
+ self:'دِلوَأتي وَأت إنَّك تِطَوَّر نَفسَك. خَمسة وأربِعين دِئيأة، اتْعَلِّم حاجة جِديدة.',
+ road:'وِانتَ في الطَّريء، راجِع مُهِمِّت النَّهارده الكِبيرة، واسْمَع دَرس مُفيد.',
+ dev:'بِسمِ الله، وَأت الشُّغل عَ المَنَصّة. اِأفِل الإشعارات، ورَكِّز في مُهِمّة واحدة بَس.',
+ dhuhr:'يَلّا صَلاة الضُّهر، وبَعدها غَدا خَفيف بِعيد عن الشّاشة.',
+ ops:'دِلوَأتي نِرُد عَ الطَّلَبة والمُدَرِّسين، ونِتابِع البوت والمُحتَوى.',
+ close:'يَلّا نِأفِل يوم الشُّغل. سَجِّل اللي خِلِص، واكتِب مُهِمِّت بُكرة.',
+ rest:'خِلِص الشُّغل، الحَمدُ لله. خُد راحة عِشرين دِئيأة، واهْدا.',
+ kids:'وَأت العِيال يا {n}. داكِر مَعاهُم، والعَب مَعاهُم، وأولوا أدكار المِسا سَوا.',
+ dinner:'يَلّا عَ العَشا مع البيت.',
+ wife:'نَيِّم العِيال، وبَعدين ساعة مع مِراتَك مِن غير موبايل.',
+ wird:'أبل ما تِنام، اِئرا وِردَك، واسأل نَفسَك: عَمَلت إيه النَّهارده؟',
+ witr:'يَلّا صَلّي الوِتر، وأول أدكار النُّوم. تِصبَح عَلى خير يا {n}.',
+ fsport:'يَلّا نِتمَشّى شُوَيَّة، ونِبدأ يوم الجُمعة بِنَشاط.',
+ fbf:'فِطار الجُمعة مع البيت. اُعُد مَعاهُم ورَوَّأ.',
+ kahf:'النَّهارده الجُمعة يا {n}. يَلّا نِئرا سورة الكَهف، ونِصَلّي عَ النَّبي كِتير.',
+ home:'وَأت البيت. اعمِل حاجة حِلوة مع العِيال.',
+ review:'يَلّا نِراجِع أُسبوع المَنَصّة: إيه اللي خِلِص، وإيه أهَم تَلات حاجات الأُسبوع الجّاي.',
+ ghusl:'يَلّا اتْجَهِّز للجُمعة: اغْتِسِل، وحُط ريحة حِلوة، وبَدَّري عَ الجامِع.',
+ jumua:'يَلّا عَ صَلاة الجُمعة.',
+ family:'وَأت الغَدا والعيلة. صِل رَحْمَك، وكَلِّم حَد مِن قَرايبَك.',
+ fkids:'يَلّا خُروجة مع العِيال.',
+ dua:'دي آخِر ساعة مِن يوم الجُمعة، ساعِت إجابة. اُدعي رَبِّنا.',
+ fdin:'يَلّا عَ العَشا مع البيت.',
+ fwife:'وَأت مِراتَك. اُعُد مَعاها مِن غير موبايل.',
+ fwird:'أبل ما تِنام، اِئرا وِردَك، واسأل نَفسَك: عَمَلت إيه النَّهارده؟',
+ fwitr:'يَلّا صَلّي الوِتر، وأول أدكار النُّوم. تِصبَح عَلى خير يا {n}.'};
+function blockPhrase(id,title){const t=BLOCK_PH[id];return(t||'يَلّا، دِلوَأتي وَأت '+title+'.').replace(/\{n\}/g,profile.settings.name||'محمود')}
 </script>
 </body>
 </html>
