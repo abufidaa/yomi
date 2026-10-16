@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016113411">
+<meta name="app-version" content="20261016113914">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٢</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٣</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٢</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٣</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -3301,6 +3301,24 @@ $('stopTalk').onclick=()=>{try{speechSynthesis.cancel()}catch(e){}talkUI(false)}
 function nightVol(){if(profile.settings.nightQuiet===false)return 1;const pt=prayerTimes(new Date()),m=nowMin();return(m>=pt.isha+60||m<pt.fajr-30)?.55:1}
 (function(){const c=cardOf('dndOn');if(!c)return;const r=el('div','set','<div>صوت أهدى بالليل<small>بعد العشا بساعة لحد قبل الفجر</small></div><label class="sw"><input type="checkbox" id="nqOn"><span></span></label>');c.appendChild(r);$('nqOn').checked=profile.settings.nightQuiet!==false;$('nqOn').onchange=e=>{profile.settings.nightQuiet=e.target.checked;saveProfile()}})();
 const _rx7=renderExtras;renderExtras=function(){_rx7();try{renderCmp()}catch(e){}};try{renderCmp()}catch(e){}
+</script>
+<script>
+/* ================= ٣.٣: ضبط النطق ================= */
+const PRON_C={'بابا':['بابا','بابَا','بَأبا','باابا','Baba','Baaba','Bāba'],'ماما':['ماما','مامَا','مَأما','Mama','Maama','Māma'],'بابي':['بابي','Babi','Baabi'],'مامي':['مامي','Mami','Maami'],'عمو':['عمو','عَمّو','Amo','3ammo'],'طنط':['طنط','Tant','Taant'],'حبيبي':['حبيبي','حَبيبي','Habibi'],'حبيبتي':['حبيبتي','حَبيبتي','Habibti']};
+const pronMap=()=>profile.settings.pron||{};
+const reEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+function applyPron(t){const m=pronMap();Object.keys(m).forEach(w=>{if(!m[w]||m[w]===w)return;t=String(t).replace(new RegExp('(^|[\\s،.؟!:])'+reEsc(w)+'(?=$|[\\s،.؟!:])','g'),'$1'+m[w])});return t}
+const _egy4=egy;egy=function(t){return applyPron(_egy4(t))};
+(function(){const c=el('div','card','<h3>🗣️ ضبط النطق</h3><p class="sub" style="margin:0 0 8px;line-height:1.8">لو كلمة بتتنطق غلط أو رقيقة زيادة (زي «بابا» و«ماما»)، اسمع الكتابات المختلفة واختار اللي بتطلع صح. اللي فيها حروف إنجليزي ساعات بتطلع أتقل.</p><div id="prL"></div><div class="sub" style="margin:12px 0 4px">كلمة تانية؟</div><div class="row"><input id="prW" placeholder="الكلمة" style="flex:1;min-width:0"><input id="prS" placeholder="تتنطق كده" style="flex:1;min-width:0"></div><div class="row" style="margin-top:6px"><button class="btn" id="prT">▶ اسمع</button><button class="btn pri" id="prA">احفظ</button></div>');
+  const v=$('v-s-voice'),cmp=$('cmpL');(cmp?cmp.closest('.card'):(v.querySelector(':scope > p.sub')||v.firstElementChild)).after(c);
+  $('prT').onclick=()=>{unlock();const s=$('prS').value.trim()||$('prW').value.trim();if(s)gsSay(profile.settings.vLang||'ar','يا '+s+'، يلا نصلي.')};
+  $('prA').onclick=()=>{const w=$('prW').value.trim(),s=$('prS').value.trim();if(!w||!s){toast('اكتب الكلمة وإزاي تتنطق');return}(profile.settings.pron=pronMap())[w]=s;saveProfile();$('prW').value='';$('prS').value='';renderPron();toast('✅ اتحفظ')}})();
+function renderPron(){const L2=$('prL');if(!L2)return;L2.innerHTML='';const m=pronMap();
+  Object.keys(PRON_C).forEach(w=>{const box=el('div','item','<b></b><div class="chips" style="margin:6px 0 0"></div>');box.querySelector('b').textContent=w+(m[w]&&m[w]!==w?' ← '+m[w]:'');const ch=box.querySelector('.chips');
+    PRON_C[w].forEach(v=>{const b=el('button',(m[w]||w)===v?'on':'');b.textContent='▶ '+v;b.onclick=()=>{unlock();gsSay(profile.settings.vLang||'ar','يا '+v+'، يلا نصلي.');(profile.settings.pron=pronMap())[w]=v;saveProfile();renderPron()};ch.appendChild(b)});L2.appendChild(box)});
+  Object.keys(m).filter(w=>!PRON_C[w]).forEach(w=>{const r=el('div','set','<div></div><span class="row"><button class="btn" data-a="p">▶</button><button class="btn dan" data-a="x">✕</button></span>');r.querySelector('div').textContent=w+' ← '+m[w];
+    r.querySelector('[data-a=p]').onclick=()=>{unlock();gsSay(profile.settings.vLang||'ar',m[w])};r.querySelector('[data-a=x]').onclick=()=>{delete m[w];saveProfile();renderPron()};L2.appendChild(r)})}
+const _rx8=renderExtras;renderExtras=function(){_rx8();try{renderPron()}catch(e){}};try{renderPron()}catch(e){}
 </script>
 </body>
 </html>
