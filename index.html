@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016044058">
+<meta name="app-version" content="20261016044911">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٥</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٦</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٥</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٦</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -2731,6 +2731,87 @@ const _rms=renderMonthSum;renderMonthSum=function(){_rms();const box=$('mSum');i
     const ta=$('bkTxt');ta.hidden=false;ta.value=t;$('bkGo').hidden=true;try{if(navigator.share){await navigator.share({title:'نسخة يومي',text:t});return}}catch(e){}try{await navigator.clipboard.writeText(t);toast('اتنسخت، احفظها في ملاحظاتك أو ابعتها لنفسك')}catch(e){ta.select();toast('انسخ الكلام اللي في المربع')}};
   $('bkIn').onclick=()=>{const ta=$('bkTxt');ta.hidden=false;ta.value='';ta.placeholder='الصق النسخة هنا';$('bkGo').hidden=false;ta.focus()};
   $('bkGo').onclick=()=>{try{const j=JSON.parse($('bkTxt').value);if(!j||!j.data)throw 0;if(!confirm('ده هيستبدل بياناتك الحالية. متأكد؟'))return;Object.keys(j.data).forEach(k=>{if(k.startsWith('yomi:'))localStorage.setItem(k,j.data[k])});toast('✅ اترجّعت، بيفتح تاني…');setTimeout(()=>location.reload(),900)}catch(e){toast('النسخة دي مش سليمة')}}})();
+</script>
+<script>
+/* ===== ٢.٦: فصحى مشكّلة بالكامل + «يا بَطَلِي / يا بَطَلَتِي» ===== */
+const PH_EGY=Object.assign({},PHRASES),BL_EGY=Object.assign({},BLOCK_PH);
+const PH_FUS={
+ 'p:fajr':'يا {n}، حانَ وَقْتُ صَلاةِ الفَجْرِ. الصَّلاةُ خَيْرٌ مِنَ النَّوْمِ، هَيّا إِلى الصَّلاةِ.',
+ 'p:dhuhr':'يا {n}، حانَ وَقْتُ صَلاةِ الظُّهْرِ. هَيّا إِلى الصَّلاةِ، ثُمَّ نُكْمِلُ عَمَلَنا.',
+ 'p:asr':'يا {n}، حانَ وَقْتُ صَلاةِ العَصْرِ. هَيّا لِنُدْرِكَ الصَّلاةَ في وَقْتِها.',
+ 'p:maghrib':'يا {n}، حانَ وَقْتُ صَلاةِ المَغْرِبِ. هَيّا إِلى الصَّلاةِ، ثُمَّ أَذْكارِ المَساءِ.',
+ 'p:isha':'يا {n}، حانَ وَقْتُ صَلاةِ العِشاءِ. هَيّا إِلى الصَّلاةِ، لِنَخْتِمَ يَوْمَنا بِخَيْرٍ.',
+ 'pre':'يا {n}، اقْتَرَبَ وَقْتُ الأَذانِ. هَيّا لِنَسْتَعِدَّ لِلصَّلاةِ بِالوُضُوءِ.'};
+const BL_FUS={
+ fajr:'صَباحُ الخَيْرِ يا {n}. هَيّا لِنُصَلِّيَ الفَجْرَ، ثُمَّ نَقْرَأَ أَذْكارَ الصَّباحِ وَوِرْدَنا مِنَ القُرْآنِ.',
+ sport:'حانَ وَقْتُ الرِّياضَةِ يا {n}. لِنَبْدَأْ بِالإِحْماءِ خَمْسَ دَقائِقَ، ثُمَّ المَشْيِ أَوِ التَّمارِينِ.',
+ bfast:'حانَ وَقْتُ الفُطُورِ مَعَ الأُسْرَةِ. لِنَضَعِ الهاتِفَ جانِبًا، وَنَجْلِسْ مَعَ مَنْ نُحِبُّ.',
+ self:'حانَ وَقْتُ تَطْوِيرِ الذّاتِ. خَمْسٌ وَأَرْبَعُونَ دَقِيقَةً لِتَعَلُّمِ شَيْءٍ جَدِيدٍ.',
+ road:'في الطَّرِيقِ، لِنُراجِعْ مُهِمَّةَ اليَوْمِ الكُبْرى، وَنَسْتَمِعْ إِلى دَرْسٍ نافِعٍ.',
+ dev:'بِسْمِ اللهِ، حانَ وَقْتُ العَمَلِ عَلى المَنَصَّةِ. لِنُغْلِقِ الإِشْعاراتِ، وَنُرَكِّزْ عَلى مُهِمَّةٍ واحِدَةٍ فَقَطْ.',
+ dhuhr:'حانَ وَقْتُ صَلاةِ الظُّهْرِ، ثُمَّ غَداءٍ خَفِيفٍ بَعِيدًا عَنِ الشّاشَةِ.',
+ ops:'حانَ وَقْتُ الرَّدِّ عَلى الطُّلّابِ وَالمُعَلِّمِينَ، وَمُتابَعَةِ المُحْتَوى.',
+ close:'لِنَخْتِمْ يَوْمَ العَمَلِ: نُسَجِّلُ ما أَنْجَزْناهُ، وَنَكْتُبُ مُهِمَّةَ الغَدِ.',
+ rest:'انْتَهى العَمَلُ، وَالحَمْدُ لِلّهِ. حانَ وَقْتُ الرّاحَةِ.',
+ kids:'حانَ وَقْتُ الأَبْناءِ يا {n}. لِنُذاكِرْ مَعَهُمْ وَنَلْعَبْ، وَنَقْرَأْ أَذْكارَ المَساءِ مَعًا.',
+ dinner:'حانَ وَقْتُ العَشاءِ مَعَ الأُسْرَةِ.',
+ wife:'حانَ وَقْتُ نَوْمِ الأَطْفالِ، ثُمَّ وَقْتٍ هادِئٍ مَعَ شَرِيكِ الحَياةِ بِلا هاتِفٍ.',
+ wird:'قَبْلَ النَّوْمِ، لِنَقْرَأْ وِرْدَنا، وَنُحاسِبْ أَنْفُسَنا: ماذا قَدَّمْنا اليَوْمَ؟',
+ witr:'حانَ وَقْتُ صَلاةِ الوِتْرِ وَأَذْكارِ النَّوْمِ. نَوْمًا هانِئًا يا {n}.',
+ fsport:'صَباحُ الجُمُعَةِ المُبارَكِ. لِنَبْدَأْ يَوْمَنا بِمَشْيٍ خَفِيفٍ.',
+ fbf:'حانَ وَقْتُ فُطُورِ الجُمُعَةِ مَعَ الأُسْرَةِ.',
+ kahf:'اليَوْمَ الجُمُعَةُ يا {n}. لِنَقْرَأْ سُورَةَ الكَهْفِ، وَنُكْثِرْ مِنَ الصَّلاةِ عَلى النَّبِيِّ صَلّى اللهُ عَلَيْهِ وَسَلَّمَ.',
+ home:'حانَ وَقْتُ الأُسْرَةِ. لِنَصْنَعْ ذِكْرى جَمِيلَةً مَعَ الأَبْناءِ.',
+ review:'لِنُراجِعْ أُسْبُوعَ المَنَصَّةِ: ماذا أَنْجَزْنا؟ وَما أَهَمُّ ثَلاثِ مَهامَّ لِلأُسْبُوعِ القادِمِ؟',
+ ghusl:'لِنَسْتَعِدَّ لِلجُمُعَةِ: نَغْتَسِلُ، وَنَتَطَيَّبُ، وَنُبَكِّرُ إِلى المَسْجِدِ.',
+ jumua:'حانَ وَقْتُ صَلاةِ الجُمُعَةِ، هَيّا إِلى المَسْجِدِ.',
+ family:'حانَ وَقْتُ الغَداءِ وَصِلَةِ الرَّحِمِ. لِنَتَّصِلْ بِأَحَدِ الأَقارِبِ.',
+ fkids:'حانَ وَقْتُ النُّزْهَةِ مَعَ الأَبْناءِ.',
+ dua:'هذِهِ آخِرُ ساعَةٍ مِنْ يَوْمِ الجُمُعَةِ، ساعَةُ إِجابَةٍ، فَلْنُكْثِرْ مِنَ الدُّعاءِ.',
+ fdin:'حانَ وَقْتُ العَشاءِ مَعَ الأُسْرَةِ.',
+ fwife:'حانَ وَقْتٌ هادِئٌ مَعَ شَرِيكِ الحَياةِ بِلا هاتِفٍ.',
+ fwird:'قَبْلَ النَّوْمِ، لِنَقْرَأْ وِرْدَنا، وَنُحاسِبْ أَنْفُسَنا: ماذا قَدَّمْنا اليَوْمَ؟',
+ fwitr:'حانَ وَقْتُ صَلاةِ الوِتْرِ وَأَذْكارِ النَّوْمِ. نَوْمًا هانِئًا يا {n}.'};
+const isFus=()=>(profile.settings.dialect||'fusha')==='fusha';
+function applyDialect(){Object.assign(PHRASES,isFus()?PH_FUS:PH_EGY);Object.keys(BL_EGY).forEach(k=>{BLOCK_PH[k]=isFus()?(BL_FUS[k]||BL_EGY[k]):BL_EGY[k]})}
+/* أول مرة: فصحى + «يا بطلي» */
+if(!profile.settings.fus1){profile.settings.fus1=1;profile.settings.dialect='fusha';if(!profile.settings.callAs||profile.settings.callAs==='name')profile.settings.callAs='batal';saveProfile()}
+applyDialect();
+CALLS.unshift(['batal','بطلي / بطلتي','u']);
+const _callee=callee;callee=function(){const s=profile.settings;if((s.callAs||'batal')==='batal')return{addr:s.userFem?'بَطَلَتِي':'بَطَلِي',fem:!!s.userFem};return _callee()};
+personalize=function(t){const c=callee();t=String(t);if(!/\{n\}/.test(t))t='يا {n}، '+t;t=t.replace(/\{n\}/g,c.addr);if(c.fem&&!isFus())FEMW.forEach(([a,b])=>{t=t.split(a).join(b)});return t};
+/* كلام صوت الجهاز بالفصحى المشكّلة */
+const PRG={'الفجر':'الفَجْرِ','الظهر':'الظُّهْرِ','العصر':'العَصْرِ','المغرب':'المَغْرِبِ','العشاء':'العِشاءِ'};
+const PRK={'الفجر':'fajr','الظهر':'dhuhr','العصر':'asr','المغرب':'maghrib','العشاء':'isha'};
+const FMIN={1:'دَقِيقَةٍ واحِدَةٍ',2:'دَقِيقَتَيْنِ',3:'ثَلاثِ دَقائِقَ',5:'خَمْسِ دَقائِقَ',10:'عَشْرِ دَقائِقَ',15:'رُبْعِ ساعَةٍ',20:'عِشْرِينَ دَقِيقَةً',25:'خَمْسٍ وَعِشْرِينَ دَقِيقَةً',30:'نِصْفِ ساعَةٍ',40:'أَرْبَعِينَ دَقِيقَةً',45:'ثَلاثَةِ أَرْباعِ ساعَةٍ',60:'ساعَةٍ'};
+const fmin=n=>FMIN[+n]||(n+' دَقِيقَةً');
+const FMIN_N={1:'دَقِيقَةٌ واحِدَةٌ',2:'دَقِيقَتانِ',3:'ثَلاثُ دَقائِقَ',5:'خَمْسُ دَقائِقَ',10:'عَشْرُ دَقائِقَ',15:'رُبْعُ ساعَةٍ',20:'عِشْرُونَ دَقِيقَةً',25:'خَمْسٌ وَعِشْرُونَ دَقِيقَةً',30:'نِصْفُ ساعَةٍ'};
+const cleanStep=s=>String(s).replace(/\s*\(?[0-9٠-٩]+\s*(دقايق|دقيقة|د)\)?/g,'').trim();
+function fusha(t){if(!t)return t;t=String(t).trim();const C=callee(),N=C.addr,F=C.fem,g=(m,f)=>F?f:m;let m;
+  if((m=t.match(/دخل وقت صلاة ([^\s،.]+)/)))return phraseFor('p:'+(PRK[m[1]]||'fajr'));
+  if((m=t.match(/^باقي ([0-9٠-٩]+) دقايق على صلاة ([^\s،.]+)/)))return 'يا '+N+'، الباقِي عَلى أَذانِ '+(PRG[m[2]]||m[2])+' '+(FMIN_N[+toLat(m[1])]||toLat(m[1])+' دَقِيقَةً')+'. هَيّا لِنَسْتَعِدَّ بِالوُضُوءِ.';
+  if((m=t.match(/^(?:يا .+?، )?دلوقتي وقت (.+?)\.(?:\s*(.*))?$/))){const f=dayBlocks(new Date()).find(({b})=>b.title===m[1].trim());return f?blockPhrase(f.b.id,f.b.title):'يا '+N+'، حانَ وَقْتُ '+m[1]+'.'}
+  if((m=t.match(/^دلوقتي (.+?)(?:، (.+))?$/))){const mm=(t.match(/([0-9٠-٩]+)\s*(دقايق|دقيقة)/)||[])[1];return 'لِنَبْدَأْ: '+cleanStep(m[1])+(mm?'، لِمُدَّةِ '+fmin(toLat(mm)):'')+'.'}
+  if((m=t.match(/^خلص وقت (.+)$/)))return 'انْتَهى وَقْتُ '+cleanStep(m[1])+'.';
+  if((m=t.match(/^برافو(?: يا .+?)?، خلصت (.+)$/)))return g('أَحْسَنْتَ','أَحْسَنْتِ')+' يا '+N+'، '+g('أَنْهَيْتَ','أَنْهَيْتِ')+' '+m[1]+'.';
+  if((m=t.match(/^فاضل خمس دقايق على (.+?)، وبعدها (.+)$/)))return 'بَقِيَتْ خَمْسُ دَقائِقَ عَلى نِهايَةِ '+m[1]+'، ثُمَّ '+m[2]+'.';
+  if(/^خلصت جلسة التركيز/.test(t))return g('أَحْسَنْتَ','أَحْسَنْتِ')+' يا '+N+'، انْتَهَتْ جَلْسَةُ التَّرْكِيزِ. '+g('خُذْ','خُذِي')+' قِسْطًا مِنَ الرّاحَةِ.';
+  if(/^الراحة خلصت/.test(t))return 'انْتَهَتِ الرّاحَةُ، لِنَعُدْ إِلى العَمَلِ.';
+  const R=[[/أذكار الصباح/,'يا '+N+'، حانَ وَقْتُ أَذْكارِ الصَّباحِ.'],[/أذكار المساء/,'يا '+N+'، حانَ وَقْتُ أَذْكارِ المَساءِ.'],[/^النهارده الجمعة/,'اليَوْمَ الجُمُعَةُ يا '+N+'. مِنْ سُنَنِ هذا اليَوْمِ قِراءَةُ سُورَةِ الكَهْفِ، وَالإِكْثارُ مِنَ الصَّلاةِ عَلى النَّبِيِّ.'],
+    [/^قبل ما تنام/,'قَبْلَ النَّوْمِ، لِنَقْرَأْ سُورَةَ المُلْكِ.'],[/يوم صيام/,'غَدًا يَوْمُ صِيامٍ لِمَنْ نَوى، فَلا نَنْسَ السَّحُورَ.'],[/ساعة إجابة|ساعة الاستجابة/,'هذِهِ آخِرُ ساعَةٍ مِنْ يَوْمِ الجُمُعَةِ، فَلْنُكْثِرْ مِنَ الدُّعاءِ.'],
+    [/الثلث الأخير/,'حَلَّ الثُّلُثُ الأَخِيرُ مِنَ اللَّيْلِ، فَلْنَقُمْ وَلَوْ بِرَكْعَتَيْنِ.'],[/نص ساعة على الفجر/,'بَقِيَ نِصْفُ ساعَةٍ عَلى الفَجْرِ، هَيّا لِنَتَوَضَّأَ وَنُصَلِّيَ رَكْعَتَيْنِ.'],[/الضحى/,'دَخَلَ وَقْتُ صَلاةِ الضُّحى.'],
+    [/مراجعة الحفظ/,'حانَ وَقْتُ مُراجَعَةِ الحِفْظِ.'],[/ماية/,'حانَ وَقْتُ شُرْبِ الماءِ.'],[/القيلولة/,'انْتَهَتِ القَيْلُولَةُ، لِنُكْمِلْ يَوْمَنا.'],[/السلام عليكم/,'السَّلامُ عَلَيْكُمْ يا '+N+'. هذا صَوْتُ التَّطْبِيقِ.']];
+  for(const[r,s]of R)if(r.test(t))return s;
+  return t}
+const _egy0=egy;egy=function(t){return isFus()?fusha(t):_egy0(t)};
+/* واجهة: لغة الكلام + المستخدم راجل ولا ست */
+(function(){const c=el('div','card','<h3>لغة الكلام والنداء</h3><div class="set"><div>لغة الكلام<small>الفصحى مشكّلة عشان النطق يطلع صح</small></div><select id="dialSel"><option value="fusha">فصحى مشكّلة</option><option value="egy">عامية مصرية</option></select></div><div class="set" style="border:0"><div>المستخدم<small>عشان «يا بَطَلِي» أو «يا بَطَلَتِي»</small></div><select id="userG"><option value="m">راجل</option><option value="f">ست</option></select></div>');
+  const v=$('v-s-voice');(v.querySelector(':scope > p.sub')||v.firstElementChild).after(c);$('dialSel').value=isFus()?'fusha':'egy';$('userG').value=profile.settings.userFem?'f':'m';
+  const refresh=()=>{saveProfile();applyDialect();try{$('genSlot').dispatchEvent(new Event('change'));renderRec()}catch(e){}};
+  $('dialSel').onchange=e=>{profile.settings.dialect=e.target.value;refresh();toast(isFus()?'الكلام بقى فصحى مشكّلة':'الكلام بقى عامية مصرية')};
+  $('userG').onchange=e=>{profile.settings.userFem=e.target.value==='f';refresh();toast('هيناديك: يا '+callee().addr)}})();
+/* نص المولّد يبدأ بجملة الفجر الجديدة */
+setTimeout(()=>{try{const t=$('genText');if(t&&/يَلّا|أوم/.test(t.value))t.value=phraseFor('p:fajr')}catch(e){}},300);
 </script>
 </body>
 </html>
