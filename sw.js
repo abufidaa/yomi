@@ -1,5 +1,5 @@
 // يومي — بيجيب أحدث نسخة من الموقع دايمًا لو فيه نت، ولو مفيش بيفتح آخر نسخة محفوظة
-const CACHE='yomi-20261016120517';
+const CACHE='yomi-20261016122618';
 const CORE=['./','./index.html','./quran.js','./hisn.js','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)))});
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
