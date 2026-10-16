@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261015204215">
+<meta name="app-version" content="20261016032418">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٥</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٦</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٥</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٦</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -506,7 +506,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <div class="set"><div>نغمة التنبيهات<small>اختارها وهتسمعها على طول</small></div><select id="toneSel"><option value="chime">ترانيم</option><option value="bell">جرس</option><option value="soft">هادية</option><option value="tick">قصيرة</option></select></div>
     <div class="set"><div>صوت المنادي<small>اختار صوت راجل طبيعي من الأصوات اللي على جهازك</small></div><select id="voiceSel" style="max-width:180px"></select></div>
     <div class="set"><div>سرعة الكلام</div><input type="range" id="vRate" min="0.7" max="1.2" step="0.05" style="width:140px"></div>
-    <div class="row" style="padding-top:8px"><button class="btn" id="voiceTest2">🔊 اسمع الصوت</button></div>
+    <div class="row" style="padding-top:8px"><button class="btn" id="voiceTest2">🔊 اسمع الصوت</button><button class="btn" id="voiceRescan">🔄 دوّر على الأصوات تاني</button></div>
     <p class="sub" id="voiceTip" style="margin:8px 0 0;line-height:1.8"></p>
   </div>
   <div class="card">
@@ -2145,6 +2145,32 @@ const _rFA=renderFreeAd;renderFreeAd=function(){_rFA();const box=$('freeAd');if(
   b.onclick=async()=>{b.disabled=true;b.textContent='بينزل الـ ٥ أذانات…';const af=profile.settings.adhanFor=profile.settings.adhanFor||{};
     for(const a of FREE_ADHANS.filter(x=>x.pr)){await addFree(a,true);af[a.pr]=a.id}saveProfile();_rAN();renderFreeAd();toast('تمام، كل صلاة بقى ليها أذانها')};
   box.prepend(b)};
+</script>
+<style>.vsteps{margin:8px 0 0;padding-inline-start:20px;line-height:1.9;font-size:14px;color:var(--ink)}.vsteps b{color:var(--gold)}</style>
+<script>
+/* ===== أصوات عربي: دوّر أكتر من مرة، ووضّح الخطوات لو مفيش ===== */
+renderVoiceSel=function(){const s=$('voiceSel');if(!s)return;const vs=arVoices();s.innerHTML='';
+  if(!vs.length){const o=el('option');o.textContent='لسه مفيش صوت عربي على الموبايل';s.appendChild(o);s.disabled=true}
+  else{s.disabled=false;vs.forEach(v=>{const o=el('option');o.value=v.name;o.textContent=v.name.replace(/Microsoft |Google |Online |\(Natural\)| - Arabic/g,'').trim()+(MALE.test(v.name)?' ♂':FEM.test(v.name)?' ♀':'');s.appendChild(o)});if(arVoice)s.value=arVoice.name}
+  const tip=$('voiceTip');tip.innerHTML='';
+  if(vs.length){tip.textContent='لقيت '+ar(vs.length)+' صوت عربي على جهازك. جرّب كل واحد بزرار «اسمع الصوت» واختار اللي يريحك.';return}
+  const isA=/Android/i.test(navigator.userAgent),isI=/iPhone|iPad/i.test(navigator.userAgent);
+  const head=el('div');head.textContent='عشان تضيف صوت عربي على موبايلك:';tip.appendChild(head);
+  const ol=el('ol','vsteps');
+  (isA?['افتح <b>Google Play</b> ودوّر على <b>«خدمات الكلام من Google»</b> (Speech Recognition and Synthesis from Google)، ودوس تثبيت أو تحديث.',
+    'افتح <b>الإعدادات</b> في الموبايل، واكتب في البحث: <b>تحويل النص إلى كلام</b>.',
+    'في <b>المحرك المفضل</b> اختار <b>خدمات الكلام من Google</b>.',
+    'دوس على علامة الترس ⚙️ اللي جنبه، وبعدين <b>تثبيت بيانات الصوت</b>، واختار <b>العربية</b> ونزّلها.',
+    'من نفس المكان تقدر تختار <b>صوت راجل</b>، وتسمعه قبل ما تختار.',
+    'اقفل كروم خالص وافتح التطبيق تاني، ودوس <b>«دوّر على الأصوات تاني»</b>.']
+   :isI?['افتح <b>الإعدادات</b> ← <b>تسهيلات الاستخدام</b> ← <b>المحتوى المنطوق</b> ← <b>الأصوات</b>.','اختار <b>العربية</b> ونزّل صوت <b>ماجد</b> (صوت راجل).','اقفل سفاري وافتح التطبيق تاني، ودوس <b>«دوّر على الأصوات تاني»</b>.']
+   :['افتح التطبيق من متصفح <b>Edge</b>، فيه صوت <b>«شاكر»</b> المصري الطبيعي جاهز من غير تثبيت.','أو من إعدادات ويندوز: <b>الوقت واللغة</b> ← <b>الكلام</b> ← <b>إضافة أصوات</b> ← <b>العربية</b>.'])
+   .forEach(t=>{const li=el('li');li.innerHTML=t;ol.appendChild(li)});tip.appendChild(ol)};
+function rescanVoices(manual){try{speechSynthesis.getVoices()}catch(e){}pickVoice();renderVoiceSel();
+  if(manual){const n=arVoices().length;toast(n?'لقيت '+ar(n)+' صوت عربي ✅':'لسه مفيش صوت عربي، امشي على الخطوات اللي تحت')}}
+$('voiceRescan').onclick=()=>{unlock();rescanVoices(true)};
+let vTries=0;const vTimer=setInterval(()=>{vTries++;rescanVoices(false);if(arVoices().length||vTries>12)clearInterval(vTimer)},1500);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')rescanVoices(false)});
 </script>
 </body>
 </html>
