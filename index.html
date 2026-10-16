@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016032418">
+<meta name="app-version" content="20261016032802">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٦</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ١.٧</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٦</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ١.٧</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -493,6 +493,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <div class="set"><div>اسمك<small>عشان يناديك بيه</small></div><input id="uname" style="width:130px"></div>
     <div class="row" style="padding-top:10px"><button class="btn" id="voiceTest">🔊 جرّب الصوت</button></div>
     <p class="sub" id="voiceNote" style="margin:8px 0 0"></p>
+  </div>
+  <div class="card" id="recCard">
+    <h3>🎙️ صوت بشري: سجّل بصوتك</h3>
+    <p class="sub" style="margin:0 0 10px;line-height:1.8">سجّل الجملة بصوتك أو بصوت حد من بيتك، بالعامية زي ما تحب، والتطبيق هيشغّلها في وقتها بدل صوت الجهاز. مثلًا ابنك يقول: «يلا يا بابا، قوم صلّي الفجر».</p>
+    <div id="recList"></div>
+    <details style="margin-top:8px"><summary class="sub" style="cursor:pointer">فقرات اليوم (سجّل لكل فقرة جملة تبدأ بيها)</summary><div id="recBlocks" style="margin-top:8px"></div></details>
   </div>
   <div class="card">
     <h3>صوت الأذان والمنادي</h3>
@@ -2171,6 +2177,50 @@ function rescanVoices(manual){try{speechSynthesis.getVoices()}catch(e){}pickVoic
 $('voiceRescan').onclick=()=>{unlock();rescanVoices(true)};
 let vTries=0;const vTimer=setInterval(()=>{vTries++;rescanVoices(false);if(arVoices().length||vTries>12)clearInterval(vTimer)},1500);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')rescanVoices(false)});
+</script>
+<style>
+.rec{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--card)}
+.rec .rt{font-weight:700}.rec .rs{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.rec .row{gap:6px}.rec.has{border-color:color-mix(in srgb,var(--ib) 55%,var(--line))}
+.rec .btn.recording{background:#C0392B;border-color:#C0392B;color:#fff;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.6}}
+</style>
+<script>
+/* ===== صوت بشري: تسجيلات بصوتك بدل صوت الجهاز ===== */
+const REC_SLOTS=[['p:fajr','🌅 الفجر','يلا يا محمود، قوم صلّي الفجر، الصلاة خير من النوم'],['p:dhuhr','☀️ الظهر','الظهر أذّن، سيب اللي في إيدك وقوم صلّي'],['p:asr','🌤️ العصر','العصر أذّن، يلا نصلّي'],['p:maghrib','🌇 المغرب','المغرب أذّن، يلا على الصلاة'],['p:isha','🌙 العشاء','العشا أذّن، قوم صلّي العشا'],['pre','⏳ قبل الأذان','باقي شوية على الصلاة، قوم اتوضّى']];
+const recHas=k=>!!(profile.settings.recs||{})[k];
+let recMR=null,recKey=null,recChunks=[],recAudio=null;
+async function recStart(k,btn){if(recMR){recStop();return}
+  try{const st=await navigator.mediaDevices.getUserMedia({audio:true});recChunks=[];recKey=k;recMR=new MediaRecorder(st);
+    recMR.ondataavailable=e=>{if(e.data.size)recChunks.push(e.data)};
+    recMR.onstop=async()=>{st.getTracks().forEach(t=>t.stop());const blob=new Blob(recChunks,{type:recMR.mimeType||'audio/webm'});recMR=null;
+      if(blob.size<1500){toast('التسجيل قصير أوي، جرّب تاني');renderRec();return}
+      await fput('rec:'+recKey,blob);(profile.settings.recs=profile.settings.recs||{})[recKey]=1;saveProfile();toast('✅ اتحفظ صوتك');renderRec();recPlay(recKey)};
+    recMR.start();btn.classList.add('recording');btn.textContent='⏹ وقّف التسجيل';setTimeout(()=>{if(recMR&&recKey===k)recStop()},15000)}
+  catch(e){toast('محتاج تسمح للتطبيق يستخدم المايك')}}
+function recStop(){try{recMR&&recMR.state!=='inactive'&&recMR.stop()}catch(e){}}
+async function recPlay(k){try{const b=await fget('rec:'+k);if(!b)return false;if(recAudio)recAudio.pause();recAudio=new Audio(URL.createObjectURL(b));await recAudio.play();return true}catch(e){return false}}
+async function recFile(k,f){if(!f)return;if(f.size>8*1024*1024){toast('الملف كبير، اختار ملف أقل من ٨ ميجا');return}
+  await fput('rec:'+k,f);(profile.settings.recs=profile.settings.recs||{})[k]=1;saveProfile();toast('✅ اتحفظ الصوت');renderRec()}
+function recRow(k,title,hint){const has=recHas(k),r=el('div','rec'+(has?' has':''),'<div class="rt"></div><div class="rs"></div><div class="row"><button class="btn pri" data-a="r"></button><button class="btn" data-a="p">▶ اسمع</button><label class="btn">📁 ملف<input type="file" accept="audio/*" hidden></label><button class="btn dan" data-a="x" aria-label="امسح">✕</button></div>');
+  r.querySelector('.rt').textContent=title+(has?' ✓':'');r.querySelector('.rs').textContent='اقتراح: «'+hint+'»';
+  const rb=r.querySelector('[data-a=r]');rb.textContent=has?'⏺ سجّل تاني':'⏺ سجّل';rb.onclick=()=>{unlock();recStart(k,rb)};
+  const pb=r.querySelector('[data-a=p]'),xb=r.querySelector('[data-a=x]');pb.disabled=!has;xb.disabled=!has;
+  pb.onclick=()=>{unlock();recPlay(k)};
+  xb.onclick=async()=>{const d=profile.settings.recs||{};delete d[k];saveProfile();try{await fput('rec:'+k,null)}catch(e){}renderRec()};
+  r.querySelector('input').onchange=e=>recFile(k,e.target.files[0]);return r}
+function renderRec(){const L=$('recList'),B=$('recBlocks');if(!L)return;if(recMR)return;L.innerHTML='';REC_SLOTS.forEach(([k,t,s])=>L.appendChild(recRow(k,t,s.replace('محمود',profile.settings.name||'محمود'))));
+  B.innerHTML='';dayBlocks(new Date()).forEach(({b})=>B.appendChild(recRow('b:'+b.id,'▶ '+b.title,'يلا، دلوقتي وقت '+b.title)))}
+/* لما التطبيق يجي يتكلم: لو فيه تسجيل للجملة دي، شغّله بدل صوت الجهاز */
+function recSlotFor(t){let m=String(t).match(/دخل وقت صلاة (الفجر|الظهر|العصر|المغرب|العشاء)/);
+  if(m){const k=Object.keys(PN).find(x=>PN[x]===m[1]);if(k)return'p:'+k}
+  if(/^باقي .+ على صلاة/.test(t))return'pre';
+  m=String(t).match(/دلوقتي وقت (.+?)\./);if(m){const f=dayBlocks(new Date()).find(({b})=>b.title===m[1].trim());if(f)return'b:'+f.b.id}return null}
+const _spk2=speak;
+speak=function(t){const s=profile.settings,k=t&&recSlotFor(t);
+  if(k&&recHas(k)&&s.voice&&s.silent!==dkey(new Date())&&unlocked){try{speechSynthesis.cancel()}catch(e){}playTone('soft');setTimeout(async()=>{if(!await recPlay(k))_spk2(t)},600);return}
+  _spk2(t)};
+const _rAN2=renderAdhanNames;renderAdhanNames=function(){_rAN2();renderRec()};
 </script>
 </body>
 </html>
