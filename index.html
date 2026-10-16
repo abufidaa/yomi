@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016110521">
+<meta name="app-version" content="20261016112908">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.٠</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٣.١</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.٠</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٣.١</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -3154,6 +3154,120 @@ setInterval(()=>{try{const n=new Date(),k=dkey(n),m=nowMin(),once=id=>{if(local.
   if(profile.settings.rmSleep!==false&&m>=1320&&m<1322&&once('sleep'))alertUser('🌙 جهّز نفسك للنوم','',L('يا '+NM()+'، اقْتَرَبَ وَقْتُ النَّوْمِ. لِنَتَوَضَّأْ وَنَقْرَأْ أَذْكارَ النَّوْمِ.','يا '+NM()+'، قرّب وقت النوم. اتوضّا وقول أذكار النوم.'))}catch(e){}},30000);
 /* ربط */
 const _rx5=renderExtras;renderExtras=function(){_rx5();[()=>Object.keys(LISTS).forEach(renderList),renderMyRem,renderDaysNo,renderJournal].forEach(f=>{try{f()}catch(e){console.error(e)}})};
+</script>
+
+<style>
+.setup{position:fixed;inset:0;z-index:38;background:var(--pattern),linear-gradient(160deg,#1B3A6B,#0B152F);color:#fff;overflow:auto;padding:24px 18px calc(24px + env(safe-area-inset-bottom,0px))}
+.setup[hidden]{display:none}.setup .in{max-width:440px;margin:0 auto;text-align:center}
+.setup input,.setup select{width:100%;margin:6px 0 12px;font-size:17px;padding:12px;border-radius:12px;border:0;color:#0B152F;background:#fff}
+.setup label{display:block;text-align:start;font-weight:700;color:#F3E2BC}
+.setup .perm{text-align:start;background:rgba(255,255,255,.08);border-radius:14px;padding:12px;margin:10px 0;line-height:2}
+.offb{position:fixed;top:calc(env(safe-area-inset-top,0px) + 64px);left:12px;right:12px;z-index:9;background:#5C4A24;color:#fff;border-radius:12px;padding:8px 12px;font-size:13px;text-align:center}.offb[hidden]{display:none}
+.totop{position:fixed;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));width:44px;height:44px;border-radius:50%;border:1px solid var(--gold);background:var(--card);color:var(--ink);font-size:20px;z-index:6;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.2)}.totop[hidden]{display:none}
+</style>
+<div id="setupO" class="setup" hidden><div class="in">
+  <img class="brandlogo" alt="" style="width:96px;height:96px;border-radius:24px;background:#fff;object-fit:contain">
+  <h2 style="color:#F3E2BC;margin-top:12px">أهلًا بيك في «يومي»</h2>
+  <p style="opacity:.9;line-height:1.8">خطوة واحدة بس عشان التطبيق يعرفك ويشتغل كامل.</p>
+  <label for="suN">اسمك</label><input id="suN" placeholder="اكتب اسمك" maxlength="30">
+  <label for="suG">انت</label><select id="suG"><option value="m">راجل</option><option value="f">ست</option></select>
+  <label for="suC">التطبيق يناديك إزاي؟</label><select id="suC"><option value="name">باسمك</option><option value="batalname">يا بطلي + اسمك</option><option value="batal">يا بطلي / يا بطلتي</option></select>
+  <div class="perm" id="suP">🔔 الإشعارات: <b id="pN">—</b><br>📍 المكان (لمواعيد الصلاة والقبلة): <b id="pL">—</b><br>🔊 الصوت: <b id="pS">—</b><br>🧭 البوصلة: <b id="pC">—</b><br>💾 حفظ بياناتك على الجهاز: <b id="pD">—</b></div>
+  <button class="hbtn" id="suAll" style="width:100%;font-size:17px;padding:12px">✅ اسمح بكل الأذونات مرة واحدة</button>
+  <button class="hbtn ghost" id="suDone" style="width:100%;margin-top:10px">يلا نبدأ</button>
+</div></div>
+<div id="offB" class="offb" hidden>📴 مفيش نت. التطبيق شغال عادي، بس التلاوة والتفسير محتاجين نت.</div>
+<button id="toTop" class="totop" hidden aria-label="لفوق">⬆</button>
+<script>
+/* ================= ٣.١: الاسم والنوع + زرار الرجوع + كل الأذونات مرة واحدة + ١٠ أفكار ================= */
+/* ---- النداء بالاسم، والكلام يتظبط راجل أو ست ---- */
+CALLS.splice(1,0,['batalname','يا بطلي + اسمك','u']);
+const _callee2=callee;callee=function(){const s=profile.settings,nm=(s.name||'').trim(),f=!!s.userFem;
+  if(s.callAs==='name'&&nm)return{addr:nm,fem:f};if(s.callAs==='batalname'&&nm)return{addr:(f?'بَطَلَتِي ':'بَطَلِي ')+nm,fem:f};const r=_callee2();if(s.callAs==='name')r.fem=f;return r};
+(function(){const g=$('userG');if(!g)return;const card=g.closest('.card'),r=el('div','set','<div>اسمك</div><input id="nm2" style="width:150px" maxlength="30">'),r2=el('div','set','<div>يناديك إزاي؟</div><select id="call2" style="max-width:170px"></select>');
+  card.insertBefore(r,card.children[1]);card.insertBefore(r2,card.children[2]);
+  const sel=$('call2');[['name','باسمك'],['batalname','يا بطلي + اسمك'],['batal','يا بطلي / يا بطلتي'],['baba','يا بابا'],['mama','يا ماما'],['habibi','يا حبيبي'],['habibti','يا حبيبتي']].forEach(([v,n])=>{const o=el('option');o.value=v;o.textContent=n;sel.appendChild(o)});
+  const paint=()=>{$('nm2').value=profile.settings.name||'';sel.value=profile.settings.callAs||'batal'};paint();
+  const test=()=>{saveProfile();try{syncInputs()}catch(e){}setTimeout(()=>speak(personalize(L('أَهْلًا يا {n}، هكَذا سَأُنادِيكَ.'.replace('سَأُنادِيكَ',G('سَأُنادِيكَ','سَأُنادِيكِ')),'أهلا يا {n}، كده هناديك.'))),300)};
+  $('nm2').onchange=e=>{profile.settings.name=e.target.value.trim();test()};sel.onchange=()=>{profile.settings.callAs=sel.value;test()}})();
+
+/* ---- التنبيهات على أندرويد: لازم تتبعت عن طريق الـ Service Worker ---- */
+async function showNote(title,body){try{if(!('Notification' in window)||Notification.permission!=='granted')return;
+  const reg=navigator.serviceWorker&&await navigator.serviceWorker.getRegistration();const o={body:body||'',icon:'icon-192.png',badge:'icon-192.png',vibrate:[200,100,200],tag:'yomi-'+title,renotify:true,lang:'ar',dir:'rtl'};
+  if(reg&&reg.showNotification)await reg.showNotification(title,o);else new Notification(title,o)}catch(e){}}
+alertUser=function(title,body,say){try{beep()}catch(e){}if(profile.settings.vib)try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}showNote(title,body);toast(title);if(say)speak(say)};
+const _adc=adhanCall;adhanCall=async function(p){await _adc(p);try{navigator.vibrate&&navigator.vibrate([500,200,500,200,800])}catch(e){}};
+
+/* ---- إعداد أول مرة: الاسم + النوع + كل الأذونات ---- */
+const PM={};function pmPaint(){const s=(id,v)=>{$(id).textContent=v===true?'✅ تمام':v===false?'❌ مرفوض':v==='na'?'— مش محتاجها':'—'};s('pN',PM.n);s('pL',PM.l);s('pS',PM.s);s('pC',PM.c);s('pD',PM.d)}
+async function requestAll(){unlock();PM.s=true;
+  try{if('Notification' in window){const r=await Notification.requestPermission();PM.n=r==='granted';if(r==='granted'){profile.settings.notif=true;profile.settings.adhan=true}}else PM.n='na'}catch(e){PM.n=false}pmPaint();
+  try{if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){PM.c=(await DeviceOrientationEvent.requestPermission())==='granted'}else PM.c='na'}catch(e){PM.c=false}pmPaint();
+  try{PM.d=navigator.storage&&navigator.storage.persist?await navigator.storage.persist():'na'}catch(e){PM.d=false}pmPaint();
+  await new Promise(res=>{if(!navigator.geolocation){PM.l='na';return res()}navigator.geolocation.getCurrentPosition(p=>{Object.assign(profile.settings,{lat:+p.coords.latitude.toFixed(4),lng:+p.coords.longitude.toFixed(4),city:'مكانك الحالي'});PM.l=true;res()},()=>{PM.l=false;res()},{timeout:12000})});
+  pmPaint();saveProfile();try{syncInputs();renderAll(true)}catch(e){}local.set('perm1',1);toast('تمام، الأذونات اتطلبت')}
+function openSetup(){const s=profile.settings;$('suN').value=s.name&&s.name!=='محمود'?s.name:(s.name||'');$('suG').value=s.userFem?'f':'m';$('suC').value=['name','batalname','batal'].includes(s.callAs)?s.callAs:'name';pmPaint();$('setupO').hidden=false}
+$('suAll').onclick=requestAll;
+$('suDone').onclick=()=>{const s=profile.settings,n=$('suN').value.trim();if(!n){toast('اكتب اسمك الأول');$('suN').focus();return}
+  s.name=n;s.userFem=$('suG').value==='f';s.callAs=$('suC').value;s.pitchManual=0;genderVoice();saveProfile();local.set('setup1',1);$('setupO').hidden=true;unlock();
+  try{syncInputs();renderAll(true)}catch(e){}speak(personalize(L(G('أَهْلًا بِكَ يا {n}. أَنا مَعَكَ طُولَ اليَوْمِ، فَلْنَبْدَأْ بِسْمِ اللهِ.','أَهْلًا بِكِ يا {n}. أَنا مَعَكِ طُولَ اليَوْمِ، فَلْنَبْدَأْ بِسْمِ اللهِ.'),'أهلا يا {n}. أنا معاك طول اليوم، يلا نبدأ بسم الله.')))};
+(function(){const s=$('suN');s.addEventListener('keydown',e=>{if(e.key==='Enter')$('suDone').click()})})();
+document.querySelectorAll('#setupO .brandlogo').forEach(i=>i.src=LOGO_SRC);
+setTimeout(()=>{if(!local.get('setup1',0)){local.set('tourDone',true);$('tour').hidden=true;$('morningG').hidden=true;openSetup()}},900);
+(function(){const b=el('button','btn');b.textContent='🛡️ الاسم والأذونات';b.style.cssText='width:100%;margin-bottom:12px';b.onclick=openSetup;$('v-s-app').appendChild(b)})();
+
+/* ---- زرار الرجوع بتاع الموبايل ---- */
+const _goB=go;let popping=false,lastBack=0;
+go=function(v){const cur=(document.querySelector('.view.act')||{}).id||'v-now';_goB(v);if(!popping&&cur!=='v-'+v)try{history.pushState({v},'')}catch(e){}};
+try{history.replaceState({v:'root'},'');history.pushState({v:'now'},'')}catch(e){}
+function closeTop(){const ov=[['setupO',null],['honor',()=>nextHonor()],['zen',()=>$('zenX').click()],['clockMode',()=>$('clockMode').click()],['morningG',()=>{$('morningG').hidden=true}],['tour',()=>$('tourS').click()]];
+  for(const[id,f]of ov){const e=$(id);if(e&&!e.hidden){if(f)f();return true}}
+  if(!$('fabMenu').hidden){$('fabMenu').hidden=true;return true}
+  if(isAct('wird')&&typeof ms!=='undefined'&&ms.view==='read'){ms.view='list';renderMushaf();return true}
+  if(isAct('hisn')&&typeof hz!=='undefined'&&hz.ch!==null){hz.ch=null;renderHisn();return true}
+  if(isAct('plan')&&typeof editing!=='undefined'&&editing){editing=null;renderPlan();return true}
+  return false}
+window.addEventListener('popstate',e=>{const st=e.state||{};
+  if(closeTop()){history.pushState(st.v==='root'?{v:'now'}:st,'');return}
+  if(st.v==='root'){if(!isAct('now')){popping=true;go('now');popping=false;history.pushState({v:'now'},'');return}
+    if(Date.now()-lastBack<2000){history.back();return}lastBack=Date.now();toast('دوس رجوع تاني عشان تخرج');history.pushState({v:'now'},'');return}
+  popping=true;try{go(st.v||'now')}finally{popping=false}});
+
+/* ---- ١٠ أفكار ---- */
+/* ١) جرّب التنبيه */
+(function(){const b=el('button','btn pri');b.textContent='🔔 جرّب التنبيه والصوت';b.style.cssText='width:100%;margin-bottom:12px';b.onclick=()=>{unlock();alertUser('🔔 تجربة من «يومي»','لو شايف الإشعار ده وسامع الصوت، كله تمام',personalize(L('يا {n}، هذا تَنْبِيهٌ تَجْرِيبِيٌّ، كُلُّ شَيْءٍ يَعْمَلُ.','يا {n}، ده تنبيه تجربة، كله شغال.')))};
+  const v=$('v-s-adhan');(v.querySelector(':scope > p.sub')||v.firstElementChild).after(b)})();
+/* ٢) السحب يمين وشمال بين الصفحات الرئيسية */
+(function(){let x0=0,y0=0,t0=0,ok=false;const tabs=()=>[...document.querySelectorAll('nav button')].filter(b=>b.offsetParent!==null).map(b=>b.dataset.v);
+  document.addEventListener('touchstart',e=>{const t=e.touches[0];x0=t.clientX;y0=t.clientY;t0=Date.now();ok=!e.target.closest('input,textarea,select,.ptabw,.chips,.compass,.qtext,.tiles,.heat,.cal,.styles,.scenes,.seg,.qgrid,.npc')},{passive:true});
+  document.addEventListener('touchend',e=>{if(!ok)return;const t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;if(Date.now()-t0>600||Math.abs(dx)<90||Math.abs(dy)>60)return;
+    const T=tabs(),cur=(document.querySelector('.view.act')||{}).id||'';const i=T.indexOf(cur.slice(2));if(i<0)return;const j=dx<0?i+1:i-1;if(j<0||j>=T.length)return;go(T[j])},{passive:true})})();
+/* ٣) زرار لفوق */
+window.addEventListener('scroll',()=>{$('toTop').hidden=window.scrollY<700},{passive:true});$('toTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+/* ٤) مفيش نت */
+const netPaint=()=>{$('offB').hidden=navigator.onLine};window.addEventListener('online',()=>{netPaint();toast('🌐 النت رجع')});window.addEventListener('offline',netPaint);netPaint();
+/* ٥) رقم على أيقونة التطبيق: الصلوات اللي لسه ماتعلّمتش */
+function badgeTick(){try{if(!navigator.setAppBadge)return;const n=new Date(),pt=prayerTimes(n),m=nowMin(),d=day(dkey(n)),c=FIVE.filter(p=>pt[p]<=m&&!d.prayers[p]).length;c?navigator.setAppBadge(c):navigator.clearAppBadge()}catch(e){}}
+setInterval(badgeTick,60000);setTimeout(badgeTick,3000);
+/* ٦) الشاشة منورة وانت بتقرا في المصحف */
+let mWake=null;setInterval(async()=>{try{const want=profile.settings.mushafAwake!==false&&isAct('wird')&&typeof ms!=='undefined'&&ms.view==='read'&&document.visibilityState==='visible';
+  if(want&&!mWake&&navigator.wakeLock)mWake=await navigator.wakeLock.request('screen');else if(!want&&mWake){await mWake.release();mWake=null}}catch(e){}},4000);
+/* ٧) شارك التطبيق */
+(function(){const b=el('button','btn');b.textContent='📤 شارك التطبيق مع حبايبك';b.style.cssText='width:100%;margin-bottom:12px';b.onclick=async()=>{const u=location.origin+location.pathname,t='جرّب تطبيق «يومي»: صلاتك وقرآنك وأذكارك ويومك كله في مكان واحد 🤍\n'+u;
+  try{if(navigator.share){await navigator.share({title:'يومي',text:t,url:u});return}}catch(e){}try{await navigator.clipboard.writeText(t);toast('اتنسخ اللينك')}catch(e){toast(u)}};$('v-s-app').appendChild(b)})();
+/* ٨) نسخ احتياطية تلقائية كل أسبوع (آخر ٤) */
+function autoSnap(){try{const wk=weekKey(new Date()),K='yomi-snap:'+wk;if(localStorage.getItem(K))return;const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('yomi:')&&!k.startsWith('yomi:taf:'))o[k]=localStorage.getItem(k)}
+  localStorage.setItem(K,JSON.stringify(o));const ks=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('yomi-snap:'))ks.push(k)}ks.sort().slice(0,-4).forEach(k=>localStorage.removeItem(k))}catch(e){}}
+setTimeout(autoSnap,5000);
+(function(){const c=el('div','card','<h3>🗂️ نسخ تلقائية</h3><p class="sub" style="margin:0 0 8px">التطبيق بياخد نسخة لوحده كل أسبوع، وبيحتفظ بآخر ٤ نسخ.</p><div id="snapL"></div>');$('v-s-app').appendChild(c)})();
+function renderSnaps(){const L2=$('snapL');if(!L2)return;L2.innerHTML='';const ks=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('yomi-snap:'))ks.push(k)}
+  if(!ks.length){L2.innerHTML='<p class="sub">لسه مفيش نسخ.</p>';return}ks.sort().reverse().forEach(k=>{const r=el('div','set','<div></div><button class="btn">رجّعها</button>');r.querySelector('div').textContent='نسخة أسبوع '+k.slice(10);
+    r.querySelector('button').onclick=()=>{if(!confirm('ترجّع النسخة دي؟ بياناتك الحالية هتتبدّل.'))return;try{const o=JSON.parse(localStorage.getItem(k));Object.keys(o).forEach(x=>localStorage.setItem(x,o[x]));toast('اترجّعت، بيفتح تاني…');setTimeout(()=>location.reload(),800)}catch(e){toast('النسخة دي فيها مشكلة')}};L2.appendChild(r)})}
+/* ٩) خيار الشاشة منورة في المصحف */
+(function(){const c=el('div','set','<div>الشاشة منورة وانت بتقرا في المصحف</div><label class="sw"><input type="checkbox" id="mAw"><span></span></label>');const lk=cardOf('stylePick');if(lk)lk.appendChild(c);$('mAw').checked=profile.settings.mushafAwake!==false;$('mAw').onchange=e=>{profile.settings.mushafAwake=e.target.checked;saveProfile()}})();
+/* ١٠) تحية بالاسم في شاشة الصباح */
+const _mg=morningGreet;morningGreet=function(){if(!$('setupO').hidden)return;_mg();if(!$('morningG').hidden)$('mgT').textContent=personalize(L(G('صَباحُ الخَيْرِ يا {n} ☀️','صَباحُ الخَيْرِ يا {n} ☀️'),'صباح الخير يا {n} ☀️'))};
+const _rx6=renderExtras;renderExtras=function(){_rx6();try{renderSnaps()}catch(e){}};
 </script>
 
 </body>
