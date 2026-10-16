@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016044911">
+<meta name="app-version" content="20261016045920">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٦</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٢.٧</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٦</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٢.٧</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -2813,5 +2813,129 @@ const _egy0=egy;egy=function(t){return isFus()?fusha(t):_egy0(t)};
 /* نص المولّد يبدأ بجملة الفجر الجديدة */
 setTimeout(()=>{try{const t=$('genText');if(t&&/يَلّا|أوم/.test(t.value))t.value=phraseFor('p:fajr')}catch(e){}},300);
 </script>
+<style>
+.hzc{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;font:inherit;text-align:start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:6px;cursor:pointer;color:var(--ink)}
+.hzc b{font-size:15px}.hzc small{color:var(--muted)}
+.hzi{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px;background:var(--card);cursor:pointer}
+.hzi .tx{font-family:Amiri,serif;font-size:var(--azfs,19px);line-height:2}
+.hzi .fn{font-size:12px;color:var(--muted);margin-top:6px}
+.hzi.done{opacity:.55}.hzi .cnt{display:inline-block;font-size:13px;background:var(--ib);color:#fff;border-radius:20px;padding:2px 12px;margin-top:6px}
+.qtext.sepia{background:#F6EEDC;color:#3B2F1E;border-radius:12px;padding:10px}
+.qtext.nightr{background:#0E1424;color:#E9E2CF;border-radius:12px;padding:10px}
+.qtext.hide .ay{color:transparent;text-shadow:0 0 10px rgba(127,127,127,.6)}.qtext.hide .ay.rev{color:inherit;text-shadow:none}.qtext.hide .an{color:var(--gold);text-shadow:none}
+.mtools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 8px}.mtools .btn{font-size:13px;padding:6px 10px}.mtools .btn.on{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 18%,var(--card))}
+.qres{border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:6px;cursor:pointer;background:var(--card)}.qres .tx{font-family:Amiri,serif;font-size:18px;line-height:1.9}
+</style>
+<script>
+/* ================= ٢.٧: حصن المسلم كامل + تشكيل الفقرات + ٢٠ فكرة ================= */
+/* ---- تشكيل أسماء الفقرات والخطوات للنطق ---- */
+const TD={'صلاة الفجر والورد':'صَلاةُ الفَجْرِ وَالوِرْد','رياضة':'الرِّياضَة','فطار مع البيت':'الفُطُورُ مَعَ الأُسْرَة','تطوير الذات':'تَطْوِيرُ الذّات','الطريق وخطة اليوم':'الطَّرِيقُ وَخُطَّةُ اليَوْم','تطوير المنصة':'تَطْوِيرُ المَنَصَّة','صلاة الظهر والغدا':'صَلاةُ الظُّهْرِ وَالغَداء','تشغيل المنصة':'تَشْغِيلُ المَنَصَّة','قفل اليوم':'خِتامُ اليَوْم','رجوع وراحة':'العَوْدَةُ وَالرّاحَة','وقت العيال':'وَقْتُ الأَبْناء','عشا البيت':'العَشاءُ مَعَ الأُسْرَة','نوم العيال ووقت زوجتك':'نَوْمُ الأَطْفالِ وَوَقْتُ الزَّوْجَة','ورد خفيف ومحاسبة':'وِرْدٌ خَفِيفٌ وَمُحاسَبَة','الوتر والنوم':'الوِتْرُ وَالنَّوْم','مشي أو رياضة خفيفة':'مَشْيٌ أَوْ رِياضَةٌ خَفِيفَة','فطار الجمعة':'فُطُورُ الجُمُعَة','سورة الكهف':'سُورَةُ الكَهْف','وقت البيت':'وَقْتُ الأُسْرَة','مراجعة أسبوع المنصة':'مُراجَعَةُ أُسْبُوعِ المَنَصَّة','التجهيز للجمعة':'التَّجَهُّزُ لِلجُمُعَة','صلاة الجمعة':'صَلاةُ الجُمُعَة','غدا وزيارة العيلة':'الغَداءُ وَزِيارَةُ العائِلَة','خروجة العيال':'نُزْهَةُ الأَبْناء','دعاء آخر ساعة':'دُعاءُ آخِرِ ساعَة','العشا مع البيت':'العَشاءُ مَعَ الأُسْرَة','وقت زوجتك':'وَقْتُ الزَّوْجَة',
+ 'سنة الفجر والصلاة':'سُنَّةُ الفَجْرِ وَالصَّلاة','أذكار الصباح':'أَذْكارُ الصَّباح','ورد القرآن':'وِرْدُ القُرْآن','إحماء':'الإِحْماء','مشي سريع أو تمارين':'مَشْيٌ سَرِيعٌ أَوْ تَمارِين','فطار من غير موبايل':'فُطُورٌ بِلا هاتِف','تجهيز العيال':'تَجْهِيزُ الأَبْناء','صلاة الضحى':'صَلاةُ الضُّحى','تعلّم أو قراءة':'تَعَلُّمٌ أَوْ قِراءَة','اكتب فكرة واحدة استفدتها':'كِتابَةُ فِكْرَةٍ واحِدَةٍ مُفِيدَة','راجع مهمة النهارده الكبيرة':'مُراجَعَةُ مُهِمَّةِ اليَوْمِ الكُبْرى','درس صوتي أو ذكر في الطريق':'دَرْسٌ صَوْتِيٌّ أَوْ ذِكْرٌ في الطَّرِيق','اقفل الإشعارات والرسايل':'إِغْلاقُ الإِشْعاراتِ وَالرَّسائِل','اشتغل على المهمة الكبيرة بس':'العَمَلُ عَلى المُهِمَّةِ الكُبْرى فَقَط','صلاة الظهر':'صَلاةُ الظُّهْر','غدا خفيف بعيد عن الشاشة':'غَداءٌ خَفِيفٌ بَعِيدًا عَنِ الشّاشَة','الرد على الطلاب والمعلمين':'الرَّدُّ عَلى الطُّلّابِ وَالمُعَلِّمِين','متابعة البوت والأعطال':'مُتابَعَةُ البُوتِ وَالأَعْطال','رفع المحتوى':'رَفْعُ المُحْتَوى','سجّل اللي خلص النهارده':'تَسْجِيلُ ما أُنْجِزَ اليَوْم','اكتب مهمة بكرة الكبيرة':'كِتابَةُ مُهِمَّةِ الغَدِ الكُبْرى','راحة هادية':'راحَةٌ هادِئَة','مذاكرة أو لعب معاهم':'المُذاكَرَةُ أَوِ اللَّعِبُ مَعَهُم','أذكار المساء معاهم':'أَذْكارُ المَساءِ مَعَهُم','الأكل مع الأسرة':'الطَّعامُ مَعَ الأُسْرَة','نوّم العيال':'نَوْمُ الأَطْفال','ساعة مع زوجتك من غير شاشات':'ساعَةٌ مَعَ الزَّوْجَةِ بِلا شاشات','مراجعة حفظ أو ورد قصير':'مُراجَعَةُ الحِفْظِ أَوْ وِرْدٌ قَصِير','محاسبة النهارده':'مُحاسَبَةُ النَّفْسِ اليَوْم','صلاة الوتر':'صَلاةُ الوِتْر','أذكار النوم':'أَذْكارُ النَّوْم','مشي':'المَشْي','فطار طويل مع البيت':'فُطُورٌ هادِئٌ مَعَ الأُسْرَة','قراءة سورة الكهف':'قِراءَةُ سُورَةِ الكَهْف','الصلاة على النبي ﷺ':'الصَّلاةُ عَلى النَّبِيِّ صَلّى اللهُ عَلَيْهِ وَسَلَّم','حاجة مع العيال أو مشوار للبيت':'نَشاطٌ مَعَ الأَبْناءِ أَوْ مِشْوارٌ لِلبَيْت','إيه اللي خلص الأسبوع ده':'ما أُنْجِزَ هذا الأُسْبُوع','أهم ٣ مهام للأسبوع الجاي':'أَهَمُّ ثَلاثِ مَهامَّ لِلأُسْبُوعِ القادِم','الغسل والطيب':'الغُسْلُ وَالطِّيب','التبكير للمسجد':'التَّبْكِيرُ إِلى المَسْجِد','الخطبة والصلاة':'الخُطْبَةُ وَالصَّلاة','الغدا مع العيلة':'الغَداءُ مَعَ العائِلَة','صلة رحم أو تليفون لقريب':'صِلَةُ الرَّحِمِ أَوِ الاتِّصالُ بِقَرِيب','خروجة أو لعب معاهم':'نُزْهَةٌ أَوْ لَعِبٌ مَعَهُم','دعاء قبل المغرب':'الدُّعاءُ قَبْلَ المَغْرِب','أذكار المساء':'أَذْكارُ المَساء','العشا مع الأسرة':'العَشاءُ مَعَ الأُسْرَة','قعدة من غير شاشات':'جَلْسَةٌ بِلا شاشات','ورد قصير':'وِرْدٌ قَصِير'};
+const dz=s=>{const c=cleanStep(s);return TD[c]||TD[String(s).trim()]||c};
+const _fus=fusha;fusha=function(t){let m;t=String(t||'').trim();
+  if((m=t.match(/^دلوقتي وقت (.+?)\./))||(m=t.match(/^يا .+?، دلوقتي وقت (.+?)\./))){const f=dayBlocks(new Date()).find(({b})=>b.title===m[1].trim());if(!f)return 'يا '+callee().addr+'، حانَ وَقْتُ فِقْرَةِ: '+dz(m[1])+'.'}
+  if((m=t.match(/^دلوقتي (.+?)(?:، (.+))?$/))&&!/^دلوقتي وقت/.test(t)){const mm=(t.match(/([0-9٠-٩]+)\s*(دقايق|دقيقة)/)||[])[1];return 'لِنَبْدَأْ: '+dz(m[1])+(mm?'، لِمُدَّةِ '+fmin(toLat(mm)):'')+'.'}
+  if((m=t.match(/^خلص وقت (.+)$/)))return 'انْتَهى وَقْتُ خُطْوَةِ: '+dz(m[1])+'.';
+  if((m=t.match(/^برافو(?: يا .+?)?، خلصت (.+)$/))){const F=callee().fem;return(F?'أَحْسَنْتِ':'أَحْسَنْتَ')+' يا '+callee().addr+'، '+(F?'أَنْهَيْتِ':'أَنْهَيْتَ')+' فِقْرَةَ: '+dz(m[1])+'.'}
+  if((m=t.match(/^فاضل خمس دقايق على (.+?)، وبعدها (.+)$/)))return 'بَقِيَتْ خَمْسُ دَقائِقَ عَلى نِهايَةِ فِقْرَةِ: '+dz(m[1])+'. وَبَعْدَها: '+dz(m[2])+'.';
+  return _fus(t)};
+
+/* ---- حصن المسلم كامل ---- */
+const HZ_CNT=[['مائة مرة',100],['مئة مرة',100],['عشر مرات',10],['سبع مرات',7],['سبعاً',7],['أربع مرات',4],['ثلاث مرات',3],['ثلاث مرّات',3],['ثلاثاً',3],['مرتين',2]];
+const hzCount=t=>{for(const[w,n]of HZ_CNT)if(t.includes(w))return n;return 1};
+let hz={ch:null,q:''},hzTap={};
+function loadHisn(cb){if(window.HISN)return cb();const s=document.createElement('script');s.src='hisn.js';s.onload=cb;s.onerror=()=>{const b=$('hzBox');if(b)b.innerHTML='<p class="sub">حصن المسلم بيشتغل في نسخة التطبيق اللي على جيت هب.</p>'};document.head.appendChild(s)}
+const HV=mkSub('hisn','📚 حصن المسلم','كل الأذكار والأدعية، ١٣٣ باب، ومع كل ذكر مصدره.');
+(function(){const w=el('div');w.innerHTML='<input class="srch" id="hzQ" placeholder="🔍 دوّر على ذكر أو دعاء"><div id="hzBox"></div>';HV.appendChild(w);
+  $('hzQ').oninput=e=>{hz.q=e.target.value;hz.ch=null;renderHisn()};
+  const tg=document.querySelector('#v-set .tiles.t3');if(tg){const t=tile('📚','حصن المسلم',()=>go('hisn'));tg.prepend(t)}})();
+const hzKey=(c,i)=>c+'-'+i;
+function hzShare(t){const s=t+'\n— حصن المسلم، من تطبيق «يومي»';(navigator.share?navigator.share({text:s}).catch(()=>{}):navigator.clipboard.writeText(s).then(()=>toast('اتنسخ')).catch(()=>toast('مقدرتش أنسخ')))}
+function hzItem(c,i,t,f){const k=hzKey(c,i),n=hzCount(t),R=profile.hisnRead=profile.hisnRead||{},F=profile.hisnFav=profile.hisnFav||{},cnt=hzTap[k]||0,done=cnt>=n;
+  const d=el('div','hzi'+(done?' done':''),'<div class="tx"></div><div class="fn"></div><div class="row" style="justify-content:space-between;margin-top:6px"><span class="cnt"></span><span class="row"><button class="btn" data-a="f"></button><button class="btn" data-a="s" aria-label="شارك">📤</button></span></div>');
+  d.querySelector('.tx').textContent=t;d.querySelector('.fn').textContent=f?'📖 '+f:'';d.querySelector('.cnt').textContent=done?'✓ تمّ':(n>1?'باقي '+ar(n-cnt)+' من '+ar(n):'دوس لما تقوله');
+  const fb=d.querySelector('[data-a=f]');fb.textContent=F[k]?'⭐':'☆';fb.setAttribute('aria-label','المفضلة');
+  fb.onclick=e=>{e.stopPropagation();if(F[k])delete F[k];else{F[k]=1;toast('اتضاف للمفضلة ⭐')}saveProfile();renderHisn()};
+  d.querySelector('[data-a=s]').onclick=e=>{e.stopPropagation();hzShare(t)};
+  d.onclick=()=>{if(done)return;hzTap[k]=cnt+1;try{navigator.vibrate&&navigator.vibrate(12)}catch(x){}if(hzTap[k]>=n){R[k]=1;saveProfile();try{checkHonors()}catch(x){}}renderHisn()};return d}
+function renderHisn(){if(!isAct('hisn'))return;const box=$('hzBox');if(!box)return;if(!window.HISN){box.innerHTML='<p class="sub">بيحمّل الأذكار…</p>';return loadHisn(renderHisn)}
+  box.innerHTML='';const q=norm(hz.q.trim()),R=profile.hisnRead||{},F=profile.hisnFav||{};
+  if(hz.ch!==null){const back=el('button','btn');back.textContent='→ كل الأبواب';back.style.marginBottom='8px';back.onclick=()=>{hz.ch=null;renderHisn()};box.appendChild(back);
+    if(hz.ch==='fav'){const h=el('h3');h.textContent='⭐ المفضلة';box.appendChild(h);let any=0;HISN.forEach((c,ci)=>c.x.forEach((t,i)=>{if(F[hzKey(ci,i)]){any=1;box.appendChild(hzItem(ci,i,t,c.f[i]))}}));if(!any)box.appendChild(Object.assign(el('p','sub'),{textContent:'لسه مضفتش حاجة للمفضلة. دوس ☆ جنب أي ذكر.'}));return}
+    const c=HISN[hz.ch],h=el('h3');h.textContent=c.t;box.appendChild(h);c.x.forEach((t,i)=>box.appendChild(hzItem(hz.ch,i,t,c.f[i])));return}
+  if(q){let n=0;HISN.forEach((c,ci)=>{const tm=norm(c.t).includes(q);c.x.forEach((t,i)=>{if(n<60&&(tm||norm(t).includes(q))){n++;box.appendChild(hzItem(ci,i,t,c.f[i]))}})});if(!n)box.appendChild(Object.assign(el('p','sub'),{textContent:'مفيش نتايج.'}));return}
+  const tot=HISN.reduce((a,c)=>a+c.x.length,0),rd=Object.keys(R).length,p=el('p','sub');p.style.margin='0 0 8px';p.textContent='قريت '+ar(rd)+' من '+ar(tot)+' ذكر';box.appendChild(p);
+  const fv=el('button','hzc','<b>⭐ المفضلة</b><small></small>');fv.querySelector('small').textContent=ar(Object.keys(F).length);fv.onclick=()=>{hz.ch='fav';renderHisn()};box.appendChild(fv);
+  HISN.forEach((c,ci)=>{const r=c.x.filter((_,i)=>R[hzKey(ci,i)]).length,b=el('button','hzc','<b></b><small></small>');b.querySelector('b').textContent=c.t;b.querySelector('small').textContent=(r===c.x.length?'✓ ':'')+ar(c.x.length);
+    b.onclick=()=>{hz.ch=ci;renderHisn();window.scrollTo(0,0)};box.appendChild(b)})}
+const _rAdh=renderAdhkar;renderAdhkar=function(){_rAdh();const sg=$('aSeg');if(sg&&!sg.querySelector('.hzchip')){const b=el('button','hzchip');b.textContent='📚 حصن المسلم كامل';b.onclick=()=>go('hisn');sg.appendChild(b)}};
+BADGES2.push(['hisn','📚','حصن المسلم','أذكار قريتها من حصن المسلم',()=>Object.keys(profile.hisnRead||{}).length,[10,50,150,293]]);
+
+/* ---- المصحف: علامات، وضع قراءة، اختبار حفظ، تمرير تلقائي، تكرار، مشاركة، بحث ---- */
+let mRead=local.get('mRead',''),mHide=false,mScroll=null;
+const _rSur=renderSurah;renderSurah=function(box){_rSur(box);const T=box.querySelector('.qtext');if(!T)return;T.classList.toggle('sepia',mRead==='sepia');T.classList.toggle('nightr',mRead==='night');T.classList.toggle('hide',mHide);
+  const tb=el('div','mtools','<button class="btn" data-a="r">🎨 وضع القراءة</button><button class="btn" data-a="h">🙈 اختبار الحفظ</button><button class="btn" data-a="s">⬇️ تمرير تلقائي</button>');
+  const[br,bh,bs]=tb.querySelectorAll('button');br.classList.toggle('on',!!mRead);bh.classList.toggle('on',mHide);bs.classList.toggle('on',!!mScroll);
+  br.onclick=()=>{mRead=mRead===''?'sepia':mRead==='sepia'?'night':'';local.set('mRead',mRead);renderMushaf();toast({'':'عادي',sepia:'ورق قديم',night:'ليلي'}[mRead])};
+  bh.onclick=()=>{mHide=!mHide;renderMushaf();toast(mHide?'الآيات اتخبّت. دوس على الآية عشان تظهر':'الآيات ظهرت')};
+  bs.onclick=()=>{if(mScroll){clearInterval(mScroll);mScroll=null}else mScroll=setInterval(()=>window.scrollBy(0,1),45);bs.classList.toggle('on',!!mScroll)};
+  T.before(tb);
+  if(mHide)T.addEventListener('click',e=>{const a=e.target.closest('.ay');if(a&&!a.classList.contains('rev')){e.stopPropagation();a.classList.add('rev')}},true)};
+['touchstart','wheel'].forEach(ev=>window.addEventListener(ev,()=>{if(mScroll){clearInterval(mScroll);mScroll=null;document.querySelectorAll('.mtools [data-a=s]').forEach(b=>b.classList.remove('on'))}},{passive:true}));
+const _aM=ayahMenu;ayahMenu=function(s,a,sp){_aM(s,a,sp);const m=document.querySelector('.amenu');if(!m)return;const row=m.querySelector('.row');
+  const mk=(t,f)=>{const b=el('button','btn');b.textContent=t;b.onclick=e=>{e.stopPropagation();f()};row.insertBefore(b,row.lastElementChild)};
+  mk('🔁 كرّر ×٣',()=>repAyah(s,a,3));mk('⭐ علامة',()=>{const B=profile.bookmarks=profile.bookmarks||[];if(!B.find(x=>x.s===s&&x.a===a)){B.unshift({s,a});profile.bookmarks=B.slice(0,30);saveProfile()}toast('اتضافت للعلامات ⭐')});
+  mk('📤 شارك',()=>hzShare('﴿'+QD.a[s-1][a-1]+'﴾ ['+surName(s)+': '+ar(a)+']'))};
+function repAyah(s,a,n){stopQ();let i=0;const play=()=>{const au=msAudio=new Audio(ayUrl(s,a));msPlay={s,a,cont:false};markPlaying();au.onended=()=>{i++;if(i<n)play();else stopQ()};au.onerror=()=>{toast('محتاج نت للتلاوة');stopQ()};au.play().catch(()=>{})};play();toast('هتتكرر '+ar(n)+' مرات')}
+let qIdx=null;
+const _rSL=renderSurahList;renderSurahList=function(box){_rSL(box);const B=profile.bookmarks||[];
+  const sq=el('input');sq.className='srch';sq.placeholder='🔎 دوّر في آيات القرآن كله';const res=el('div');box.insertBefore(res,box.querySelector('input'));box.insertBefore(sq,res);
+  sq.oninput=()=>{const q=norm(sq.value.trim());res.innerHTML='';if(q.length<3)return;if(!qIdx)qIdx=QD.a.map(su=>su.map(norm));let n=0;
+    for(let s=0;s<114&&n<40;s++)for(let a=0;a<qIdx[s].length&&n<40;a++)if(qIdx[s][a].includes(q)){n++;const r=el('div','qres','<div class="sub"></div><div class="tx"></div>');r.querySelector('.sub').textContent=surName(s+1)+' · آية '+ar(a+1);r.querySelector('.tx').textContent=QD.a[s][a];r.onclick=()=>openSurah(s+1,a+1);res.appendChild(r)}
+    if(!n)res.innerHTML='<p class="sub">مفيش نتايج.</p>'};
+  if(B.length){const w=el('div');w.innerHTML='<div class="sub" style="margin:4px 0">⭐ علاماتك</div>';B.slice(0,8).forEach((x,i)=>{const b=el('button','hzc','<b></b><small>✕</small>');b.querySelector('b').textContent=surName(x.s)+'، آية '+ar(x.a);
+    b.onclick=e=>{if(e.target.tagName==='SMALL'){profile.bookmarks.splice(i,1);saveProfile();renderMushaf();return}openSurah(x.s,x.a)};w.appendChild(b)});sq.before(w)}};
+
+/* ---- تسبيح بعد الصلاة تلقائي ٣٣/٣٣/٣٤ ---- */
+let zSeq=-1;
+const _zc=zCount;zCount=function(){_zc();if(zSeq<0)return;const z=profile.zikr,k=dkey(new Date()),s=local.get('zsess:'+k+':'+z.i,0);
+  if(s>=z.target){zSeq++;if(zSeq<3){profile.zikr.i=[0,1,2][zSeq];profile.zikr.target=[33,33,34][zSeq];local.set('zsess:'+k+':'+profile.zikr.i,0);renderWird();toast('➡️ '+ZIKR[profile.zikr.i])}
+    else{zSeq=-1;profile.zikr.target=33;saveProfile();renderWird();celebrate('تقبّل الله، خلّصت تسبيح بعد الصلاة')}}};
+(function(){const tc=$('wz');if(!tc)return;const b=el('button','btn pri');b.textContent='📿 تسبيح بعد الصلاة (٣٣ / ٣٣ / ٣٤)';b.style.cssText='width:100%;margin-top:10px';
+  b.onclick=()=>{zSeq=0;const k=dkey(new Date());profile.zikr.i=0;profile.zikr.target=33;local.set('zsess:'+k+':0',0);saveProfile();renderWird();toast('ابدأ: سبحان الله ٣٣')};tc.appendChild(b)})();
+
+/* ---- آية اليوم + ذكر عشوائي ---- */
+const _rDua=renderDua;renderDua=function(){_rDua();if(!qdReady())return;const n=new Date(),tot=6236,g=(doyOf(n)*97+n.getFullYear())%tot;let s=0,a=g;while(a>=QD.a[s].length){a-=QD.a[s].length;s++}
+  const c=el('div','','<div class="s" style="margin-top:14px">آية اليوم</div><div class="t"></div><div class="s"></div>');c.querySelector('.t').textContent='﴿'+QD.a[s][a]+'﴾';c.querySelector('.s:last-child').textContent=surName(s+1)+'، آية '+ar(a+1);
+  c.style.cursor='pointer';c.onclick=()=>{openWird('m');openSurah(s+1,a+1)};$('daily').appendChild(c)};
+const _rdc2=renderDayCard;renderDayCard=function(){_rdc2();const dc=document.querySelector('.daycard');if(!dc||dc.querySelector('#rndZ'))return;const b=el('button','btn');b.id='rndZ';b.textContent='🎲 ذكّرني بذكر';b.style.marginTop='8px';
+  b.onclick=()=>loadHisn(()=>{const c=HISN[Math.floor(Math.random()*HISN.length)],i=Math.floor(Math.random()*c.x.length);dc.querySelectorAll('.rz').forEach(x=>x.remove());const m=el('div','msg2 rz');m.style.fontFamily='Amiri,serif';m.style.fontSize='17px';m.textContent='📿 '+c.x[i]+' — ('+c.t+')';dc.appendChild(m)});dc.appendChild(b)};
+
+/* ---- «صليت» من كارت الصلاة الجاية ---- */
+const _npt=npcTick;npcTick=function(){_npt();const now=new Date(),m=nowMin(),pt=prayerTimes(now),d=day(dkey(now)),last=[...FIVE].reverse().find(p=>pt[p]<=m&&m-pt[p]<=180);let b=$('npcDone');
+  if(last&&!d.prayers[last]){if(!b){b=el('button','hbtn');b.id='npcDone';$('npcMute').before(b)}b.textContent='✅ صليت '+PN[last];b.onclick=()=>{d.prayers[last]=true;saveDay(dkey(now));$('prayers').dataset.sig='';toast('تقبّل الله');renderNow(true);renderStats();b.remove()}}else if(b)b.remove()};
+
+/* ---- أوقات الكراهة وطول النهار ---- */
+const _rt2=renderTimes2;renderTimes2=function(){_rt2();const pt=prayerTimes(new Date()),dl=pt.maghrib-pt.sunrise;$('pnote2').textContent+='   ·   ⛔ الكراهة: من الفجر لـ '+fmt(pt.sunrise+15)+'، وقبل الظهر بـ ١٠ د، وبعد العصر للمغرب   ·   ☀️ النهار '+ar(Math.floor(dl/60))+' ساعة و'+ar(dl%60)+' د'};
+
+/* ---- تذكير الورد بالليل ---- */
+setInterval(()=>{try{const now=new Date(),k=dkey(now),m=nowMin(),d=day(k),left=profile.settings.qTarget-(d.pages||0);
+  if(profile.settings.rmWird!==false&&m>=1200&&m<1215&&left>0&&local.get('rm:wird','')!==k){local.set('rm:wird',k);alertUser('📖 وردك','فاضل '+ar(left)+' صفحة','حانَ وَقْتُ إِكْمالِ وِرْدِ القُرْآنِ.')}}catch(e){}},30000);
+
+/* ---- محوّل التاريخ ---- */
+(function(){const v=$('v-hcal');if(!v)return;const c=el('div','card','<h3>🔄 محوّل التاريخ</h3><div class="row"><input type="date" id="cvD" style="flex:1"><button class="btn pri" id="cvB">حوّل</button></div><p id="cvO" style="margin:8px 0 0;line-height:1.8"></p>');v.appendChild(c);
+  $('cvB').onclick=()=>{const x=$('cvD').value;if(!x){toast('اختار التاريخ');return}const[y,mo,d]=x.split('-').map(Number),dt=new Date(y,mo-1,d),diff=Math.round((dt-new Date(new Date().toDateString()))/864e5);
+    let h='';try{h=new Intl.DateTimeFormat('ar-EG-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(dt)}catch(e){}
+    $('cvO').textContent=DAYS[dt.getDay()]+' '+h+(diff?' — '+(diff>0?'بعد '+ar(diff)+' يوم':'من '+ar(-diff)+' يوم'):' — النهارده')}})();
+
+/* ---- رحلتك مع القرآن (إجمالي العمر) ---- */
+(function(){const c=el('div','card','<h3>📚 رحلتك من أول يوم</h3><div id="lifeS"></div>');const a=$('mSum');if(a)a.closest('.card').after(c)})();
+const _rms2=renderMonthSum;renderMonthSum=function(){_rms2();const b=$('lifeS');if(!b)return;b.innerHTML='';
+  [['📖 صفحات قرآن',sumDays(d=>d.pages)],['🏆 ختمات',profile.quran.khatmas||0],['🕌 صلوات في وقتها',sumDays(d=>FIVE.filter(p=>d.prayers[p]).length)],['📿 تسبيحات',sumDays(d=>Object.values(d.tasbih||{}).reduce((x,y)=>x+y,0))],['📚 أذكار حصن المسلم',Object.keys(profile.hisnRead||{}).length],['🎯 جلسات تركيز',sumDays(d=>d.focus)]]
+   .forEach(([t,v])=>{const r=el('div','set','<div></div><b></b>');r.querySelector('div').textContent=t;r.querySelector('b').textContent=ar(v);b.appendChild(r)})};
+
+const _rx3=renderExtras;renderExtras=function(){_rx3();try{renderHisn()}catch(e){console.error(e)}};
+</script>
+
 </body>
 </html>
