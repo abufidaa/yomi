@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016181438">
+<meta name="app-version" content="20261016182455">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٠</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.١</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٠</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.١</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4060,5 +4060,43 @@ applyX();setInterval(()=>{try{applyBg()}catch(e){}},300000);
 const _rx12=renderExtras;renderExtras=function(){_rx12();[renderQada,renderQMap,renderHP,renderFK,renderIst,renderFast,renderSad,renderPJ,renderWT,renderEx,renderVN,renderST,renderBG,renderSL,renderCP,renderYR].forEach(f=>{try{f()}catch(e){console.error(e)}})};
 </script>
 
+<script>
+/* ================= ٥.١: جسر تطبيق الأندرويد الحقيقي ================= */
+const YN=(()=>{try{const C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return null;return C.registerPlugin?C.registerPlugin('YomiAlarms'):(C.Plugins&&C.Plugins.YomiAlarms)}catch(e){return null}})();
+const APK_URL='https://github.com/abufidaa/yomi/releases/latest/download/yomi.apk';
+const atMin=(d,m)=>new Date(d.getFullYear(),d.getMonth(),d.getDate(),0,Math.round(m)).getTime();
+function buildAlarms(){const s=profile.settings,out=[],now=Date.now(),lang=s.vLang||'ar',voice=s.voice!==false;const say=t=>voice?egy(t):'';
+  const add=(at,title,body,sp,opt)=>{if(at<=now+5000)return;if(s.dnd&&!opt){const d=new Date(at),mm=d.getHours()*60+d.getMinutes(),a=toMin(s.dndFrom||'09:00'),b=toMin(s.dndTo||'12:30');if(a<=b?(mm>=a&&mm<b):(mm>=a||mm<b))sp=''}out.push({at,title,body:body||'',speak:sp||'',lang})};
+  for(let i=0;i<2;i++){const d=addDays(new Date(),i),pt=prayerTimes(d),dk=dkey(d);
+    FIVE.forEach(p=>{const muted=(s.mute||{})[p]||adhanChoice(p)==='off';
+      if(s.adhan!==false)add(atMin(d,pt[p]),'🕌 حان وقت صلاة '+PN[p],'الصلاة في وقتها',muted?'':say('يا '+(s.name||'')+'، حيّ على الصلاة. دخل وقت صلاة '+PN[p]+(p==='fajr'?'، والصلاة خير من النوم.':'.')),true);
+      if((s.pre||0)>0)add(atMin(d,pt[p]-s.pre),'⏳ باقي '+ar(s.pre)+' دقايق على '+PN[p],'اتوضّى واستعد',say('باقي '+s.pre+' دقايق على صلاة '+PN[p]+'، قوم اتوضّى'));
+      if(s.iqAlert!==false&&iqOf(p)>=6)add(atMin(d,pt[p]+iqOf(p)-5),'🕌 الإقامة بعد ٥ دقايق','صلاة '+PN[p],say('باقي خمس دقايق على إقامة صلاة '+PN[p]+'.'))});
+    if(s.notif!==false||s.voice!==false)dayBlocks(d).forEach(({b,st})=>add(atMin(d,st),'⏰ '+b.title,b.s[0]||'',voice?egy(blockPhrase(b.id,b.title)):''));
+    if(s.rmM!==false)add(atMin(d,pt.fajr+30),'☀️ أذكار الصباح','',say('وقت أذكار الصباح'));
+    if(s.rmE!==false)add(atMin(d,pt.asr+15),'🌙 أذكار المساء','',say('وقت أذكار المساء'));
+    if(s.rmMulk!==false)add(atMin(d,22*60),'📖 سورة الملك','قبل النوم',say('قبل ما تنام'));
+    if(s.rmSleep!==false)add(atMin(d,22*60+1),'🌙 جهّز نفسك للنوم','',L('يا '+NM()+'، اقْتَرَبَ وَقْتُ النَّوْمِ.','قرّب وقت النوم.'));
+    (profile.myRem||[]).forEach(r=>{if(r.days.includes(d.getDay()))add(atMin(d,toMin(r.t)),'⏰ '+r.x,'',L('يا '+NM()+'، تَذْكِيرٌ: ','فكّرتك: ')+r.x)})}
+  return out.sort((a,b)=>a.at-b.at).slice(0,110)}
+let ynT=null;function syncNative(){if(!YN)return;clearTimeout(ynT);ynT=setTimeout(async()=>{try{const r=await YN.schedule({alarms:buildAlarms()});local.set('ynLast',{n:r.scheduled,exact:r.exact,at:Date.now()});renderYN()}catch(e){console.error(e)}},800)}
+if(YN){/* في التطبيق الحقيقي: المنبهات بتتعمل من أندرويد، فمانكرّرش الإشعار والصوت من الصفحة */
+  alertUser=function(title){toast(title)};
+  const _sp=saveProfile;saveProfile=function(){_sp();syncNative()};syncNative();setInterval(syncNative,30*60000);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syncNative()})}
+/* كارت التطبيق الحقيقي */
+(function(){const c=el('div','card');c.id='ynCard';const v=$('v-s-app');(v.querySelector(':scope > p.sub')||v.firstElementChild).after(c);
+  const c2=c.cloneNode();c2.id='ynCard2';const a=$('v-s-adhan');(a.querySelector(':scope > p.sub')||a.firstElementChild).after(c2)})();
+function renderYN(){[$('ynCard'),$('ynCard2')].forEach(c=>{if(!c)return;c.innerHTML='';
+  if(!YN){c.innerHTML='<h3>📲 تطبيق الأندرويد الحقيقي</h3><p class="sub" style="margin:0 0 8px;line-height:1.8">في التطبيق الحقيقي، الأذان والتذكيرات بيتقالوا <b>بالصوت حتى والتطبيق مقفول والموبايل مقفول</b>.</p>';
+    const b=el('a','btn pri');b.href=APK_URL;b.textContent='⬇️ نزّل تطبيق يومي للأندرويد';b.style.cssText='width:100%;text-decoration:none';c.appendChild(b);return}
+  const st=local.get('ynLast',null);c.innerHTML='<h3>✅ التطبيق الحقيقي شغال</h3>';const p=el('p','sub');p.style.cssText='margin:0 0 8px;line-height:1.8';
+  p.textContent=st?'متجدول '+ar(st.n)+' تنبيه بالصوت لليومين الجايين'+(st.exact?'، ومظبوطين بالدقيقة.':'. ⚠️ اسمح بـ«المنبهات الدقيقة» عشان المواعيد تبقى بالدقيقة.'):'بيجهّز التنبيهات…';c.appendChild(p);
+  const r=el('div','row');const t=el('button','btn pri');t.textContent='🔔 جرّب تنبيه بعد ٥ ثواني';t.onclick=()=>{YN.test({title:'🔔 تجربة من يومي',body:'اقفل الشاشة واستنى',speak:egy('يا '+(profile.settings.name||'')+'، حيّ على الصلاة. دخل وقت صلاة الفجر، والصلاة خير من النوم.'),lang:profile.settings.vLang||'ar'});toast('اقفل الشاشة واستنى ٥ ثواني')};
+  const e=el('button','btn');e.textContent='⏰ اسمح بالمنبهات الدقيقة';e.onclick=()=>YN.requestExact();const bt=el('button','btn');bt.textContent='🔋 استثني التطبيق من توفير البطارية';bt.onclick=()=>YN.batterySettings();
+  r.append(t,e,bt);c.appendChild(r)})}
+try{renderYN()}catch(e){}
+const _rx13=renderExtras;renderExtras=function(){_rx13();try{renderYN()}catch(e){}};
+</script>
 </body>
 </html>

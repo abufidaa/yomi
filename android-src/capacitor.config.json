@@ -1,0 +1,11 @@
+{
+  "appId": "net.tantawy.yomi",
+  "appName": "يومي",
+  "webDir": "www",
+  "server": {
+    "url": "https://abufidaa.github.io/yomi/",
+    "androidScheme": "https",
+    "allowNavigation": ["abufidaa.github.io"]
+  },
+  "android": { "allowMixedContent": false }
+}
