@@ -1,0 +1,37 @@
+name: تطبيق أندرويد
+on:
+  push:
+    branches: [main]
+    paths: ['android-src/**', '.github/workflows/android.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - uses: actions/setup-java@v4
+        with: { distribution: 'temurin', java-version: '17' }
+      - name: بناء المشروع
+        run: |
+          pip install pillow
+          mkdir app && cd app
+          npm init -y >/dev/null
+          npm i @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
+          mkdir www && cp ../index.html ../quran.js ../hisn.js ../manifest.webmanifest ../icon-*.png ../sw.js www/
+          cp ../android-src/capacitor.config.json .
+          npx cap add android
+          python3 ../android-src/patch.py
+          cd android && chmod +x gradlew && ./gradlew assembleRelease --no-daemon
+          cp app/build/outputs/apk/release/app-release.apk ../../yomi.apk
+      - name: نشر الـ APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-${{ github.run_number }}
+          name: يومي للأندرويد — نسخة ${{ github.run_number }}
+          body: "نزّل ملف yomi.apk وسطّبه على موبايلك."
+          files: yomi.apk
+          make_latest: true
