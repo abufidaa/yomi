@@ -25,6 +25,25 @@ public class YomiReceiver extends BroadcastReceiver {
         final String speak = in.getStringExtra("speak");
         final String lang = in.getStringExtra("lang");
         int nid = in.getIntExtra("nid", 1);
+        final String type = in.getStringExtra("type");
+        YomiWidget.updateAll(ctx);
+        if ("steps".equals(type)) {
+            final PendingResult spr = goAsync();
+            final android.hardware.SensorManager sm = (android.hardware.SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
+            android.hardware.Sensor sen = sm == null ? null : sm.getDefaultSensor(android.hardware.Sensor.TYPE_STEP_COUNTER);
+            if (sen == null) { spr.finish(); return; }
+            final Context app = ctx.getApplicationContext();
+            sm.registerListener(new android.hardware.SensorEventListener() {
+                @Override public void onSensorChanged(android.hardware.SensorEvent e) {
+                    sm.unregisterListener(this);
+                    app.getSharedPreferences(YomiAlarmsPlugin.PREF, Context.MODE_PRIVATE).edit().putString("stepDay", YomiAlarmsPlugin.today()).putLong("stepBase", (long) e.values[0]).apply();
+                    try { spr.finish(); } catch (Exception ignored) { }
+                }
+                @Override public void onAccuracyChanged(android.hardware.Sensor a, int b) { }
+            }, sen, android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> { try { spr.finish(); } catch (Exception ignored) { } }, 8000);
+            return;
+        }
 
         NotificationManager nm = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= 26) {
@@ -32,6 +51,24 @@ public class YomiReceiver extends BroadcastReceiver {
             ch.enableVibration(true);
             ch.setVibrationPattern(new long[]{0, 400, 200, 400});
             nm.createNotificationChannel(ch);
+        }
+        if ("adhan".equals(type) && in.getBooleanExtra("full", false)) {
+            Intent fs = new Intent(ctx, AdhanActivity.class);
+            fs.putExtras(in);
+            fs.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+            PendingIntent fpi = PendingIntent.getActivity(ctx, nid, fs, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            NotificationCompat.Builder fb = new NotificationCompat.Builder(ctx, "yomi_adhan")
+                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setContentText(speak)
+                    .setPriority(NotificationCompat.PRIORITY_MAX).setCategory(NotificationCompat.CATEGORY_ALARM)
+                    .setFullScreenIntent(fpi, true).setContentIntent(fpi).setAutoCancel(true).setOngoing(true);
+            if (Build.VERSION.SDK_INT >= 26) {
+                NotificationChannel ac = new NotificationChannel("yomi_adhan", "الأذان", NotificationManager.IMPORTANCE_HIGH);
+                ac.setSound(null, null);
+                nm.createNotificationChannel(ac);
+            }
+            try { nm.notify(nid, fb.build()); } catch (Exception ignored) { }
+            try { ctx.startActivity(fs); } catch (Exception ignored) { }
+            return;
         }
         Intent open = new Intent(ctx, MainActivity.class);
         open.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

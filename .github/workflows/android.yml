@@ -23,6 +23,8 @@ jobs:
           npm i @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
           mkdir www && cp ../index.html ../quran.js ../hisn.js ../manifest.webmanifest ../icon-*.png ../sw.js www/
           cp ../android-src/capacitor.config.json .
+          AR=https://archive.org/download/adhan.recordings.from.doha.qatar
+          i=1; for p in fajr dhuhr asr maghrib isha; do n=$(echo "Fajr Dhuhr Asr Maghrib Isha" | cut -d' ' -f$i); curl -sL -m 120 -o adhan_$p.ogg "$AR/Adhan_Doha_Qatar_0${i}_${n}_Adhan.ogg" || true; i=$((i+1)); done; ls -la adhan_*.ogg || true
           npx cap add android
           python3 ../android-src/patch.py
           cd android && chmod +x gradlew && ./gradlew assembleRelease --no-daemon

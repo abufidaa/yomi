@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261017093321">
+<meta name="app-version" content="20261017160453">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.١</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٢</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.١</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٢</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4097,6 +4097,33 @@ function renderYN(){[$('ynCard'),$('ynCard2')].forEach(c=>{if(!c)return;c.innerH
   r.append(t,e,bt);c.appendChild(r)})}
 try{renderYN()}catch(e){}
 const _rx13=renderExtras;renderExtras=function(){_rx13();try{renderYN()}catch(e){}};
+</script>
+<script>
+/* ================= ٥.٢: مميزات التطبيق الحقيقي ================= */
+let ynVer=0;if(YN)YN.status().then(r=>{ynVer=r.version||1;renderYN()}).catch(()=>{});
+const _ba=buildAlarms;buildAlarms=function(){const s=profile.settings,list=_ba(),out=[];
+  list.forEach(a=>{const p=FIVE.find(x=>a.title==='🕌 حان وقت صلاة '+PN[x]);if(p){const ch=adhanChoice(p);a.type='adhan';a.prayer=p;a.full=s.fullAdhan!==false;a.adhanOn=!['voice','tone','off','silent','none'].includes(ch)}out.push(a)});
+  const mid=new Date();mid.setHours(24,1,0,0);out.push({at:mid.getTime(),title:'',body:'',speak:'',type:'steps',lang:'ar'});return out.sort((a,b)=>a.at-b.at)};
+const _sn=syncNative;syncNative=function(){_sn();if(!YN||!YN.setWidget)return;const P=[];for(let i=0;i<2;i++){const d=addDays(new Date(),i),pt=prayerTimes(d);FIVE.forEach(p=>P.push({n:PN[p],at:atMin(d,pt[p])}))}
+  YN.setWidget({prayers:P.filter(x=>x.at>Date.now()-60000)}).catch(()=>{})};
+if(YN)syncNative();
+/* خطواتك */
+async function readSteps(){if(!YN||!YN.steps)return;try{const r=await YN.steps();if(r.noSensor){profile.settings.noSteps=1;saveProfile();return}if(r.needPermission)return;const k=dkey(new Date());day(k).steps=r.today;saveDay(k);renderStepsCard()}catch(e){}}
+function renderStepsCard(){let c=$('stepCard');if(!YN||profile.settings.noSteps){if(c)c.remove();return}const k=dkey(new Date()),n=day(k).steps||0,g=profile.settings.stepGoal||6000;
+  if(!c){c=el('div','card');c.id='stepCard';const nc=$('nowCards');nc&&nc.before(c)}c.innerHTML='<h3>🚶 خطواتك النهارده</h3><div class="row" style="justify-content:space-between"><b style="font-size:26px;font-family:var(--fh)"></b><span class="sub"></span></div><div class="mbar"><i></i></div>';
+  c.querySelector('b').textContent=ar(n);c.querySelector('.sub').textContent='الهدف '+ar(g);c.querySelector('.mbar i').style.width=Math.min(100,n/g*100)+'%';if(n>=g&&local.get('stG','')!==k){local.set('stG',k);celebrate('🚶 كمّلت هدف الخطوات')}}
+if(YN){readSteps();setInterval(readSteps,5*60000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')readSteps()})}
+BADGES2.push(['steps','🚶','الخطوات','أيام مشيت فيها ٦٠٠٠ خطوة أو أكتر',()=>cntDays(d=>(d.steps||0)>=6000),[3,14,60,180]]);
+/* كارت التطبيق الحقيقي بمميزاته */
+const _ryn=renderYN;renderYN=function(){_ryn();if(!YN)return;[$('ynCard'),$('ynCard2')].forEach(c=>{if(!c)return;
+  if(ynVer<2){const w=el('a','btn pri');w.href=APK_URL;w.textContent='⬆️ حدّث التطبيق عشان المميزات الجديدة';w.style.cssText='width:100%;margin-top:8px;text-decoration:none';c.appendChild(w);return}
+  const s=profile.settings,r=el('div','set','<div>📺 الأذان بملء الشاشة<small>زي المنبه: يظهر فوق القفل، ويشغّل الأذان كامل</small></div><label class="sw"><input type="checkbox"><span></span></label>');const i=r.querySelector('input');i.checked=s.fullAdhan!==false;i.onchange=()=>{s.fullAdhan=i.checked;saveProfile()};c.appendChild(r);
+  const rr=el('div','row');rr.style.marginTop='8px';const t=el('button','btn pri');t.textContent='🕌 جرّب الأذان بملء الشاشة';t.onclick=()=>{YN.test({title:'حان وقت صلاة الفجر',speak:egy('يا '+(s.name||'')+'، حيّ على الصلاة. دخل وقت صلاة الفجر، والصلاة خير من النوم.'),lang:s.vLang||'ar',type:'adhan',prayer:'fajr',full:true,adhanOn:true});toast('اقفل الشاشة واستنى ٥ ثواني')};
+  const f=el('button','btn');f.textContent='🔓 اسمح بملء الشاشة';f.onclick=()=>YN.fullScreenSettings();rr.append(t,f);c.appendChild(rr);
+  const w=el('p','sub');w.style.cssText='margin:10px 0 0;line-height:1.8';w.innerHTML='🧩 <b>الويدجت:</b> اضغط مطوّل على مكان فاضي في الشاشة الرئيسية للموبايل ← <b>الأدوات (Widgets)</b> ← <b>يومي</b>، واسحبه للشاشة. هيوريك الصلاة الجاية وعدّاد تنازلي.';c.appendChild(w)});
+  document.querySelectorAll('#ynCard2').forEach(x=>{})};
+try{renderYN()}catch(e){}
+const _rx14=renderExtras;renderExtras=function(){_rx14();try{renderStepsCard()}catch(e){}};
 </script>
 </body>
 </html>
