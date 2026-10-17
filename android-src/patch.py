@@ -14,7 +14,7 @@ add = ''.join('    <uses-permission android:name="android.permission.%s" />\n' %
 x = x.replace('<application', add + '\n    <application', 1)
 extra = '''        <receiver android:name=".YomiReceiver" android:exported="false" />
         <activity android:name=".AdhanActivity" android:exported="false" android:showWhenLocked="true" android:turnScreenOn="true" android:launchMode="singleTop" android:excludeFromRecents="true" android:theme="@style/AppTheme.NoActionBar" />
-        <receiver android:name=".YomiWidget" android:exported="true" android:label="يومي: الصلاة الجاية">
+        <receiver android:name=".YomiWidget" android:exported="true" android:label="يومي: الصلاة الجاية (كبير)">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/yomi_widget_info" />
         </receiver>
@@ -63,27 +63,7 @@ open(g, 'w', encoding='utf8').write(z)
 R = A + '/src/main/res'
 for d in ('layout', 'xml', 'drawable', 'raw'):
     os.makedirs(R + '/' + d, exist_ok=True)
-open(R + '/drawable/yomi_widget_bg.xml', 'w', encoding='utf8').write('''<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <gradient android:startColor="#1B3A6B" android:endColor="#0B152F" android:angle="270" />
-    <corners android:radius="26dp" />
-    <stroke android:width="1.5dp" android:color="#B08A3E" />
-</shape>''')
-open(R + '/layout/yomi_widget.xml', 'w', encoding='utf8').write('''<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/wRoot"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
-    android:gravity="center" android:padding="12dp" android:background="@drawable/yomi_widget_bg">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🕌 الصلاة الجاية" android:textColor="#C9D3E3" android:textSize="12sp" />
-    <TextView android:id="@+id/wName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="يومي" android:textColor="#F3E2BC" android:textSize="28sp" android:textStyle="bold" />
-    <TextView android:id="@+id/wTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFFF" android:textSize="13sp" />
-    <Chronometer android:id="@+id/wCd" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#DCB96A" android:textSize="22sp" android:textStyle="bold" />
-    <TextView android:id="@+id/wAfter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#9FAABD" android:textSize="11sp" />
-</LinearLayout>''')
-open(R + '/xml/yomi_widget_info.xml', 'w', encoding='utf8').write('''<?xml version="1.0" encoding="utf-8"?>
-<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="180dp" android:minHeight="110dp" android:updatePeriodMillis="1800000"
-    android:initialLayout="@layout/yomi_widget" android:resizeMode="horizontal|vertical"
-    android:widgetCategory="home_screen" android:description="@string/app_name" />''')
+exec(open('../android-src/widgets.py', encoding='utf8').read())
 for f in os.listdir('../android-src') if os.path.isdir('../android-src') else []:
     pass
 for f in os.listdir('.'):

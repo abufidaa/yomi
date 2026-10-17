@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261017160453">
+<meta name="app-version" content="20261017183659">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٢</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٣</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٢</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٣</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4124,6 +4124,56 @@ const _ryn=renderYN;renderYN=function(){_ryn();if(!YN)return;[$('ynCard'),$('ynC
   document.querySelectorAll('#ynCard2').forEach(x=>{})};
 try{renderYN()}catch(e){}
 const _rx14=renderExtras;renderExtras=function(){_rx14();try{renderStepsCard()}catch(e){}};
+</script>
+<style>
+/* ===== ٥.٣: لمسات احترافية ===== */
+.backb{width:44px;height:44px;min-height:44px;padding:0;border-radius:50%;font-size:20px;flex-shrink:0}
+.view.act{animation:vslide .32s cubic-bezier(.2,.8,.2,1)}@keyframes vslide{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
+nav button{position:relative}nav button.on::before{content:"";position:absolute;top:4px;left:50%;width:22px;height:3px;margin-left:-11px;border-radius:3px;background:var(--gold);animation:pill .3s ease}
+@keyframes pill{from{width:0;margin-left:0}to{width:22px;margin-left:-11px}}
+.wthm{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0}.wthm button{font:inherit;font-size:12px;border-radius:14px;padding:10px 4px;cursor:pointer;border:2px solid transparent;color:#fff;font-weight:700}
+.wthm button.on{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 25%,transparent)}
+.wprev{border-radius:22px;padding:14px;color:#fff;margin:8px 0;box-shadow:0 10px 26px rgba(0,0,0,.2)}.wprev b{font-size:26px;color:#F3E2BC;display:block}.wprev small{opacity:.75}
+.upbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);z-index:4;margin:8px 0;border-radius:16px;padding:10px 14px;background:linear-gradient(135deg,#1F4378,#0B152F);color:#F3E2BC;display:flex;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+</style>
+<script>
+/* ================= ٥.٣: ويدجتات بأشكال وألوان + أفكار للتطبيق الحقيقي + لمسات احترافية ================= */
+/* زرار الرجوع بقى سهم دايري */
+document.querySelectorAll('.view .btn').forEach(b=>{if(b.textContent.trim()==='رجوع'){b.textContent='→';b.classList.add('backb');b.setAttribute('aria-label','رجوع')}});
+/* بيانات الويدجتات */
+const W_AYAT=[['﴿أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ﴾','الرعد: ٢٨'],['﴿فَإِنَّ مَعَ الْعُسْرِ يُسْرًا﴾','الشرح: ٥'],['﴿وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ﴾','الطلاق: ٣'],['﴿فَاذْكُرُونِي أَذْكُرْكُمْ﴾','البقرة: ١٥٢'],['﴿إِنَّ اللَّهَ مَعَ الصَّابِرِينَ﴾','البقرة: ١٥٣'],['﴿وَقُل رَّبِّ زِدْنِي عِلْمًا﴾','طه: ١١٤'],['﴿رَبِّ اشْرَحْ لِي صَدْرِي﴾','طه: ٢٥'],['﴿لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا﴾','التوبة: ٤٠'],['﴿وَرَحْمَتِي وَسِعَتْ كُلَّ شَيْءٍ﴾','الأعراف: ١٥٦'],['﴿ادْعُونِي أَسْتَجِبْ لَكُمْ﴾','غافر: ٦٠'],['سبحان الله وبحمده، سبحان الله العظيم','ذكر'],['لا حول ولا قوة إلا بالله','كنز من كنوز الجنة'],['اللهم أعنّي على ذكرك وشكرك وحسن عبادتك','دعاء'],['حسبي الله لا إله إلا هو عليه توكلت','ذكر']];
+function widgetData(){const s=profile.settings,n=new Date(),k=dkey(n),d=day(k),m=nowMin(),P=[],T=[];
+  for(let i=0;i<2;i++){const dd=addDays(n,i),pt=prayerTimes(dd);FIVE.forEach(p=>{const o={n:PN[p],at:atMin(dd,pt[p])};P.push(o);if(i===0)T.push(o)})}
+  const arr=dayBlocks(n),nb=arr.find(x=>x.st>m),left=Math.max(0,(s.qTarget||20)-(d.pages||0)),mit=(d.mit||[]).find(x=>x.t&&!x.d);let hj='';try{hj=hijri(n).txt||''}catch(e){}
+  return{prayers:P.filter(x=>x.at>Date.now()-60000),today:T,hijri:hj,theme:s.wTheme||'navy',score:dayScore(),nextBlock:nb?'⏭️ '+nb.b.title+' · '+fmt(nb.st):'🌙 فقرات النهارده خلصت',
+    pages:left?'📖 فاضل '+ar(left)+' صفحة من وردك':'📖 وردك كمل ✓',mit:mit?'🎯 '+mit.t:(d.plan?'🎯 '+d.plan:''),ayat:W_AYAT.map(([t,s2])=>({t,s:s2})),zikr:ZIKR.slice(0,6),ongoing:!!s.ongoing}}
+let wdT=null;function pushWidget(){if(!YN||!YN.setWidget)return;clearTimeout(wdT);wdT=setTimeout(()=>{YN.setWidget({data:widgetData()}).catch(()=>{})},600)}
+syncNative=(function(o){return function(){o();pushWidget()}})(syncNative);
+if(YN){const _sdW=saveDay;saveDay=function(k){_sdW(k);pushWidget()};pushWidget()}
+/* السبحة من الويدجت بتتجمع في التطبيق */
+async function pullWidgetTasbeeh(){if(!YN||!YN.tasbeeh)return;try{const r=await YN.tasbeeh(),k=dkey(new Date());if(r.day!==k)return;const done=local.get('wts:'+k,0),dl=r.n-done;if(dl>0){const d=day(k);(d.tasbih=d.tasbih||{}).w=(d.tasbih.w||0)+dl;saveDay(k);local.set('wts:'+k,r.n);toast('📿 اتضاف '+ar(dl)+' تسبيحة من الويدجت')}else if(dl<0)local.set('wts:'+k,r.n)}catch(e){}}
+/* اختصارات أيقونة التطبيق */
+window.__yomiGo=async function(){if(!YN||!YN.pendingGo)return;try{const r=await YN.pendingGo(),g=r.go;if(!g)return;if(g==='z'||g==='m'||g==='a')openWird(g);else if(g==='q')go('qibla')}catch(e){}};
+if(YN){setTimeout(()=>{window.__yomiGo();pullWidgetTasbeeh()},1500);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){window.__yomiGo();pullWidgetTasbeeh()}})}
+/* اسكت الموبايل وقت الصلاة والتركيز */
+const _ba2=buildAlarms;buildAlarms=function(){const out=_ba2(),s=profile.settings;if(s.dndPray){for(let i=0;i<2;i++){const d=addDays(new Date(),i),pt=prayerTimes(d);FIVE.forEach(p=>{const a=atMin(d,pt[p]);if(a>Date.now()){out.push({at:a+60000,type:'dndOn',title:'',speak:''},{at:a+(iqOf(p)+15)*60000,type:'dndOff',title:'',speak:''})}})}}return out.sort((a,b)=>a.at-b.at)};
+const _fsD=focusStart;focusStart=function(mode){_fsD(mode);if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:mode==='work'}).catch(()=>{})};
+const _fstD=focusStop;focusStop=function(){_fstD();if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:false}).catch(()=>{})};
+/* كارت التطبيق الحقيقي: الويدجتات وألوانها والمميزات */
+const APK_LATEST=3,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
+const _ryn2=renderYN;renderYN=function(){_ryn2();if(!YN)return;const c=$('ynCard');if(!c||ynVer<3){if(c&&ynVer===2){const w=el('a','btn pri');w.href=APK_URL;w.textContent='⬆️ نسخة جديدة من التطبيق فيها ٥ ويدجتات، حدّث';w.style.cssText='width:100%;margin-top:8px;text-decoration:none';c.appendChild(w)}return}
+  const s=profile.settings,x=el('div');x.innerHTML='<h3 style="margin-top:14px">🧩 الويدجتات</h3><p class="sub" style="margin:0 0 6px;line-height:1.8">عندك ٥ ويدجتات: <b>الصلاة الجاية (كبير)</b>، و<b>صغير</b>، و<b>يومك</b>، و<b>آية وذكر</b>، و<b>السبحة</b>. اضغط مطوّل على الشاشة الرئيسية ← <b>الأدوات</b> ← <b>يومي</b>.</p><div class="sub">لون الويدجتات</div><div class="wthm"></div><div class="wprev"><small>🕌 الصلاة الجاية</small><b></b><small></small></div>';
+  const g=x.querySelector('.wthm'),pv=x.querySelector('.wprev'),paint=()=>{const t=WTH.find(z=>z[0]===(s.wTheme||'navy'));pv.style.background=t[2];const lt=t[0]==='light';pv.style.color=lt?'#1B2333':'#fff';pv.querySelector('b').style.color=lt?'#8A6A22':'#F3E2BC';const pt=prayerTimes(new Date()),nx=FIVE.find(p=>pt[p]>nowMin())||'fajr';pv.querySelector('b').textContent=PN[nx];pv.querySelectorAll('small')[1].textContent='الساعة '+fmt(pt[nx])};
+  WTH.forEach(([k,n,bgc])=>{const b=el('button',(s.wTheme||'navy')===k?'on':'');b.textContent=n;b.style.background=bgc;if(k==='light')b.style.color='#1B2333';b.onclick=()=>{s.wTheme=k;saveProfile();g.querySelectorAll('button').forEach(y=>y.classList.remove('on'));b.classList.add('on');paint();pushWidget();toast('🧩 الويدجتات بقت '+n)};g.appendChild(b)});paint();
+  const tg=(id,t,sub,cb)=>{const r=el('div','set','<div><span></span><small></small></div><label class="sw"><input type="checkbox"><span></span></label>');r.querySelector('div span').textContent=t;r.querySelector('small').textContent=sub;const i=r.querySelector('input');i.checked=!!s[id];i.onchange=()=>{s[id]=i.checked;saveProfile();cb&&cb(i.checked)};x.appendChild(r)};
+  tg('ongoing','📌 إشعار ثابت بالصلاة الجاية','في شريط الإشعارات، وفيه عدّاد تنازلي',()=>pushWidget());
+  tg('dndPray','🤫 اسكت الموبايل وقت الصلاة','من الأذان لحد بعد الإقامة بربع ساعة',on=>{if(on)YN.dnd({ask:true})});
+  tg('dndFocus','🎯 اسكت الموبايل وقت التركيز','وضع «عدم الإزعاج» طول جلسة التركيز',on=>{if(on)YN.dnd({ask:true})});
+  const sc=el('p','sub');sc.style.cssText='margin:10px 0 0;line-height:1.8';sc.innerHTML='⚡ <b>اختصارات:</b> اضغط مطوّل على أيقونة «يومي» هتلاقي: السبحة، والمصحف، والأذكار، والقبلة.';x.appendChild(sc);c.appendChild(x)};
+/* شريط «فيه تحديث للتطبيق» */
+function renderUpBar(){let b=$('upBar');const need=YN&&ynVer&&ynVer<APK_LATEST;if(!need){if(b)b.remove();return}if(b)return;b=el('div','upbar','<span>✨ فيه نسخة جديدة من التطبيق</span><a class="btn" style="min-height:34px;text-decoration:none">حدّث</a>');b.id='upBar';b.querySelector('a').href=APK_URL;$('v-now').prepend(b)}
+setTimeout(()=>{try{renderUpBar();renderYN()}catch(e){}},2500);
+const _rx15=renderExtras;renderExtras=function(){_rx15();try{renderUpBar()}catch(e){}};
 </script>
 </body>
 </html>

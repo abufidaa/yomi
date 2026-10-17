@@ -26,7 +26,15 @@ public class YomiReceiver extends BroadcastReceiver {
         final String lang = in.getStringExtra("lang");
         int nid = in.getIntExtra("nid", 1);
         final String type = in.getStringExtra("type");
-        YomiWidget.updateAll(ctx);
+        NotificationManager nm = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+        WidgetRender.updateAll(ctx);
+        if ("dndOn".equals(type) || "dndOff".equals(type)) {
+            try {
+                if (Build.VERSION.SDK_INT >= 23 && nm.isNotificationPolicyAccessGranted())
+                    nm.setInterruptionFilter("dndOn".equals(type) ? NotificationManager.INTERRUPTION_FILTER_PRIORITY : NotificationManager.INTERRUPTION_FILTER_ALL);
+            } catch (Exception ignored) { }
+            return;
+        }
         if ("steps".equals(type)) {
             final PendingResult spr = goAsync();
             final android.hardware.SensorManager sm = (android.hardware.SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
@@ -45,7 +53,6 @@ public class YomiReceiver extends BroadcastReceiver {
             return;
         }
 
-        NotificationManager nm = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= 26) {
             NotificationChannel ch = new NotificationChannel("yomi_main", "تنبيهات يومي", NotificationManager.IMPORTANCE_HIGH);
             ch.enableVibration(true);

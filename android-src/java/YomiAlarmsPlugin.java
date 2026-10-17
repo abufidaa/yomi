@@ -82,10 +82,46 @@ public class YomiAlarmsPlugin extends Plugin {
     @PluginMethod
     public void setWidget(PluginCall call) {
         try {
-            getContext().getSharedPreferences(PREF, Context.MODE_PRIVATE).edit().putString("wid", call.getArray("prayers").toString()).apply();
-            YomiWidget.updateAll(getContext());
+            SharedPreferences.Editor e = getContext().getSharedPreferences(PREF, Context.MODE_PRIVATE).edit();
+            JSObject d = call.getObject("data");
+            if (d != null) e.putString("wdata", d.toString());
+            else if (call.getArray("prayers") != null) { JSONObject o = new JSONObject(); o.put("prayers", call.getArray("prayers")); e.putString("wdata", o.toString()); }
+            e.apply();
+            WidgetRender.updateAll(getContext());
         } catch (Exception ignored) { }
         call.resolve();
+    }
+
+    @PluginMethod
+    public void tasbeeh(PluginCall call) {
+        SharedPreferences sp = getContext().getSharedPreferences(PREF, Context.MODE_PRIVATE);
+        JSObject r = new JSObject();
+        r.put("day", sp.getString("tasb_day", "")); r.put("n", sp.getInt("tasb_n", 0)); r.put("total", sp.getInt("tasb_total", 0));
+        call.resolve(r);
+    }
+
+    @PluginMethod
+    public void pendingGo(PluginCall call) {
+        SharedPreferences sp = getContext().getSharedPreferences(PREF, Context.MODE_PRIVATE);
+        JSObject r = new JSObject(); r.put("go", sp.getString("go", "")); sp.edit().remove("go").apply();
+        call.resolve(r);
+    }
+
+    @PluginMethod
+    public void dnd(PluginCall call) {
+        JSObject r = new JSObject();
+        try {
+            android.app.NotificationManager nm = (android.app.NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT < 23) { r.put("ok", false); call.resolve(r); return; }
+            if (!nm.isNotificationPolicyAccessGranted()) {
+                if (call.getBoolean("ask", false)) { Intent i = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS); i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); getContext().startActivity(i); }
+                r.put("ok", false); call.resolve(r); return;
+            }
+            Boolean on = call.getBoolean("on");
+            if (on != null) nm.setInterruptionFilter(on ? android.app.NotificationManager.INTERRUPTION_FILTER_PRIORITY : android.app.NotificationManager.INTERRUPTION_FILTER_ALL);
+            r.put("ok", true);
+        } catch (Exception e) { r.put("ok", false); }
+        call.resolve(r);
     }
 
     @PluginMethod
@@ -95,7 +131,7 @@ public class YomiAlarmsPlugin extends Plugin {
         JSObject r = new JSObject();
         r.put("exact", Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms());
         r.put("scheduled", ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE).getInt("n", 0));
-        r.put("version", 2);
+        r.put("version", 3);
         call.resolve(r);
     }
 
