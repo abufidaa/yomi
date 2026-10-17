@@ -35,3 +35,8 @@ jobs:
           body: "نزّل ملف yomi.apk وسطّبه على موبايلك."
           files: yomi.apk
           make_latest: true
+      - name: نسخة من الـ APK على موقع التطبيق
+        run: |
+          git config user.name "Claude" && git config user.email "claude@users.noreply.github.com"
+          git pull -q origin main
+          git add -f yomi.apk && git commit -q -m "تحديث ملف APK" && git push -q origin main || true

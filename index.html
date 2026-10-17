@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261016182455">
+<meta name="app-version" content="20261017093321">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -4063,7 +4063,7 @@ const _rx12=renderExtras;renderExtras=function(){_rx12();[renderQada,renderQMap,
 <script>
 /* ================= ٥.١: جسر تطبيق الأندرويد الحقيقي ================= */
 const YN=(()=>{try{const C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return null;return C.registerPlugin?C.registerPlugin('YomiAlarms'):(C.Plugins&&C.Plugins.YomiAlarms)}catch(e){return null}})();
-const APK_URL='https://github.com/abufidaa/yomi/releases/latest/download/yomi.apk';
+const APK_URL='https://abufidaa.github.io/yomi/yomi.apk';
 const atMin=(d,m)=>new Date(d.getFullYear(),d.getMonth(),d.getDate(),0,Math.round(m)).getTime();
 function buildAlarms(){const s=profile.settings,out=[],now=Date.now(),lang=s.vLang||'ar',voice=s.voice!==false;const say=t=>voice?egy(t):'';
   const add=(at,title,body,sp,opt)=>{if(at<=now+5000)return;if(s.dnd&&!opt){const d=new Date(at),mm=d.getHours()*60+d.getMinutes(),a=toMin(s.dndFrom||'09:00'),b=toMin(s.dndTo||'12:30');if(a<=b?(mm>=a&&mm<b):(mm>=a||mm<b))sp=''}out.push({at,title,body:body||'',speak:sp||'',lang})};
