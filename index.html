@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018073045">
+<meta name="app-version" content="20261018073857">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٩</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٠</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٩</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٠</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -2842,7 +2842,7 @@ const _fus=fusha;fusha=function(t){let m;t=String(t||'').trim();
 
 /* ---- حصن المسلم كامل ---- */
 const HZ_CNT=[['مائة مرة',100],['مئة مرة',100],['عشر مرات',10],['سبع مرات',7],['سبعاً',7],['أربع مرات',4],['ثلاث مرات',3],['ثلاث مرّات',3],['ثلاثاً',3],['مرتين',2]];
-const hzCount=t=>{for(const[w,n]of HZ_CNT)if(t.includes(w))return n;return 1};
+const hzCount=t=>{const m0=(window.__hzF||'').match(/🔁 (\d+)/);if(m0)return +m0[1];for(const[w,n]of HZ_CNT)if(t.includes(w))return n;return 1};
 let hz={ch:null,q:''},hzTap={};
 function loadHisn(cb){if(window.HISN)return cb();const s=document.createElement('script');s.src='hisn.js';s.onload=cb;s.onerror=()=>{const b=$('hzBox');if(b)b.innerHTML='<p class="sub">حصن المسلم بيشتغل في نسخة التطبيق اللي على جيت هب.</p>'};document.head.appendChild(s)}
 const HV=mkSub('hisn','📚 حصن المسلم','كل الأذكار والأدعية، ١٣٣ باب، ومع كل ذكر مصدره.');
@@ -4342,6 +4342,97 @@ const _hp=hparts;hparts=function(d){const a=profile.settings.hijriAdj||0;return 
 const _hj=hijri;hijri=function(d){const a=profile.settings.hijriAdj||0;return _hj(a?addDays(d,a):d)};
 /* ماية بهدف تختاره */
 const _rx17=renderExtras;renderExtras=function(){_rx17();try{renderCustom()}catch(e){console.error(e)}};
+</script>
+<style>
+/* ===== ٦.٠: ثيمات جديدة ===== */
+html[data-style=islamic]{--dv:#0E5A43;--gold:#B8912F;--ib:#1F7A5C;--hero:linear-gradient(160deg,#0F6B4F,#05271C);--htitle:#F4E2A8}
+html[data-style=feminine]{--dv:#9C3D64;--gold:#C9849C;--ib:#B4436C;--hero:linear-gradient(160deg,#D886A6,#7A2E52);--htitle:#FFE6EF}
+html[data-style=youth]{--dv:#5B2EFF;--gold:#00C9A7;--ib:#00B894;--hero:linear-gradient(160deg,#5B2EFF,#0A0F2C);--htitle:#B8FFF0}
+html[data-style=kids]{--dv:#7B61FF;--gold:#FF8C42;--ib:#2EC4B6;--hero:linear-gradient(160deg,#FFB347,#FF6F91);--htitle:#FFFFFF}
+html[data-style=kids] .card,html[data-style=kids] .tile{border-radius:26px}html[data-style=kids] h2,html[data-style=kids] .card h3{color:#7B61FF}
+html[data-style=sky]{--dv:#1E6FB8;--gold:#4BA3E3;--ib:#1E88C7;--hero:linear-gradient(160deg,#5DB2F0,#13457A);--htitle:#E8F6FF}
+html[data-style=coffee]{--dv:#5C3B28;--gold:#B07A4F;--ib:#7A5236;--hero:linear-gradient(160deg,#8A5A3B,#2E1B10);--htitle:#F6E3CF}
+html[data-style=rosegold]{--dv:#8C5A54;--gold:#C9967D;--ib:#A86A5E;--hero:linear-gradient(160deg,#E2B3A3,#6E3F3A);--htitle:#FFF1EA}
+html[data-style=mono]{--dv:#222;--gold:#555;--ib:#333;--hero:linear-gradient(160deg,#3A3A3A,#0E0E0E);--htitle:#FFFFFF}
+html[data-style=ocean]{--dv:#0B6E7A;--gold:#2BB3B1;--ib:#0E8C8C;--hero:linear-gradient(160deg,#16A6B6,#053A47);--htitle:#E4FFFD}
+html[data-style=sunset]{--dv:#B5452E;--gold:#E59A3C;--ib:#C4562F;--hero:linear-gradient(160deg,#F7A35C,#8E2B3C);--htitle:#FFF0D9}
+/* البحث */
+.qhit mark{background:color-mix(in srgb,var(--gold) 45%,transparent);color:inherit;border-radius:4px;padding:0 2px}
+.qsum{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}.qsum button{font:inherit;font-size:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:20px;padding:4px 10px;cursor:pointer}
+.dr{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px;background:var(--card)}.dr .tx{font-family:Amiri,serif;font-size:18px;line-height:1.9}.dr .inf{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.8}
+.grade{display:inline-block;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;color:#fff;margin-top:6px}.grade.ok{background:#2F9E6E}.grade.weak{background:#C0392B}.grade.mid{background:#B08A3E}
+.hide-x{display:none!important}
+</style>
+<script>
+/* ================= ٦.٠: مكتبة الأذكار الضخمة + الباحث القرآني + البحث في الدرر السنية + إخفاء أي قسم + ثيمات ================= */
+/* ١) ثيمات جديدة (قبل الملكي عشان القفل يفضل عليه) */
+STYLES.splice(STYLES.length-1,0,['islamic','إسلامي 🕌','linear-gradient(160deg,#0F6B4F,#05271C)'],['feminine','نسائي 🌸','linear-gradient(160deg,#D886A6,#7A2E52)'],['rosegold','روز جولد ✨','linear-gradient(160deg,#E2B3A3,#6E3F3A)'],['youth','شبابي ⚡','linear-gradient(160deg,#5B2EFF,#0A0F2C)'],['kids','طفولي 🎈','linear-gradient(160deg,#FFB347,#FF6F91)'],['sky','سماوي ☁️','linear-gradient(160deg,#5DB2F0,#13457A)'],['ocean','بحري 🌊','linear-gradient(160deg,#16A6B6,#053A47)'],['sunset','غروب 🌇','linear-gradient(160deg,#F7A35C,#8E2B3C)'],['coffee','قهوة ☕','linear-gradient(160deg,#8A5A3B,#2E1B10)'],['mono','أبيض وأسود','linear-gradient(160deg,#3A3A3A,#0E0E0E)']);
+try{renderLook()}catch(e){}
+/* ٢) مكتبة الأذكار: ٣ مصادر */
+const HSRC=[['all','الكل'],['hisn','📚 حصن المسلم'],['fadl','✨ الأذكار بفضلها'],['quran','📖 أدعية القرآن']];let hzG='all';
+const _rHz=renderHisn;renderHisn=function(){_rHz();const box=$('hzBox');if(!box||!window.HISN||hz.ch!==null||hz.q)return;
+  const ch=el('div','chips');HSRC.forEach(([k,n])=>{const b=el('button',hzG===k?'on':'');b.textContent=n;b.onclick=()=>{hzG=k;renderHisn()};ch.appendChild(b)});box.prepend(ch);
+  [...box.querySelectorAll('.hzc')].forEach(b=>{const t=b.querySelector('b').textContent;const c=HISN.find(x=>x.t===t);if(c&&hzG!=='all'&&c.g!==hzG)b.style.display='none'});
+  const tot=HISN.reduce((a,c)=>a+c.x.length,0),p=box.querySelector('p.sub');if(p)p.textContent+=' · المكتبة فيها '+ar(tot)+' ذكر ودعاء في '+ar(HISN.length)+' باب'};
+const _hzI2=hzItem;hzItem=function(c,i,t,f){window.__hzF=f||'';const d=_hzI2(c,i,t,f);window.__hzF='';const src=(HISN[c]||{}).g;
+  if(src!=='quran'){const b=el('button','btn');b.textContent='🔍 درجته في الدرر';b.onclick=e=>{e.stopPropagation();openDorar(t.replace(/[\u064B-\u065F\u0670]/g,'').split(/\s+/).slice(0,7).join(' '))};const rr=d.querySelector('.row .row');rr&&rr.appendChild(b)}return d};
+/* ٣) الباحث القرآني */
+const qn=s=>String(s).replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u08F0-\u08FF\u0640]/g,'').replace(/[ٱأإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي');
+const QS=addTool('qsearch','🔎','الباحث القرآني','دوّر على أي كلمة في القرآن كله، من غير ما يفرق معاك التشكيل أو الهمزات.');
+let qsMode='part',qsSur=0,qsMax=80;
+function renderQS(){if(!isAct('qsearch'))return;let b=$('qsB');if(!b){b=el('div');b.id='qsB';b.innerHTML='<input class="srch" id="qsQ" placeholder="🔎 اكتب كلمة أو جملة… مثلًا: الصبر"><div class="chips" id="qsM"></div><select id="qsS" style="width:100%;margin:6px 0"></select><div id="qsR"></div>';QS.appendChild(b);
+  [['part','جزء من كلمة'],['word','كلمة كاملة']].forEach(([k,n])=>{const x=el('button',qsMode===k?'on':'');x.textContent=n;x.onclick=()=>{qsMode=k;document.querySelectorAll('#qsM button').forEach(y=>y.classList.remove('on'));x.classList.add('on');doQS()};$('qsM').appendChild(x)});
+  const fill=()=>{if(!qdReady())return setTimeout(fill,1200);$('qsS').innerHTML='<option value="0">في القرآن كله</option>'+QD.n.map((n,i)=>'<option value="'+(i+1)+'">سورة '+n+'</option>').join('')};fill();
+  $('qsS').onchange=e=>{qsSur=+e.target.value;doQS()};let tm=null;$('qsQ').oninput=()=>{clearTimeout(tm);qsMax=80;tm=setTimeout(doQS,250)}}}
+let QIX=null;function doQS(){const R=$('qsR');if(!R||!qdReady())return;const q=qn($('qsQ').value.trim());R.innerHTML='';if(q.length<2)return;if(!QIX)QIX=QD.a.map(su=>su.map(a=>a.split(' ').map(qn)));
+  const qw=q.split(/\s+/),hits=[],per={};let occ=0;
+  for(let s=0;s<114;s++){if(qsSur&&s!==qsSur-1)continue;QIX[s].forEach((ws,a)=>{let m=[];if(qw.length===1){ws.forEach((w,i)=>{if(qsMode==='word'?w===q:w.includes(q))m.push(i)})}else{const j=ws.join(' ');if(j.includes(q)){for(let i=0;i<ws.length;i++){if(ws.slice(i,i+qw.length).join(' ').includes(q)){for(let k=0;k<qw.length;k++)m.push(i+k);break}}}}
+    if(m.length){hits.push([s,a,m]);occ+=m.length;per[s]=(per[s]||0)+m.length}})}
+  const sum=el('p','sub');sum.style.margin='4px 0';sum.textContent='لقيتها '+ar(occ)+' مرة في '+ar(hits.length)+' آية، في '+ar(Object.keys(per).length)+' سورة';R.appendChild(sum);
+  if(!qsSur&&Object.keys(per).length>1){const qs=el('div','qsum');Object.entries(per).sort((a,b)=>b[1]-a[1]).slice(0,12).forEach(([s,n])=>{const x=el('button');x.textContent=QD.n[s]+' ('+ar(n)+')';x.onclick=()=>{qsSur=+s+1;$('qsS').value=qsSur;doQS()};qs.appendChild(x)});R.appendChild(qs)}
+  hits.slice(0,qsMax).forEach(([s,a,m])=>{const words=QD.a[s][a].split(' ');const d=el('div','qres qhit','<div class="sub"></div><div class="tx"></div>');d.querySelector('.sub').textContent=surName(s+1)+' · آية '+ar(a+1)+' · صفحة '+ar(QD.p[s][a]);
+    d.querySelector('.tx').innerHTML=words.map((w,i)=>m.includes(i)?'<mark>'+escH(w)+'</mark>':escH(w)).join(' ');d.onclick=()=>{openWird('m');openSurah(s+1,a+1)};R.appendChild(d)});
+  if(hits.length>qsMax){const mo=el('button','btn');mo.style.width='100%';mo.textContent='اعرض أكتر';mo.onclick=()=>{qsMax+=80;doQS()};R.appendChild(mo)}}
+/* ٤) البحث في الدرر السنية (الموسوعة الحديثية) */
+const DR=addTool('dorar','📜','البحث في الدرر السنية','دوّر على أي حديث واعرف درجته من الموسوعة الحديثية. المصدر: dorar.net');
+let drOnly=true;
+function openDorar(q){go('dorar');setTimeout(()=>{renderDR();$('drQ').value=q;doDR()},50)}
+function renderDR(){if(!isAct('dorar'))return;let b=$('drB');if(b)return;b=el('div');b.id='drB';b.innerHTML='<div class="row"><input class="srch" id="drQ" style="flex:1;margin:0" placeholder="📜 اكتب جزء من الحديث…"><button class="btn pri" id="drGo">ابحث</button></div><label class="sub" style="display:flex;gap:6px;align-items:center;margin:8px 0"><input type="checkbox" id="drOk" checked> اعرض الصحيح والحسن بس</label><div id="drR"></div>';DR.appendChild(b);
+  $('drGo').onclick=doDR;$('drQ').onkeydown=e=>{if(e.key==='Enter')doDR()};$('drOk').onchange=e=>{drOnly=e.target.checked;doDR(true)}}
+let drLast=null;function doDR(reuse){const q=$('drQ').value.trim(),R=$('drR');if(!q){toast('اكتب جزء من الحديث');return}
+  const show=html=>{R.innerHTML='';const tmp=document.createElement('div');tmp.innerHTML=html.replace(/<script[\s\S]*?<\/script>/gi,'');const H=[...tmp.querySelectorAll('.hadith')],I=[...tmp.querySelectorAll('.hadith-info')];let n=0;
+    H.forEach((x,i)=>{const info=(I[i]?I[i].innerText||I[i].textContent:'').replace(/\s+/g,' ').trim(),txt=(x.innerText||x.textContent).replace(/^\s*\d+\s*-\s*/,'').trim(),g=(info.match(/خلاصة حكم المحدث\s*:?\s*([^|]+?)(?=\s*(?:الراوي|المحدث|المصدر|الصفحة|$))/)||[])[1]||'';
+      const weak=/ضعيف|موضوع|منكر|باطل|لا أصل|لا يصح|شاذ|مرسل/.test(g),ok=/صحيح|حسن|ثابت|إسناده جيد/.test(g)&&!weak;if(drOnly&&!ok)return;n++;
+      const d=el('div','dr','<div class="tx"></div><span class="grade"></span><div class="inf"></div>');d.querySelector('.tx').textContent=txt;const gr=d.querySelector('.grade');gr.textContent=g||'درجته مش واضحة';gr.classList.add(ok?'ok':weak?'weak':'mid');d.querySelector('.inf').textContent=info;R.appendChild(d)});
+    if(!n)R.innerHTML='<div class="empty"><i>📜</i>'+(H.length?'مفيش نتايج صحيحة أو حسنة، شيل العلامة عشان تشوف الكل':'مفيش نتايج')+'</div>';
+    const a=el('a','btn');a.href='https://dorar.net/hadith/search?q='+encodeURIComponent(q);a.target='_blank';a.rel='noopener';a.textContent='افتح النتايج كاملة في موقع الدرر';a.style.cssText='width:100%;margin-top:8px;text-decoration:none';R.appendChild(a)};
+  if(reuse&&drLast)return show(drLast);R.innerHTML='<p class="sub">بيدوّر في الموسوعة الحديثية…</p>';const cb='__dr'+Date.now(),s=document.createElement('script');let done=false;
+  window[cb]=j=>{done=true;delete window[cb];s.remove();drLast=(j&&j.ahadith&&j.ahadith.result)||'';show(drLast)};
+  s.src='https://dorar.net/dorar_api.json?skey='+encodeURIComponent(q)+'&callback='+cb;s.onerror=()=>{if(!done){done=true;R.innerHTML='';fail()}};document.head.appendChild(s);
+  const fail=()=>{R.innerHTML='<div class="empty"><i>📡</i>مقدرتش أوصل للدرر دلوقتي (محتاج نت)</div>';const a=el('a','btn pri');a.href='https://dorar.net/hadith/search?q='+encodeURIComponent(q);a.target='_blank';a.rel='noopener';a.textContent='ابحث في موقع الدرر مباشرة';a.style.cssText='width:100%;text-decoration:none';R.appendChild(a)};
+  setTimeout(()=>{if(!done){done=true;fail()}},12000)}
+(function(){const grps=[...document.querySelectorAll('#v-set .grp')],ib=grps.find(g=>/أدوات العبادة/.test(g.textContent)),ty=grps.find(g=>/أدوات يومك/.test(g.textContent));
+  const W=['الباحث القرآني','البحث في الدرر السنية','اختبار التجويد','قضاء الصلوات','ختمة العيلة','سجل الصيام','سجل الصدقات','قصص قبل النوم'];
+  TOOLS_G.forEach(t=>{if(t.parentElement)return;const n=t.textContent.trim();const tgt=(W.some(w=>n.includes(w))?ib:ty);if(tgt&&tgt.nextElementSibling)tgt.nextElementSibling.appendChild(t)});
+  const ibt=ib&&ib.nextElementSibling;if(ibt)['البحث في الدرر','الباحث القرآني'].forEach(n=>{const t=[...ibt.children].find(x=>x.textContent.includes(n));if(t)ibt.prepend(t)});
+  grps.forEach(g=>{const c=g.querySelector('.sub');if(c&&g.nextElementSibling)c.textContent=ar(g.nextElementSibling.children.length)})})();
+/* ٥) اختار تشوف إيه بس: كل الكروت والأقسام */
+const HOME_MODS=[['daycard','☀️ يومك في سطر','.daycard'],['mit','🎯 أهم ٣ حاجات','#mitCard'],['cont','⏭️ كمّل من مكان ما وقفت','#contCard'],['qgrid','🔘 الاختصارات','.qgrid'],['hero','⏰ فقرتك الحالية','#hero'],['prayers','🕌 صف الصلوات والمواقيت','#prayers,#pnote,#pnote2,#v-now .pnote'],['steps','🚶 الخطوات','#stepCard'],['list','📋 جدول النهارده','#v-now .bar,#prog,#todayList'],['notes','📝 ملاحظات اليوم','#notes'],['daily','📖 رسالة وآية وحديث اليوم','#daily'],['secs','عناوين الأقسام','#v-now .sec'],['upd','🤖 آخر تحديث','#lastUpd']];
+const NOW_MODS=[['morning','صباحك عامل إيه',/صباحك/],['habits','عادات النهارده',/عادات/],['chal','تحدي النهارده',/تحدي النهارده/],['weekly','تحدي الأسبوع',/تحدي الأسبوع/],['salawat','الصلاة على النبي',/الصلاة على النبي/],['kidstar','نجم البيت',/نجم البيت/],['jamaa','صليت في المسجد؟',/في المسجد/],['wrev','تقييم الأسبوع',/تقييم الأسبوع/]];
+function applyMods(){const H=profile.settings.hideMods||{};HOME_MODS.forEach(([k,,sel])=>{document.querySelectorAll(sel).forEach(e=>{const c=e.closest('.card')&&!e.classList.contains('card')&&k!=='prayers'&&k!=='list'&&k!=='secs'&&k!=='qgrid'?e.closest('.card'):e;c.classList.toggle('hide-x',!!H[k])})});
+  document.querySelectorAll('#nowCards .card,#nowCards .banner').forEach(c=>{const t=(c.querySelector('h3')||{}).textContent||'';const m=NOW_MODS.find(([,,r])=>r.test(t));if(m)c.classList.toggle('hide-x',!!H[m[0]])});
+  const T=profile.settings.hideTiles||{};document.querySelectorAll('#v-set .tile').forEach(t=>{const n=t.textContent.trim();t.classList.toggle('hide-x',!!T[n])});
+  document.querySelectorAll('#v-set .grp').forEach(g=>{const tg=g.nextElementSibling;if(!tg)return;const all=[...tg.children].every(x=>x.classList.contains('hide-x'));g.classList.toggle('hide-x',all);tg.classList.toggle('hide-x',all)})}
+const _rCu=renderCustom;renderCustom=function(){const had=!!$('cuB');_rCu();if(had&&$('modB'))return;const b=$('cuB');if(!b||$('modB'))return;const c=P5('📦 اختار تشوف إيه بس');c.id='modB';
+  const p=el('p','sub');p.style.cssText='margin:0 0 8px;line-height:1.8';p.textContent='شيل العلامة من أي حاجة مش عايزها، وهتختفي. وتقدر ترجّعها في أي وقت.';c.appendChild(p);
+  const sec=t=>{const x=el('div','sub');x.style.cssText='margin:10px 0 4px;font-weight:700;color:var(--gold)';x.textContent=t;c.appendChild(x)};
+  const row=(store,k,n)=>{const r=el('div','set','<div></div><label class="sw"><input type="checkbox"><span></span></label>');r.querySelector('div').textContent=n;const i=r.querySelector('input');const S=profile.settings[store]=profile.settings[store]||{};i.checked=!S[k];i.onchange=()=>{if(i.checked)delete S[k];else S[k]=1;saveProfile();applyMods()};c.appendChild(r)};
+  sec('🏠 الشاشة الرئيسية');HOME_MODS.forEach(([k,n])=>row('hideMods',k,n));NOW_MODS.forEach(([k,n])=>row('hideMods',k,n));
+  sec('🧩 أدوات «المزيد»');[...document.querySelectorAll('#v-set .tile')].map(t=>t.textContent.trim()).filter((v,i,a)=>v&&a.indexOf(v)===i).forEach(n=>row('hideTiles',n,n));
+  b.prepend(c)};
+const _rnc8=renderNowCards2;renderNowCards2=function(){_rnc8();applyMods()};
+const _rx18=renderExtras;renderExtras=function(){_rx18();[renderQS,renderDR,applyMods].forEach(f=>{try{f()}catch(e){console.error(e)}})};
+try{applyMods()}catch(e){}
 </script>
 </body>
 </html>
