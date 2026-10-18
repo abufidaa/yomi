@@ -173,6 +173,21 @@ public class YomiAlarmsPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void calibrate(PluginCall call) {
+        Intent i = new Intent(getContext(), AdhanActivity.class);
+        i.putExtra("calib", true); i.putExtra("adhanOn", false); i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getContext().startActivity(i);
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void clapInfo(PluginCall call) {
+        JSObject r = new JSObject(); r.put("thr", getContext().getSharedPreferences(PREF, Context.MODE_PRIVATE).getFloat("clapThr", 0f));
+        if (Boolean.TRUE.equals(call.getBoolean("reset", false))) getContext().getSharedPreferences(PREF, Context.MODE_PRIVATE).edit().remove("clapThr").apply();
+        call.resolve(r);
+    }
+
+    @PluginMethod
     public void micPerm(PluginCall call) {
         JSObject r = new JSObject();
         boolean ok = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
@@ -219,7 +234,7 @@ public class YomiAlarmsPlugin extends Plugin {
         JSObject r = new JSObject();
         r.put("exact", Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms());
         r.put("scheduled", ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE).getInt("n", 0));
-        r.put("version", 6);
+        r.put("version", 7);
         call.resolve(r);
     }
 
