@@ -25,7 +25,7 @@ import java.util.Locale;
 
 /* شاشة الأذان الكاملة: بتظهر فوق قفل الشاشة زي المنبه */
 public class AdhanActivity extends Activity {
-    MediaPlayer mp; TextToSpeech tts; int nid; volatile boolean listening = false; Thread det;
+    MediaPlayer mp; TextToSpeech tts; int nid; volatile boolean listening = false; Thread det; TextView meter;
 
     @Override
     protected void onCreate(Bundle b) {
@@ -54,7 +54,13 @@ public class AdhanActivity extends Activity {
         hint.setText(clap ? "👏 صفّق مرتين، أو قول «اسكت» بصوت عالي، أو دوس زرار الصوت" : "دوس زرار الصوت في جنب الموبايل عشان يسكت");
         hint.setTextSize(14); hint.setTextColor(Color.parseColor("#AEB8C9")); hint.setGravity(Gravity.CENTER); hint.setPadding(0, 40, 0, 0);
         root.addView(hint);
-        if (clap) startClap(getIntent().getIntExtra("sens", 2));
+        meter = new TextView(this); meter.setTextSize(15); meter.setTextColor(Color.parseColor("#DCB96A")); meter.setGravity(Gravity.CENTER); meter.setPadding(0, 24, 0, 0);
+        root.addView(meter);
+        if (clap) {
+            if (androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != android.content.pm.PackageManager.PERMISSION_GRANTED)
+                meter.setText("⚠️ إذن المايك مقفول، افتح «يومي» واسمح بالمايك");
+            else startClap(getIntent().getIntExtra("sens", 2));
+        }
         setContentView(root);
 
         final Runnable playAdhan = () -> runOnUiThread(() -> {
@@ -89,9 +95,9 @@ public class AdhanActivity extends Activity {
     void startClap(final int sens) {
         if (androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != android.content.pm.PackageManager.PERMISSION_GRANTED) return;
         listening = true;
-        final int thr = sens >= 3 ? 7000 : sens == 2 ? 11000 : 16000;
-        final double ratio = sens >= 3 ? 5.5 : sens == 2 ? 7 : 9;
-        final double shout = sens >= 3 ? 5000 : sens == 2 ? 7500 : 10000;
+        final int thr = sens >= 3 ? 4500 : sens == 2 ? 7500 : 12000;
+        final double ratio = sens >= 3 ? 4.0 : sens == 2 ? 5.0 : 6.5;
+        final double shout = sens >= 3 ? 3500 : sens == 2 ? 5500 : 8000;
         det = new Thread(() -> {
             AudioRecord ar = null;
             try {
@@ -110,12 +116,17 @@ public class AdhanActivity extends Activity {
                     double avg = sum / (double) n;
                     long now = System.currentTimeMillis();
                     if (now - t0 < 800) { base = Math.max(base, avg); continue; }
-                    boolean sharp = peak > thr && peak > base * ratio && avg < peak * 0.3;
-                    if (sharp && now - last > 110) {
-                        spikes = (now - last < 900) ? spikes + 1 : 1;
+                    boolean sharp = peak > thr && peak > base * ratio && avg < peak * 0.35;
+                    if (peak > 26000 && peak > base * 7) { runOnUiThread(this::finish); break; }
+                    if (sharp && now - last > 100) {
+                        spikes = (now - last < 1000) ? spikes + 1 : 1;
                         last = now;
+                        final int sp2 = spikes;
+                        runOnUiThread(() -> meter.setText("👏 سمعت تصفيقة " + sp2));
                         if (spikes >= 2) { runOnUiThread(this::finish); break; }
                     }
+                    final int lvl = (int) Math.min(10, avg / Math.max(300, thr / 12.0));
+                    if (now % 4 == 0) runOnUiThread(() -> { if (!meter.getText().toString().startsWith("👏")) meter.setText("🎤 سامعك  " + "▮▮▮▮▮▮▮▮▮▮".substring(0, Math.max(1, lvl))); });
                     loud = (avg > shout && avg > base * 3) ? loud + 1 : 0;
                     if (loud >= 4) { runOnUiThread(this::finish); break; }
                     base = base * 0.96 + avg * 0.04;

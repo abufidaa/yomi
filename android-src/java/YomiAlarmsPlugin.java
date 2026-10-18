@@ -16,6 +16,12 @@ import android.os.Build;
 import android.provider.Settings;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import android.media.AudioAttributes;
+import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -32,6 +38,79 @@ import org.json.JSONObject;
 @CapacitorPlugin(name = "YomiAlarms")
 public class YomiAlarmsPlugin extends Plugin {
     static final String PREF = "yomi_alarms";
+    private TextToSpeech tts; private boolean ttsReady = false; private boolean ttsInit = false;
+    private final ArrayList<PluginCall> pend = new ArrayList<>();
+    private final HashMap<String, PluginCall> calls = new HashMap<>();
+
+    /* الكلام جوه التطبيق بصوت Google (المتصفح الداخلي مفيهوش ميزة الكلام) */
+    private void ensureTts() {
+        if (ttsInit) return; ttsInit = true;
+        tts = new TextToSpeech(getContext().getApplicationContext(), st -> {
+            ttsReady = st == TextToSpeech.SUCCESS;
+            if (ttsReady) tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                @Override public void onStart(String id) { }
+                @Override public void onDone(String id) { PluginCall c = calls.remove(id); if (c != null) c.resolve(); }
+                @Override public void onError(String id) { PluginCall c = calls.remove(id); if (c != null) c.resolve(); }
+            });
+            for (PluginCall c : pend) { if (ttsReady) doSpeak(c); else c.reject("tts"); }
+            pend.clear();
+        });
+    }
+    private void doSpeak(PluginCall call) {
+        try {
+            String lang = call.getString("lang", "ar");
+            tts.setLanguage(new Locale(lang == null || lang.isEmpty() ? "ar" : lang.split("-")[0]));
+            tts.setSpeechRate(call.getFloat("rate", 1f));
+            tts.setPitch(call.getFloat("pitch", 1f));
+            tts.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build());
+            String id = "u" + System.nanoTime();
+            calls.put(id, call);
+            Bundle b = new Bundle(); b.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, call.getFloat("volume", 1f));
+            tts.speak(call.getString("text", ""), TextToSpeech.QUEUE_ADD, b, id);
+        } catch (Exception e) { call.resolve(); }
+    }
+    @PluginMethod
+    public void speak(PluginCall call) { ensureTts(); if (!ttsReady) { pend.add(call); return; } doSpeak(call); }
+    @PluginMethod
+    public void stopSpeak(PluginCall call) {
+        try { if (tts != null) tts.stop(); } catch (Exception ignored) { }
+        for (PluginCall c : calls.values()) c.resolve();
+        calls.clear(); call.resolve();
+    }
+
+    /* التحديث من جوه التطبيق: بينزّل النسخة الجديدة ويفتح التثبيت */
+    @PluginMethod
+    public void updateApk(PluginCall call) {
+        final String url = call.getString("url");
+        final Context ctx = getContext();
+        if (Build.VERSION.SDK_INT >= 26 && !ctx.getPackageManager().canRequestPackageInstalls()) {
+            Intent i = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + ctx.getPackageName()));
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            try { ctx.startActivity(i); } catch (Exception ignored) { }
+            JSObject r = new JSObject(); r.put("needPermission", true); call.resolve(r); return;
+        }
+        new Thread(() -> {
+            try {
+                java.net.HttpURLConnection c = (java.net.HttpURLConnection) new java.net.URL(url + "?t=" + System.currentTimeMillis()).openConnection();
+                c.setInstanceFollowRedirects(true); c.connect();
+                int len = c.getContentLength();
+                java.io.File f = new java.io.File(ctx.getCacheDir(), "yomi-update.apk");
+                try (java.io.InputStream in = c.getInputStream(); java.io.FileOutputStream out = new java.io.FileOutputStream(f)) {
+                    byte[] buf = new byte[65536]; int n; long got = 0; int last = -1;
+                    while ((n = in.read(buf)) > 0) {
+                        out.write(buf, 0, n); got += n;
+                        if (len > 0) { int pc = (int) (got * 100 / len); if (pc != last && pc % 5 == 0) { last = pc; JSObject ev = new JSObject(); ev.put("p", pc); notifyListeners("updProgress", ev); } }
+                    }
+                }
+                Uri u = androidx.core.content.FileProvider.getUriForFile(ctx, ctx.getPackageName() + ".fileprovider", f);
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setDataAndType(u, "application/vnd.android.package-archive");
+                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+                ctx.startActivity(i);
+                JSObject r = new JSObject(); r.put("ok", true); call.resolve(r);
+            } catch (Exception e) { call.reject(String.valueOf(e.getMessage())); }
+        }).start();
+    }
 
     static void scheduleList(Context ctx, JSONArray arr) throws Exception {
         AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
@@ -140,7 +219,7 @@ public class YomiAlarmsPlugin extends Plugin {
         JSObject r = new JSObject();
         r.put("exact", Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms());
         r.put("scheduled", ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE).getInt("n", 0));
-        r.put("version", 5);
+        r.put("version", 6);
         call.resolve(r);
     }
 
