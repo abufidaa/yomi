@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018092201">
+<meta name="app-version" content="20261018092511">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٧.٢</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٧.٣</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٧.٢</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٧.٣</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -5046,5 +5046,50 @@ renderAdhkar=(function(o){return function(){o();const L2=$('aList');if(!L2||L2.q
 </script>
 <style>.vbadge{font-size:10px!important;padding:1px 6px!important}@media (max-width:380px){.ab-t small{display:none}}</style>
 <script>(function(){const v=$('v-hisn');if(!v)return;const h2=v.querySelector('h2');if(h2)h2.textContent='📚 مكتبة الأذكار';const p=v.querySelector(':scope > p.sub');if(p)p.textContent='٧٦٩ ذكر ودعاء في ٢٦٩ باب، كل باب بالوضع الاحترافي وعدّاد لكل ذكر.';const t=[...document.querySelectorAll('#v-set .tile')].find(x=>x.textContent.includes('حصن المسلم'));if(t)t.querySelector('span').textContent='مكتبة الأذكار'})();</script>
+<script>
+/* ================= ٧.٣: دفعة الصحة ================= */
+const HL=addTool('health','💪','صحتي','الوزن، والدوا، والصيام المتقطع، والمزاج، وتقرير صحتك كل أسبوع.');
+function lineSvg(vals,lbl){const W=320,H=110,mn=Math.min(...vals),mx=Math.max(...vals),rg=(mx-mn)||1,pts=vals.map((v,i)=>[vals.length>1?i*(W/(vals.length-1)):W/2,H-12-(v-mn)/rg*(H-30)]);
+  return'<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto"><polyline points="'+pts.map(p=>p.join(',')).join(' ')+'" fill="none" stroke="var(--ib)" stroke-width="2.5"/>'+pts.map((p,i)=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3.5" fill="var(--ib)"/>'+(i===pts.length-1||i===0?'<text x="'+p[0]+'" y="'+(p[1]-8)+'" font-size="11" text-anchor="middle" fill="var(--muted)">'+ar(vals[i])+'</text>':'')).join('')+'</svg>'+(lbl?'<p class="sub" style="margin:0">'+lbl+'</p>':'')}
+function renderHL(){if(!isAct('health'))return;let b=$('hlB');if(!b){b=el('div');b.id='hlB';HL.appendChild(b)}b.innerHTML='';const s=profile.settings,n=new Date(),k=dkey(n);
+  /* (٦١) الوزن */
+  const W=profile.weights=profile.weights||[],c1=P5('⚖️ وزنك');const r1=el('div','row','<input type="number" step="0.1" placeholder="وزنك النهارده (كجم)" style="flex:1;min-width:0"><button class="btn pri">سجّل</button>');
+  r1.querySelector('.pri').onclick=()=>{const v=parseFloat(r1.querySelector('input').value);if(!(v>20&&v<400)){toast('اكتب وزن صحيح');return}const i=W.findIndex(x=>x.d===k);if(i>=0)W[i].v=v;else W.push({d:k,v});W.sort((a,b2)=>a.d.localeCompare(b2.d));saveProfile();toast('✅ اتسجّل');renderHL()};c1.appendChild(r1);
+  c1.appendChild(numRow('🎯 الوزن المستهدف','كجم (اختياري)','wGoal',0,0,300,0.5,()=>renderHL()));
+  if(W.length){const last=W.slice(-12),v=last.map(x=>x.v),ch=W.length>1?W[W.length-1].v-W[0].v:0,g=s.wGoal;const d2=el('div');d2.innerHTML=lineSvg(v,'آخر وزن: '+ar(W[W.length-1].v)+' كجم'+(W.length>1?' · من أول ما بدأت: '+(ch>0?'+':'')+ar(+ch.toFixed(1)):'')+(g?' · فاضل للهدف: '+ar(+Math.abs(W[W.length-1].v-g).toFixed(1))+' كجم':''));c1.appendChild(d2)}b.appendChild(c1);
+  /* (٦٢) تذكير الدوا */
+  const M=profile.meds=profile.meds||[],c2=P5('💊 مواعيد الدوا');c2.innerHTML+='<p class="sub" style="margin:0 0 8px">التطبيق يفكّرك في ميعاد كل دوا، بالصوت والموبايل مقفول.</p>';
+  M.forEach((x,i)=>{const r=el('div','kv','<span></span><button class="btn dan">✕</button>');r.querySelector('span').textContent='💊 '+x.n+' · '+x.t.map(t=>fmt(toMin(t))).join('، ');r.querySelector('button').onclick=()=>{M.splice(i,1);saveProfile();syncNative&&syncNative();renderHL()};c2.appendChild(r)});
+  const r2=el('div','row','<input placeholder="اسم الدوا" style="flex:1;min-width:0"><input type="time" style="width:110px"><button class="btn pri">ضيف</button>');r2.style.marginTop='6px';r2.querySelector('.pri').onclick=()=>{const[nm,tm]=r2.querySelectorAll('input');if(!nm.value.trim()||!tm.value){toast('اكتب الاسم والميعاد');return}const ex=M.find(x=>x.n===nm.value.trim());if(ex)ex.t.push(tm.value);else M.push({n:nm.value.trim().slice(0,40),t:[tm.value]});saveProfile();syncNative&&syncNative();renderHL()};c2.appendChild(r2);
+  const md=(day(k).meds=day(k).meds||{});if(M.length){const ch2=el('div','chips');ch2.style.marginTop='8px';M.forEach(x=>x.t.forEach(t=>{const key=x.n+'@'+t,bt=el('button',md[key]?'on':'');bt.textContent=(md[key]?'✓ ':'')+x.n+' '+fmt(toMin(t));bt.onclick=()=>{md[key]=!md[key];saveDay(k);renderHL()};ch2.appendChild(bt)}));c2.appendChild(ch2)}b.appendChild(c2);
+  /* (٦٥) الصيام المتقطع */
+  const IF=profile.ifast=profile.ifast||{on:0,goal:16,log:[]},c3=P5('⏳ الصيام المتقطع');const goalH=IF.goal||16;
+  if(IF.on){const hrs=(Date.now()-IF.on)/36e5,pc=Math.min(100,hrs/goalH*100);c3.innerHTML+='<div style="text-align:center;font-family:var(--fh);font-size:32px;font-weight:800;direction:ltr">'+pad(Math.floor(hrs))+':'+pad(Math.floor(hrs%1*60))+'</div><div class="mbar"><i style="width:'+pc+'%"></i></div><p class="sub" style="text-align:center;margin:4px 0 8px">'+(hrs>=goalH?'✅ كمّلت '+ar(goalH)+' ساعة، ما شاء الله':'فاضل '+ar(Math.ceil(goalH-hrs))+' ساعة على هدفك ('+ar(goalH)+' ساعة)')+'</p>';
+    const st=el('button','btn pri');st.style.width='100%';st.textContent='🍽️ فطرت، وقّف العدّاد';st.onclick=()=>{IF.log.unshift({s:IF.on,h:+((Date.now()-IF.on)/36e5).toFixed(1)});IF.log=IF.log.slice(0,30);IF.on=0;saveProfile();renderHL()};c3.appendChild(st)}
+  else{const ch3=el('div','chips');[12,14,16,18].forEach(g=>{const x=el('button',goalH===g?'on':'');x.textContent=ar(g)+' ساعة';x.onclick=()=>{IF.goal=g;saveProfile();renderHL()};ch3.appendChild(x)});c3.appendChild(ch3);const st=el('button','btn pri');st.style.width='100%';st.textContent='▶ ابدأ الصيام دلوقتي';st.onclick=()=>{IF.on=Date.now();saveProfile();renderHL()};c3.appendChild(st)}
+  if(IF.log.length){const p=el('p','sub');p.style.margin='8px 0 0';p.textContent='آخر مرة: '+ar(IF.log[0].h)+' ساعة · متوسط آخر ٧: '+ar(+(IF.log.slice(0,7).reduce((a,x)=>a+x.h,0)/Math.min(7,IF.log.length)).toFixed(1))+' ساعة';c3.appendChild(p)}b.appendChild(c3);
+  /* (٦٨) المزاج */
+  const c4=P5('😊 مزاجك آخر ١٤ يوم'),mv=[],ml=[];for(let i=13;i>=0;i--){const dd=addDays(n,-i);mv.push(day(dkey(dd)).mood||0);ml.push(DSH[dd.getDay()])}c4.innerHTML+='<div class="chart" id="moodC" style="--c:#E9A23B;height:90px"></div><p class="sub" style="margin:4px 0 0">بتسجّله من كارت «يومك كان عامل إزاي؟» في المحاسبة بالليل</p>';b.appendChild(c4);setTimeout(()=>{const g=$('moodC');if(g)chart(g,mv,ml,v=>['','😞','😐','🙂','😊','🤩'][v]||'—',5)},0);
+  /* (٧٠) تقرير الصحة الأسبوعي */
+  const c5=P5('📋 تقرير صحتك الأسبوع ده');let sl=[],st2=[],wa=0,wo=0,mo=[];for(let i=0;i<7;i++){const d=day(dkey(addDays(n,-i)));if(d.sleep)sl.push(d.sleep);if(d.steps)st2.push(d.steps);wa+=d.water||0;wo+=(d.workout||0);if(d.mood)mo.push(d.mood)}
+  const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;[['😴 متوسط النوم',sl.length?ar(+avg(sl).toFixed(1))+' ساعة':'—'],['🚶 متوسط الخطوات',st2.length?ar(Math.round(avg(st2))):'—'],['💧 الماية',ar(wa)+' كوباية'],['🏃 التمارين',ar(wo)+' مرة'],['😊 المزاج',mo.length?['','😞','😐','🙂','😊','🤩'][Math.round(avg(mo))]:'—'],['⚖️ الوزن',W.length?ar(W[W.length-1].v)+' كجم':'—']].forEach(([a,v])=>c5.appendChild(kv(a,v)));
+  const tips=[];if(sl.length&&avg(sl)<6.5)tips.push('😴 نومك أقل من ٧ ساعات، حاول تنام بدري شوية.');if(wa<35)tips.push('💧 الماية قليلة، هدفك ٨ كوبايات في اليوم.');if(!wo)tips.push('🏃 جرّب «تمارين ٧ دقايق» ولو مرتين في الأسبوع.');if(tips.length){const t=el('div','msg2');t.style.marginTop='8px';t.textContent=tips.join(' ');c5.appendChild(t)}
+  const sh=el('button','btn');sh.style.marginTop='8px';sh.textContent='🔊 اسمع التقرير';sh.onclick=()=>{unlock();speak(smoothAr('تَقْرِيرُ صِحَّتِكَ هذا الأُسْبُوعَ: '+(sl.length?'مُتَوَسِّطُ النَّوْمِ '+avg(sl).toFixed(1)+' ساعاتٍ، ':'')+'وَشَرِبْتَ '+wa+' أَكْوابٍ مِنَ الماءِ، وَتَمَرَّنْتَ '+wo+' مَرّاتٍ.'))};c5.appendChild(sh);b.appendChild(c5);
+  /* (٦٤ و٦٦ و٦٧) التذكيرات */
+  const c6=P5('🔔 تذكيرات الصحة');c6.appendChild(swRow('🚶 مشي بعد الأكل','بعد الغدا والعشا: ١٠ دقايق مشي','rmWalk',false));c6.appendChild(swRow('👀 راحة العين (٢٠-٢٠-٢٠)','كل ٢٠ دقيقة من ٩ لـ ٥: بص لحاجة بعيدة ٢٠ ثانية','rmEye',false));c6.appendChild(swRow('🏆 تحدي ١٠ آلاف خطوة','الهدف بيبقى ١٠٬٠٠٠ بدل ٦٬٠٠٠','step10k',false));
+  c6.querySelectorAll('input').forEach(i=>i.addEventListener('change',()=>{if(profile.settings.step10k)profile.settings.stepGoal=10000;else if(profile.settings.stepGoal===10000)profile.settings.stepGoal=6000;saveProfile();syncNative&&syncNative()}));b.appendChild(c6)}
+buildAlarms=(function(o){return function(){const out=o(),s=profile.settings,v=String(curVoice()).replace(/-network$/,'-local'),r=s.vRate||.9;
+  for(let i=0;i<2;i++){const d=addDays(new Date(),i),pt=prayerTimes(d),P=(m,title,body,sp)=>{const at=atMin(d,m);if(at>Date.now())out.push({at,title,body,speak:sp?smoothAr(sp):'',lang:'ar',voice:v,rate:r})};
+    (profile.meds||[]).forEach(x=>x.t.forEach(t=>P(toMin(t),'💊 ميعاد الدوا',x.n,'يا '+NM()+'، حانَ وَقْتُ الدَّواءِ: '+x.n+'.')));
+    if(s.rmWalk){P(pt.dhuhr+75,'🚶 مشي بعد الأكل','١٠ دقايق مشي بعد الغدا','حانَ وَقْتُ المَشْيِ عَشْرَ دَقائِقَ بَعْدَ الأَكْلِ.');P(pt.isha+45,'🚶 مشي بعد العشا','١٠ دقايق مشي','حانَ وَقْتُ المَشْيِ عَشْرَ دَقائِقَ بَعْدَ العَشاءِ.')}
+    if(s.rmEye)for(let m=540;m<1020;m+=40)P(m,'👀 ريّح عينك','بص لحاجة بعيدة ٢٠ ثانية','')}return out.sort((a,b)=>a.at-b.at)}})(buildAlarms);
+setInterval(()=>{try{if(YN)return;const s=profile.settings,n=new Date(),m=nowMin(),k=dkey(n);
+  (profile.meds||[]).forEach(x=>x.t.forEach(t=>{const tm=toMin(t);if(m>=tm&&m<tm+2&&local.get('md'+x.n+t,'')!==k){local.set('md'+x.n+t,k);alertUser('💊 ميعاد الدوا',x.n,'يا '+NM()+'، حانَ وَقْتُ الدَّواءِ: '+x.n+'.')}}));
+  if(s.rmEye&&m>=540&&m<1020&&m%20===0&&local.get('eye',0)!==m+k){local.set('eye',m+k);toast('👀 ريّح عينك: بص لحاجة بعيدة ٢٠ ثانية');try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}}}catch(e){}},30000);
+BADGES2.push(['steps10k','🏆','١٠ آلاف خطوة','أيام مشيت فيها ١٠٬٠٠٠ خطوة',()=>cntDays(d=>(d.steps||0)>=10000),[1,7,30,100]],['weight','⚖️','متابعة الوزن','مرات سجّلت فيها وزنك',()=>(profile.weights||[]).length,[3,10,30,100]]);
+(function(){const grps=[...document.querySelectorAll('#v-set .grp')],ty=grps.find(g=>/أدوات يومك/.test(g.textContent));TOOLS_G.forEach(t=>{if(t.parentElement)return;if(ty&&ty.nextElementSibling)ty.nextElementSibling.prepend(t)});grps.forEach(g=>{const c=g.querySelector('.sub');if(c&&g.nextElementSibling)c.textContent=ar(g.nextElementSibling.children.length)})})();
+const _rx27=renderExtras;renderExtras=function(){_rx27();try{renderHL()}catch(e){console.error(e)}};
+setInterval(()=>{try{if(isAct('health')&&(profile.ifast||{}).on)renderHL()}catch(e){}},60000);
+</script>
 </body>
 </html>
