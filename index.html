@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018091305">
+<meta name="app-version" content="20261018092201">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٧.١</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٧.٢</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٧.١</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٧.٢</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4857,7 +4857,7 @@ function azItems(kind){const ch=(window.HISN||[]).find(c=>c.g==='fadl'&&c.t===(k
 function azGrade(r){if(/سورة|آية|البقرة/.test(r))return['قرآن كريم','#2F7D6B'];if(/البخاري|مسلم|متفق/.test(r))return['صحيح','#2F9E6E'];return['',''] }
 function openAz(kind){loadHisn(()=>{const items=azItems(kind),k=dkey(new Date()),d=day(k),S=(d.azr=d.azr||{})[kind]=(d.azr[kind]||{});AZ={kind,items,i:Math.min(S.i||0,items.length),cnt:S.c||{}};
   const R=$('azR');R.className='azr '+(kind==='m'?'m':'e');$('azT').textContent=(kind==='m'?'☀️ أذكار الصباح':'🌙 أذكار المساء');R.hidden=false;azPaint()})}
-function azSave(){if(!AZ)return;const k=dkey(new Date()),d=day(k);(d.azr=d.azr||{})[AZ.kind]={i:AZ.i,c:AZ.cnt};if(AZ.i>=AZ.items.length){const A=ADHKAR[AZ.kind];(d.adhkar=d.adhkar||{})[AZ.kind]=A.items.map(it=>it[1])}saveDay(k)}
+function azSave(){if(!AZ)return;const k=dkey(new Date()),d=day(k);(d.azr=d.azr||{})[AZ.kind]={i:AZ.i,c:AZ.cnt};if(AZ.i>=AZ.items.length&&ADHKAR[AZ.kind]){const A=ADHKAR[AZ.kind];(d.adhkar=d.adhkar||{})[AZ.kind]=A.items.map(it=>it[1])}saveDay(k)}
 function azPaint(){const B=$('azBody'),N=AZ.items.length;$('azP').style.width=(AZ.i/N*100)+'%';B.innerHTML='';
   if(AZ.i>=N){B.innerHTML='<div class="done"><div style="font-size:72px">'+(AZ.kind==='m'?'☀️':'🌙')+'</div><h2 style="color:#F3E2BC">تقبّل الله</h2><p style="opacity:.9;line-height:1.9">خلّصت '+(AZ.kind==='m'?'أذكار الصباح':'أذكار المساء')+' كاملة، '+ar(N)+' ذكر.<br>حفظك الله في '+(AZ.kind==='m'?'يومك':'ليلتك')+'.</p><button class="nb" id="azAgain">ابدأ من الأول</button></div>';
     $('azAgain').onclick=()=>{AZ.i=0;AZ.cnt={};azSave();azPaint()};return}
@@ -4867,7 +4867,7 @@ function azPaint(){const B=$('azBody'),N=AZ.items.length;$('azP').style.width=(A
   c.onclick=e=>{if(e.target.closest('button'))return;azCount()};B.appendChild(c);
   const ct=el('div','ctr','<button class="nb" data-a="p">→ السابق</button><button class="cnt"><span></span><small></small></button><button class="nb" data-a="n">التالي ←</button>');ct.querySelector('.cnt span').textContent=ar(left);ct.querySelector('.cnt small').textContent=left?'المس للعدّ':'✓';
   ct.querySelector('.cnt').onclick=azCount;ct.querySelector('[data-a=p]').onclick=()=>{if(AZ.i>0){AZ.i--;azSave();azPaint()}};ct.querySelector('[data-a=n]').onclick=()=>{AZ.i++;azSave();azPaint();if(AZ.i>=N)celebrate('تقبّل الله 🤍')};B.appendChild(ct)}
-function azCount(){const it=AZ.items[AZ.i],c=(AZ.cnt[AZ.i]||0)+1;AZ.cnt[AZ.i]=c;try{navigator.vibrate&&navigator.vibrate(c>=it.n?[30,40,30]:15)}catch(e){}if(c>=it.n){AZ.i++;azSave();setTimeout(azPaint,180);if(AZ.i>=AZ.items.length)celebrate('تقبّل الله، خلّصت '+(AZ.kind==='m'?'أذكار الصباح':'أذكار المساء')+' 🤍')}else{azSave();azPaint()}}
+function azCount(){const it=AZ.items[AZ.i],c=(AZ.cnt[AZ.i]||0)+1;AZ.cnt[AZ.i]=c;try{navigator.vibrate&&navigator.vibrate(c>=it.n?[30,40,30]:15)}catch(e){}if(c>=it.n){AZ.i++;azSave();setTimeout(azPaint,180);if(AZ.i>=AZ.items.length)celebrate('تقبّل الله، خلّصت '+(AZ.title||(AZ.kind==='m'?'أذكار الصباح':'أذكار المساء'))+' 🤍')}else{azSave();azPaint()}}
 $('azX').onclick=()=>{$('azR').hidden=true;AZ=null;try{speechSynthesis.cancel()}catch(e){}renderAll(true)};
 $('azS').onclick=()=>{if(!AZ||AZ.i>=AZ.items.length)return;unlock();const it=AZ.items[AZ.i];if(/سورة|آية/.test(it.r)&&/الكرسي|255/.test(it.r)){playAyP(2,255);return}gsSay(profile.settings.vLang||'ar',it.t)};
 $('azF').onclick=()=>{profile.settings.azfs=Math.min(34,(profile.settings.azfs||23)+2);if(profile.settings.azfs>=34)profile.settings.azfs=19;saveProfile();document.documentElement.style.setProperty('--azfs',profile.settings.azfs+'px')};
@@ -5005,5 +5005,46 @@ renderOcc=(function(o){return function(){o();const L2=$('occList');if(!L2)return
 (function(){const grps=[...document.querySelectorAll('#v-set .grp')],org=grps.find(g=>/تنظيم يومك/.test(g.textContent));TOOLS_G.forEach(t=>{if(t.parentElement)return;if(org&&org.nextElementSibling)org.nextElementSibling.appendChild(t)});grps.forEach(g=>{const c=g.querySelector('.sub');if(c&&g.nextElementSibling)c.textContent=ar(g.nextElementSibling.children.length)})})();
 const _rx26=renderExtras;renderExtras=function(){_rx26();[renderKA,renderFS,renderMM,renderKS].forEach(f=>{try{f()}catch(e){console.error(e)}})};
 </script>
+<style>
+.azr.p{background:radial-gradient(circle at 50% 0%,rgba(243,226,188,.3),transparent 35%),linear-gradient(180deg,#0F6B4F,#073D2D 70%,#042419)}
+.azr.t{background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.35),transparent 30%),linear-gradient(180deg,#3E8DBA,#1C5A7E 60%,#0E3550)}
+.azr.c{background:radial-gradient(circle at 30% 10%,rgba(232,213,255,.3),transparent 30%),linear-gradient(180deg,#5B3F8C,#35235C 60%,#1E1438)}
+.azr.g{background:radial-gradient(circle at 70% 8%,rgba(243,226,188,.35),transparent 30%),linear-gradient(180deg,#1F4378,#0B152F)}
+.hzg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hzk{position:relative;border-radius:20px;padding:14px 12px 12px;color:#fff;cursor:pointer;min-height:118px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 8px 20px rgba(0,0,0,.14);overflow:hidden}
+.hzk .ic{font-size:30px}.hzk b{font-size:14px;line-height:1.5}.hzk .ft{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;opacity:.9}.hzk .go{background:rgba(255,255,255,.22);border-radius:20px;padding:3px 10px;font-weight:700}
+.hzk .ring{position:absolute;top:10px;left:10px;width:30px;height:30px}.hzk::after{content:"";position:absolute;inset:auto -30px -30px auto;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.08)}
+</style>
+<script>
+/* ================= ٧.٢: الشكل الاحترافي لكل الأذكار + مكتبة أجمل ================= */
+const AZTH=[[/الصباح|الاستيقاظ|الصحيان/,'m','☀️'],[/المساء|النوم|الليل|الوتر|القنوت|الفزع|الأرق/,'e','🌙'],[/الصلاة|المسجد|الأذان|الآذان|الوضوء|السجود|الركوع|التشهد|الاستفتاح|السلام من|القيام/,'p','🕌'],[/السفر|الركوب|المطر|الريح|الرعد|السحاب|الهلال|المسافر|الدابة/,'t','🧳'],[/الكرب|الهم|الحزن|المريض|الميت|المصيبة|الرقية|الوسوسة|العدو|الخوف|الدَّين|الدين|الغضب|المحزون/,'c','🤲'],[/الطعام|الأكل|الصائم|الصيام|الإفطار|اللبن|الشرب/,'t','🍽️'],[/المنزل|البيت|الخلاء|الثوب|العطاس|النكاح|الزواج|المولود/,'g','🏠'],[/القرآن/,'p','📖'],[/الحج|العمرة|عرفة|الطواف|الصفا|الجمار/,'p','🕋'],[/التسبيح|التحميد|التهليل|التكبير|الاستغفار|التوبة|الصلاة على النبي/,'g','📿']];
+const azTheme=t=>{for(const[re,th,ic]of AZTH)if(re.test(t))return[th,ic];return['g','📿']};
+function openAzCh(ci){loadHisn(()=>{const c=HISN[ci];if(!c)return;const items=c.x.map((t,i)=>{const f=c.f[i]||'';window.__hzF=f;const n=hzCount(t);window.__hzF='';
+    if(c.g==='fadl'){const r=(f.match(/📖 ([^·]+)/)||[])[1]||'',fd=(f.match(/✨ ([^·]+)/)||[])[1]||'';return{t:t.trim(),n,f:fd.trim(),r:r.trim()}}
+    if(c.g==='quran')return{t:t.trim(),n:1,f:'',r:f.replace('📖 ','').trim()};return{t:t.trim(),n,f:'',r:f.trim()}});
+  const[th,ic]=azTheme(c.t),key='c'+ci,d=day(dkey(new Date())),S=(d.azr=d.azr||{})[key]||{};AZ={kind:key,ci,title:c.t,icon:ic,items,i:Math.min(S.i||0,items.length),cnt:S.c||{}};
+  const R=$('azR');R.className='azr '+th;$('azT').textContent=ic+' '+c.t;R.hidden=false;azPaint()})}
+azPaint=(function(o){return function(){o();if(!AZ)return;const B=$('azBody');if(AZ.ci!=null&&AZ.i>=AZ.items.length){const h2=B.querySelector('h2'),p=B.querySelector('.done p'),e=B.querySelector('.done div');if(e)e.textContent=AZ.icon||'📿';if(p)p.innerHTML='خلّصت <b></b> كاملة، '+ar(AZ.items.length)+' ذكر.<br>تقبّل الله منك.';const b=p&&p.querySelector('b');if(b)b.textContent=AZ.title}
+  const m=B.querySelector('.meta');if(m&&AZ.i<AZ.items.length){const it=AZ.items[AZ.i];if(it.r&&!/سورة|آية|القرآن/.test(it.r)&&!azGrade(it.r)[0]){const b=el('button','nb');b.style.cssText='min-height:32px;margin-top:6px;font-size:12.5px';b.textContent='🔍 درجته في كتب الحديث';b.onclick=e=>{e.stopPropagation();$('azX').click();openDorar(qn(it.t).split(/\s+/).slice(0,6).join(' '))};m.appendChild(b)}}}})(azPaint);
+azPaint=(function(o2){return function(){o2();try{if(AZ&&AZ.ci!=null&&HISN[AZ.ci].g==='hisn'){const m=$('azBody').querySelector('.meta div');if(m&&m.firstChild&&m.firstChild.nodeType===3)m.firstChild.textContent='📝 التخريج والتوضيح: '}}catch(e){}}})(azPaint);
+document.querySelectorAll('img.brandlogo').forEach(i=>{if(!i.getAttribute('src'))i.src=LOGO_SRC});
+azCount=(function(o){return function(){const before=AZ&&AZ.i;o();if(AZ&&AZ.ci!=null&&AZ.i>before){(profile.hisnRead=profile.hisnRead||{})[AZ.ci+'-'+before]=1;saveProfile()}}})(azCount);
+/* المكتبة: كروت ملوّنة لكل باب، وزرار «ابدأ» بيفتح الوضع الاحترافي */
+const THC={m:['#F2A65A','#C8705A'],e:['#2A3A6E','#0B152F'],p:['#1E8A68','#0A4A36'],t:['#4A9CC9','#1C5A7E'],c:['#7A5CB0','#3A2766'],g:['#2B5A9E','#13284F']};
+renderHisn=(function(o){return function(){o();const box=$('hzBox');if(!box||!window.HISN)return;
+  if(hz.ch!==null&&typeof hz.ch==='number'){if(!box.querySelector('#azGoCh')){const c=HISN[hz.ch],[th,ic]=azTheme(c.t),b=el('button','btn pri');b.id='azGoCh';b.style.cssText='width:100%;margin-bottom:10px;min-height:52px;font-size:16px;background:linear-gradient(135deg,'+THC[th][0]+','+THC[th][1]+');border:0;color:#fff';b.textContent=ic+' ابدأ «'+c.t+'» بالوضع الاحترافي';b.onclick=()=>openAzCh(hz.ch);const h3=box.querySelector('h3');(h3||box.firstChild).after(b)}return}
+  if(hz.q)return;const list=[...box.querySelectorAll('.hzc')].filter(b=>!/المفضلة/.test(b.textContent)&&b.style.display!=='none');if(!list.length)return;const g=el('div','hzg'),R=profile.hisnRead||{};
+  list.forEach(b=>{const t=b.querySelector('b').textContent,ci=HISN.findIndex(c=>c.t===t);if(ci<0)return;const c=HISN[ci],[th,ic]=azTheme(t),rd=c.x.filter((_,i)=>R[ci+'-'+i]).length;
+    const k=el('div','hzk','<div class="ic"></div><b></b><div class="ft"><span></span><span class="go">▶ ابدأ</span></div>');k.style.background='linear-gradient(145deg,'+THC[th][0]+','+THC[th][1]+')';k.querySelector('.ic').textContent=ic;k.querySelector('b').textContent=t;k.querySelector('.ft span').textContent=(rd===c.x.length?'✓ ':'')+ar(rd)+'/'+ar(c.x.length);
+    k.onclick=e=>{if(e.target.closest('.go'))openAzCh(ci);else{hz.ch=ci;renderHisn();window.scrollTo(0,0)}};g.appendChild(k);b.remove()});
+  const fav=[...box.querySelectorAll('.hzc')].find(b=>/المفضلة/.test(b.textContent));(fav||box.querySelector('p.sub')||box.firstChild).after(g)}})(renderHisn);
+/* في صفحة الأذكار: كل الأقسام بالوضع الاحترافي */
+renderAdhkar=(function(o){return function(){o();const L2=$('aList');if(!L2||L2.querySelector('#azMore'))return;const st=L2.querySelector('.azstart');if(!st)return;
+  const more=el('div','azstart');more.id='azMore';const ks=Object.keys(ADHKAR).filter(k=>k!=='m'&&k!=='e');
+  ks.forEach(k=>{const A=ADHKAR[k],[th,ic]=azTheme(A.n||''),b=el('button');b.style.background='linear-gradient(135deg,'+THC[th][0]+','+THC[th][1]+')';b.innerHTML=ic+' '+'<span></span><small>بالوضع الاحترافي</small>';b.querySelector('span').textContent=A.n;
+    b.onclick=()=>loadHisn(()=>{const ci=HISN.findIndex(c=>c.g==='fadl'&&c.t.includes((A.n||'').replace(/^أذكار\s*/,'')));if(ci>=0)openAzCh(ci);else{AZ={kind:k,title:A.n,icon:ic,items:A.items.map(([t,n])=>({t,n,f:'',r:''})),i:0,cnt:{}};$('azR').className='azr '+th;$('azT').textContent=ic+' '+A.n;$('azR').hidden=false;azPaint()}});more.appendChild(b)});
+  const lib=el('button');lib.style.background='linear-gradient(135deg,#B08A3E,#7A5C1E)';lib.innerHTML='📚 كل الأذكار<small>٢٦٩ باب بالوضع الاحترافي</small>';lib.onclick=()=>go('hisn');more.appendChild(lib);st.after(more)}})(renderAdhkar);
+</script>
+<style>.vbadge{font-size:10px!important;padding:1px 6px!important}@media (max-width:380px){.ab-t small{display:none}}</style>
+<script>(function(){const v=$('v-hisn');if(!v)return;const h2=v.querySelector('h2');if(h2)h2.textContent='📚 مكتبة الأذكار';const p=v.querySelector(':scope > p.sub');if(p)p.textContent='٧٦٩ ذكر ودعاء في ٢٦٩ باب، كل باب بالوضع الاحترافي وعدّاد لكل ذكر.';const t=[...document.querySelectorAll('#v-set .tile')].find(x=>x.textContent.includes('حصن المسلم'));if(t)t.querySelector('span').textContent='مكتبة الأذكار'})();</script>
 </body>
 </html>
