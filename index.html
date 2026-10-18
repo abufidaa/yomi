@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018082546">
+<meta name="app-version" content="20261018084004">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٦</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٧</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٦</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٧</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -764,7 +764,7 @@ const DEF={
 const DUR={fajr:[15,10,0],sport:[5,25],bfast:[30,15],self:[5,40,5],road:[5,0],dev:[3,0],dhuhr:[15,30],ops:[60,30,0],close:[10,5],rest:[20],kids:[60,10],dinner:[30],wife:[20,0],wird:[15,10],witr:[10,5],
  fsport:[30],fbf:[45],kahf:[40,10],home:[0],review:[30,20],ghusl:[30,15],jumua:[0],family:[60,0],fkids:[0],dua:[30,10],fdin:[40],fwife:[0],fwird:[15,10],fwitr:[10,5]};
 ['week','fri'].forEach(s=>DEF[s].forEach(b=>b.d=(DUR[b.id]||[]).slice()));
-const END='22:30';
+let END='22:30';
 const ZIKR=['سبحان الله','الحمد لله','الله أكبر','لا إله إلا الله','أستغفر الله','اللهم صلِّ على محمد','لا حول ولا قوة إلا بالله'];
 
 /* ---------- storage + sync ---------- */
@@ -2708,7 +2708,7 @@ function tick25(){const s=profile.settings,now=new Date(),k=dkey(now),m=nowMin()
   const night=(prayerTimes(addDays(now,1)).fajr+1440)-pt.maghrib,third=(pt.maghrib+Math.round(night*2/3))%1440;
   if(on('rmQiyam',false))fire('rmQiyam',m>=third&&m<third+10,'قيام الليل','دلوقتي الثلث الأخير من الليل. لو تقدر، أوم صلّي ركعتين.');
   if(on('rmWake',false))fire('rmWake',m>=pt.fajr-30&&m<pt.fajr-20,'فاضل نص ساعة على الفجر','صباح الخير، فاضل نص ساعة على الفجر. أوم اتوضّا وصلّي ركعتين.');
-  if(on('rmDuha',false))fire('rmDuha',m>=pt.sunrise+20&&m<pt.sunrise+35,'وقت الضحى','دخل وأت الضحى. ركعتين وتبدأ يومك.');
+  if(on('rmDuha',false))fire('rmDuha',m>=pt.sunrise+25&&m<pt.sunrise+40,'وقت الضحى','دخل وأت الضحى. ركعتين وتبدأ يومك.');
   if(on('rmHifz',true)&&typeof hifzSuggest==='function'){const sg=hifzSuggest();fire('rmHifz',!!sg&&m>=1230&&m<1245,'مراجعة الحفظ','وأت مراجعة الحفظ. راجع الجزء '+(sg?sg.j:'')+'.')}
   if(on('rmWater',false)&&m>=600&&m<=1200&&m%120<2){const kk='rmWater'+Math.floor(m/120);if(local.get('rm:'+kk,'')!==k){local.set('rm:'+kk,k);alertUser('💧 اشرب كوباية ماية','','اشرب كوباية ماية.')}}
   const nap=local.get('nap',0);if(nap&&Date.now()>=nap){local.set('nap',0);alertUser('😴 القيلولة خلصت','','يَلّا، القيلولة خِلصت. أوم كمّل يومك.')}}
@@ -4785,6 +4785,46 @@ setTimeout(autoVoices,3500);
 renderVPick=(function(o){return async function(){await o();const box=$('vPickL');if(!box||box.querySelector('#vpHint'))return;const p=el('p','sub');p.id='vpHint';p.style.cssText='margin:8px 0 0;line-height:1.8';p.innerHTML='💡 لو الصوت اللي اخترته «للراجل» طلع صوت ست أو العكس، اسمع الأصوات تاني وغيّره. <b>المستخدم الراجل بيسمع صوت الراجل، والست بتسمع صوت الست</b> تلقائي.';box.appendChild(p)}})(renderVPick);
 /* الاسم: بيتنطق زي ما اتكتب بتشكيله */
 (function(){const n=$('nm2');if(n)n.placeholder='مثلًا: أبُو فِدَاءْ'})();
+</script>
+<style>.tl{position:relative;padding-inline-start:16px}.tl::before{content:"";position:absolute;inset-inline-start:5px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tli{position:relative;display:flex;gap:10px;align-items:flex-start;padding:8px 6px;border-radius:12px;cursor:pointer}.tli:hover{background:var(--soft)}.tli::before{content:"";position:absolute;inset-inline-start:-15px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--c,var(--ib));box-shadow:0 0 0 3px var(--card)}
+.tli .tm{min-width:92px;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}.tli .tt{flex:1;font-weight:700}.tli.now{background:color-mix(in srgb,var(--gold) 14%,transparent)}.tli.done .tt{color:var(--muted);text-decoration:line-through}
+.krh{display:inline-block;font-size:11px;color:#fff;background:#C0392B;border-radius:10px;padding:1px 8px;margin-inline-start:6px}</style>
+<script>
+/* ================= ٦.٧: البعد عن أوقات الكراهة + نطق التذكيرات + جدول اليوم كامل ================= */
+if(profile.settings.dayEnd)END=profile.settings.dayEnd;
+/* أوقات الكراهة */
+function karaha(d){const pt=prayerTimes(d);return[[pt.fajr+iqOf('fajr')+10,pt.sunrise+20,'بعد صلاة الفجر لحد ما الشمس ترتفع'],[pt.dhuhr-10,pt.dhuhr,'وقت الزوال قبل الظهر'],[pt.asr+iqOf('asr')+10,pt.maghrib,'بعد صلاة العصر لحد المغرب']]}
+const isNafl=b=>/الضحى|ركعتين|قيام|تهجد|نافلة|تحية المسجد|صلاة التوبة|صلاة الاستخارة/.test(b.title+' '+(b.s||[]).join(' '));
+function inKaraha(d,m){return karaha(d).find(([a,z])=>m>=a&&m<z)}
+renderPlan=(function(o){return function(){o();const bl=profile.schedules[planSched],ref=new Date(),sorted=bl.map(b=>({b,st:startOf(b,ref)})).sort((x,y)=>x.st-y.st);
+  [...document.querySelectorAll('#planList > li')].forEach((li,i)=>{const it=sorted[i];if(!it||li.querySelector('.krh')||!isNafl(it.b))return;const k=inKaraha(ref,it.st);if(!k)return;const w=el('span','krh');w.textContent='⛔ وقت كراهة';w.title=k[2];
+    const fx=el('button','btn');fx.textContent='ابعد عنه';fx.style.cssText='min-height:28px;padding:2px 8px;margin-inline-start:6px';fx.onclick=e=>{e.stopPropagation();const t=k[1]+10,x=it.b;if(x.t.startsWith('P:')){const[,p]=x.t.split(':');x.t='P:'+p+':'+(t-prayerTimes(ref)[p])}else x.t=pad(Math.floor(t/60)%24)+':'+pad(t%60);saveProfile();renderPlan();renderAll(true);toast('✅ اتنقلت لـ '+fmt(t)+'، بعد وقت الكراهة')};
+    const tt=li.querySelector('.tt');(tt||li).after(w);w.after(fx)})}})(renderPlan);
+/* لو فيه نافلة في وقت كراهة، نبّه في التخصيص وصفحة الجدول */
+function karahaIssues(){const n=new Date(),out=[];['week','fri'].forEach(sc=>profile.schedules[sc].forEach(b=>{if(!isNafl(b))return;const st=startOf(b,n),k=inKaraha(n,st);if(k)out.push([sc,b,st,k])}));return out}
+/* نطق التذكيرات: لو الصوت المختار محتاج نت، التنبيهات تستخدم نسخته اللي على الموبايل */
+buildAlarms=(function(o){return function(){return o().map(a=>a.voice?Object.assign(a,{voice:String(a.voice).replace(/-network$/,'-local')}):a)}})(buildAlarms);
+(function(){const c=document.getElementById('cuB');})();
+renderCustom=(function(o){return function(){const had=!!$('cuB');o();const b=$('cuB');if(!b||b.querySelector('#nmTest'))return;const c=P5('🔔 جرّب نطق التنبيه');c.id='nmTest';c.innerHTML+='<p class="sub" style="margin:0 0 8px;line-height:1.8">بيقول جملة الفجر بنفس الطريقة اللي بيقولها وقت التنبيه بالظبط، باسمك زي ما كتبته في «اسمك بالتشكيل».</p>';
+  const b1=el('button','btn pri');b1.textContent='▶ اسمعها دلوقتي';b1.onclick=()=>{unlock();speak(egy('يا '+(profile.settings.name||'')+'، حيّ على الصلاة. دخل وقت صلاة الفجر، والصلاة خير من النوم.'))};c.appendChild(b1);
+  if(YN){const b2=el('button','btn');b2.textContent='🔔 جرّبها كتنبيه بعد ٥ ثواني';b2.style.marginInlineStart='6px';b2.onclick=()=>{const v=String(curVoice()).replace(/-network$/,'-local');YN.test({title:'🕌 حان وقت صلاة الفجر',body:'تجربة',speak:egy('يا '+(profile.settings.name||'')+'، حيّ على الصلاة. دخل وقت صلاة الفجر، والصلاة خير من النوم.'),lang:'ar',voice:v,rate:profile.settings.vRate||.9});toast('اقفل الشاشة واستنى')};c.appendChild(b2)}
+  const ki=karahaIssues();if(ki.length){const w=el('div','msg2');w.style.marginTop='8px';w.textContent='⛔ عندك '+ar(ki.length)+' نافلة في جدولك في وقت كراهة. افتح «جدولي» ودوس «ابعد عنه».';c.appendChild(w)}b.insertBefore(c,b.children[1]||null)}})(renderCustom);
+/* جدول اليوم كامل في الرئيسية */
+(function(){const c=P5('🗓️ جدول يومك');c.id='tlCard';c.innerHTML+='<p class="sub" id="tlH" style="margin:0 0 8px"></p><div class="tl" id="tlL"></div><div class="row" style="margin-top:8px"><button class="btn" id="tlAll">اعرض اليوم كله</button><button class="btn" id="tlEd">✏️ عدّل الجدول</button><label class="sub" style="display:flex;gap:6px;align-items:center">يومي بيخلص <input type="time" id="tlEnd" style="width:110px"></label></div>';
+  const a=$('contCard')||$('mitCard')||document.querySelector('.daycard');a.after(c);$('tlEnd').value=END;$('tlEnd').onchange=e=>{profile.settings.dayEnd=e.target.value;END=e.target.value;saveProfile();renderAll(true);toast('✅ يومك بيخلص '+fmt(toMin(END)))};
+  $('tlAll').onclick=()=>{local.set('tlAll',!local.get('tlAll',false));renderTL()};$('tlEd').onclick=()=>{planSched=schedFor(new Date());editing=null;go('plan')}})();
+function renderTL(){const L2=$('tlL');if(!L2)return;const n=new Date(),arr=dayBlocks(n),m=nowMin(),endM=Math.max(toMin(END),arr[arr.length-1].st+15),all=local.get('tlAll',false),d=day(dkey(n));
+  $('tlH').textContent='يومك بيبدأ '+fmt(arr[0].st)+' وبيخلص '+fmt(endM)+' · '+ar(arr.length)+' فقرة';$('tlAll').textContent=all?'اعرض الجاي بس':'اعرض اليوم كله';L2.innerHTML='';
+  arr.forEach(({b,st},i)=>{const en=arr[i+1]?arr[i+1].st:endM,now=m>=st&&m<en,done=m>=en;if(!all&&done)return;const ck=(d.checks||{})[b.id]||[],dn=ck.filter(Boolean).length;
+    const r=el('div','tli'+(now?' now':'')+(done?' done':''),'<span class="tm"></span><span class="tt"></span><span class="sub"></span>');r.style.setProperty('--c',C[b.c]);r.querySelector('.tm').textContent=fmt(st)+' – '+fmt(en);r.querySelector('.tt').textContent=(now?'▶ ':'')+b.title;r.querySelector('.sub').textContent=b.s.length?ar(dn)+'/'+ar(b.s.length):'';
+    if(isNafl(b)&&inKaraha(n,st)){const w=el('span','krh');w.textContent='⛔ كراهة';r.querySelector('.tt').appendChild(w)}
+    r.onclick=()=>{planSched=schedFor(n);editing=b.id;go('plan');setTimeout(()=>{const li=document.querySelector('#planList .ed, #planList li.on');li&&li.scrollIntoView({block:'center'})},200)};L2.appendChild(r)});
+  if(!L2.children.length)L2.innerHTML='<div class="empty"><i>🌙</i>فقرات النهارده خلصت. تصبح على خير</div>'}
+HOME_MODS.push(['timeline','🗓️ جدول يومك','#tlCard']);
+const _rx24=renderExtras;renderExtras=function(){_rx24();try{renderTL();applyMods()}catch(e){console.error(e)}};
+setInterval(()=>{try{if(isAct('now'))renderTL()}catch(e){}},60000);
+try{renderTL()}catch(e){}
 </script>
 </body>
 </html>
