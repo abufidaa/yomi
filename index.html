@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018080906">
+<meta name="app-version" content="20261018082546">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٥</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٦</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٥</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٦</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -3281,8 +3281,8 @@ genderVoice=function(){profile.settings.voiceName='';saveProfile();pickVoice();t
 /* مفيش أي صوت متولّد أو تسجيل قديم يشتغل */
 recPlay=async function(){return false};profile.settings.recs={};
 /* ٢) فصحى سلسة: من غير تشكيل أواخر الكلمات، فبتتنطق طبيعي */
-const smoothAr=t=>String(t).replace(/(?<![تك])[\u064B-\u0650\u0652](?=[\s،.؟!:؛]|$)/g,'');
-const _egy3=egy;egy=function(t){const r=_egy3(t);return isFus()&&profile.settings.smooth!==false?smoothAr(r):r};
+let smoothAr=t=>String(t).replace(/(?<![تك])[\u064B-\u0650\u0652](?=[\s،.؟!:؛]|$)/g,'');
+const _egy3=egy;egy=function(t){const r=_egy3(t);return isFus()?smoothAr(r):r};
 /* ٣) قارن واختار */
 (function(){const c=el('div','card','<h3>🎧 قارن واختار طريقة الكلام</h3><p class="sub" style="margin:0 0 8px">اسمع نفس الجملة بالطرق التلاتة، واختار اللي يريح ودنك.</p><div id="cmpL"></div><div class="sub" style="margin:10px 0 4px">سرعة الكلام</div><div class="chips" id="spdC"></div>');
   const v=$('v-s-voice');(v.querySelector(':scope > p.sub')||v.firstElementChild).after(c)})();
@@ -3340,7 +3340,7 @@ applyPron=(function(orig){return function(t){return isFus()?t:orig(t)}})(applyPr
   [['amo','يا عمو / يا عَمِّي'],['akhoya','يا أخويا / يا أَخِي'],['ukhti','يا أختي / يا أُخْتِي'],['tant','يا طنط / يا خالَتِي']].forEach(([v,n])=>{if(![...s.options].some(o=>o.value===v)){const o=el('option');o.value=v;o.textContent=n;s.appendChild(o)}});s.value=profile.settings.callAs||'batal'})();
 /* جمل التجربة بالفصحى */
 const TRY=()=>L('هَيّا إِلى الصَّلاةِ.','يلا نصلي.');
-gsSay=(function(orig){return function(lang,text){text=String(text).replace(/يلا نصلي\./g,TRY()).replace(/السلام عليكم يا (.+?)\. ده صوت التطبيق، لو سامعه بالعربي اختاره\./,(m,n)=>L('السَّلامُ عَلَيْكُمْ يا '+n+'. هذا صَوْتُ التَّطْبِيقِ.',m));if(isFus()&&profile.settings.smooth!==false)text=smoothAr(text);return orig(lang,text)}})(gsSay);
+gsSay=(function(orig){return function(lang,text){text=String(text).replace(/يلا نصلي\./g,TRY()).replace(/السلام عليكم يا (.+?)\. ده صوت التطبيق، لو سامعه بالعربي اختاره\./,(m,n)=>L('السَّلامُ عَلَيْكُمْ يا '+n+'. هذا صَوْتُ التَّطْبِيقِ.',m));if(isFus())text=smoothAr(text);return orig(lang,text)}})(gsSay);
 </script>
 <script>
 /* ===== ٣.٧: إعادة ضبط الصوت للأساسي ===== */
@@ -4761,5 +4761,30 @@ const _rx23=renderExtras;renderExtras=function(){_rx23();[renderLT,renderQDic,re
 renderBacklog=(function(o){return function(){o();try{renderTCal()}catch(e){}}})(renderBacklog);
 </script>
 
+<script>
+/* ================= ٦.٦: الإعراب كامل مع الوقف الصحيح + الاسم زي ما اتكتب + صوت راجل أو ست تلقائي ================= */
+/* الوقف: آخر كلمة قبل أي علامة وقف بتتسكّن، والإعراب جوه الجملة بيفضل زي ما هو */
+function waqfify(t){return String(t).replace(/([\u0621-\u064A\u0671])([\u064B-\u0652\u0670]*)(\u0627?)(?=[\s\u00A0]*(?:[،.؟!؛]|$))/g,(m,ch,mk,alif)=>{
+  if(mk.includes('\u064B')&&alif)return ch+mk.replace('\u064B','\u064E')+alif;            // تنوين فتح على ألف: يُوقف عليه بألف
+  if(ch==='ة')return 'ه\u0652';                                                            // التاء المربوطة: يُوقف عليها هاءً ساكنة
+  if(/[اىوي]/.test(ch)&&!mk)return m;                                                     // حرف مد: زي ما هو
+  return ch+(mk.includes('\u0651')?'\u0651':'')+'\u0652'+alif})}
+const _smoothOld=smoothAr;smoothAr=t=>profile.settings.smooth===true?_smoothOld(t):waqfify(t);
+if(!profile.settings.waqf1){profile.settings.waqf1=1;profile.settings.smooth=false;saveProfile()}
+/* «الصَّلاةُ خَيْرٌ مِنَ النَّوْمْ»: النون مشددة مفتوحة، والميم ساكنة */
+PH_FUS['p:fajr']='يا {n}، حانَ وَقْتُ صَلاةِ الفَجْرِ. الصَّلاةُ خَيْرٌ مِنَ النَّوْمْ. هَيّا إِلى الصَّلاةِ.';PHRASES['p:fajr']=PH_FUS['p:fajr'];applyDialect();
+/* قارن واختار: الإعراب والوقف (الأساسي) أو السلسة */
+renderCmp=(function(o){return function(){o();const L2=$('cmpL');if(!L2)return;L2.innerHTML='';const base='يا {n}، حانَ وَقْتُ صَلاةِ الفَجْرِ. الصَّلاةُ خَيْرٌ مِنَ النَّوْمْ. هَيّا إِلى الصَّلاةِ.';
+  [['waqf','📖 فصحى بالإعراب والوقف (الأفضل)',false],['smooth','فصحى سلسة من غير إعراب',true]].forEach(([id,n,sm])=>{const cur=(profile.settings.smooth===true)===sm;const r=el('div','vt'+(cur?' on':''),'<span></span><span class="row"><button class="btn" data-a="p">▶ اسمع</button><button class="btn pri" data-a="c"></button></span>');
+    r.querySelector('span').textContent=n;r.querySelector('[data-a=c]').textContent=cur?'✓ المختار':'اختار';r.querySelector('[data-a=p]').onclick=()=>{unlock();const keep=profile.settings.smooth;profile.settings.smooth=sm;const t=smoothAr(personalize(base));profile.settings.smooth=keep;speak(t)};
+    r.querySelector('[data-a=c]').onclick=()=>{profile.settings.smooth=sm;saveProfile();syncNative&&syncNative();renderCmp();toast('✅ '+n)};L2.appendChild(r)})}})(renderCmp);
+/* صوت راجل للراجل وست للست تلقائي، لو لسه ماختارتش */
+async function autoVoices(){if(!YN||!YN.voices||ynVer<8)return;const s=profile.settings;if(s.voiceM&&s.voiceF)return;try{const vs=((await YN.voices()).voices||[]).filter(v=>v.installed);if(!vs.length)return;
+  const pick=re=>(vs.find(v=>re.test(v.name)&&!v.network)||vs.find(v=>re.test(v.name))||{}).name;if(!s.voiceM)s.voiceM=pick(/-ar[dz]-|ard|arz/)||'';if(!s.voiceF)s.voiceF=pick(/-ar[ce]-|arc|are/)||'';saveProfile();syncNative&&syncNative();try{renderVPick()}catch(e){}}catch(e){}}
+setTimeout(autoVoices,3500);
+renderVPick=(function(o){return async function(){await o();const box=$('vPickL');if(!box||box.querySelector('#vpHint'))return;const p=el('p','sub');p.id='vpHint';p.style.cssText='margin:8px 0 0;line-height:1.8';p.innerHTML='💡 لو الصوت اللي اخترته «للراجل» طلع صوت ست أو العكس، اسمع الأصوات تاني وغيّره. <b>المستخدم الراجل بيسمع صوت الراجل، والست بتسمع صوت الست</b> تلقائي.';box.appendChild(p)}})(renderVPick);
+/* الاسم: بيتنطق زي ما اتكتب بتشكيله */
+(function(){const n=$('nm2');if(n)n.placeholder='مثلًا: أبُو فِدَاءْ'})();
+</script>
 </body>
 </html>
