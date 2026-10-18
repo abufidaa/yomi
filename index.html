@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018084910">
+<meta name="app-version" content="20261018085933">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٨</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٩</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٨</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٩</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -1753,7 +1753,7 @@ $('tourS').onclick=()=>{$('tour').hidden=true;local.set('tourDone',true)};
 /* ---------- extras 3: mushaf, hadith, names, duas, calendar, zakat, adhan ---------- */
 const isAct=id=>{const v=$('v-'+id);return!!(v&&v.classList.contains('act'))};
 const norm=s=>String(s).replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640\u08F0-\u08FF]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
-const RECITERS=[['Alafasy_128kbps','مشاري العفاسي'],['Husary_128kbps','محمود خليل الحصري'],['Minshawy_Murattal_128kbps','محمد صديق المنشاوي'],['Abdul_Basit_Murattal_192kbps','عبد الباسط عبد الصمد']];
+const RECITERS=[['Husary_128kbps','محمود خليل الحصري (مرتّل)'],['Husary_128kbps_Mujawwad','محمود خليل الحصري (مجوّد)'],['Husary_Muallim_128kbps','الحصري المعلّم (للتعليم والتكرار)'],['Minshawy_Murattal_128kbps','محمد صديق المنشاوي (مرتّل)'],['Minshawy_Mujawwad_192kbps','محمد صديق المنشاوي (مجوّد)'],['Abdul_Basit_Murattal_192kbps','عبد الباسط عبد الصمد (مرتّل)'],['Abdul_Basit_Mujawwad_128kbps','عبد الباسط عبد الصمد (مجوّد)'],['Mustafa_Ismail_48kbps','مصطفى إسماعيل'],['Mahmoud_Ali_Al_Banna_32kbps','محمود علي البنا'],['Ayman_Sowaid_64kbps','أيمن رشدي سويد'],['Ali_Jaber_64kbps','علي جابر'],['Ibrahim_Akhdar_32kbps','إبراهيم الأخضر'],['Muhammad_Ayyoub_128kbps','محمد أيوب']];
 let ms={view:'list',s:1,q:''},msAudio=null,msPlay=null;
 const qdReady=()=>!!(window.QD&&QD.a);
 const surName=s=>'سورة '+QD.n[s-1];
@@ -4877,6 +4877,11 @@ renderAdhkar=(function(o){return function(){o();const L2=$('aList');if(!L2||L2.q
   const bm=el('button');bm.style.background='linear-gradient(135deg,#F2A65A,#C8705A)';bm.innerHTML='☀️ أذكار الصباح<small></small>';bm.querySelector('small').textContent=adhAll(d,'m')?'✓ خلّصتها':st('m')+'ابدأ بوضع القراءة';bm.onclick=()=>openAz('m');
   const be=el('button');be.style.background='linear-gradient(135deg,#1B2B5A,#0B152F)';be.innerHTML='🌙 أذكار المساء<small></small>';be.querySelector('small').textContent=adhAll(d,'e')?'✓ خلّصتها':st('e')+'ابدأ بوضع القراءة';be.onclick=()=>openAz('e');s.append(bm,be);L2.prepend(s)}})(renderAdhkar);
 renderNowCards2=(function(o){return function(){o();const c=[...document.querySelectorAll('#nowCards .card')].find(x=>/دلوقتي$/.test((x.querySelector('h3')||{}).textContent||''));if(!c)return;const k0=adhNow();const b=c.querySelector('.btn.pri');if(b&&(k0==='m'||k0==='e')){b.textContent='ابدأ بوضع القراءة ✨';b.onclick=()=>openAz(k0)}}})(renderNowCards2);
+</script>
+<script>
+/* ===== ٦.٩: القرّاء: شيل العفاسي، والمشايخ الكبار + أيمن سويد ===== */
+(function(){const s=profile.settings,ok=k=>RECITERS.some(r=>r[0]===k);if(!s.reciter||!ok(s.reciter))s.reciter='Husary_128kbps';const M=s.surReciter||{};Object.keys(M).forEach(k=>{if(!ok(M[k]))delete M[k]});saveProfile();
+  document.querySelectorAll('select').forEach(sel=>{if([...sel.options].some(o=>/Alafasy/.test(o.value))){sel.innerHTML='';RECITERS.forEach(([v,n])=>{const o=el('option');o.value=v;o.textContent=n;sel.appendChild(o)});sel.value=s.reciter}})})();
 </script>
 </body>
 </html>
