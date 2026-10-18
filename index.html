@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018092511">
+<meta name="app-version" content="20261018093036">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٧.٣</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٧.٤</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٧.٣</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٧.٤</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -5090,6 +5090,60 @@ BADGES2.push(['steps10k','🏆','١٠ آلاف خطوة','أيام مشيت في
 (function(){const grps=[...document.querySelectorAll('#v-set .grp')],ty=grps.find(g=>/أدوات يومك/.test(g.textContent));TOOLS_G.forEach(t=>{if(t.parentElement)return;if(ty&&ty.nextElementSibling)ty.nextElementSibling.prepend(t)});grps.forEach(g=>{const c=g.querySelector('.sub');if(c&&g.nextElementSibling)c.textContent=ar(g.nextElementSibling.children.length)})})();
 const _rx27=renderExtras;renderExtras=function(){_rx27();try{renderHL()}catch(e){console.error(e)}};
 setInterval(()=>{try{if(isAct('health')&&(profile.ifast||{}).on)renderHL()}catch(e){}},60000);
+</script>
+<style>
+.cert{background:#FFFBF0;color:#2A2015;border:10px double #B08A3E;border-radius:6px;padding:28px 20px;text-align:center;position:relative;box-shadow:0 14px 34px rgba(0,0,0,.18)}
+.cert h2{color:#7A5C1E;font-size:26px}.cert h2::after{display:none}.cert .nm{font-family:Amiri,serif;font-size:30px;color:#1E4B3E;margin:8px 0}.cert .ac{font-size:19px;font-weight:700;margin:6px 0}.cert .dt{font-size:13px;color:#7A6A4F;margin-top:14px}.cert img{width:64px;height:64px;border-radius:14px;background:#fff;object-fit:contain}
+.ttl{display:inline-block;background:linear-gradient(135deg,#E3C27A,#B08A3E);color:#1B1240;border-radius:20px;padding:2px 12px;font-size:12px;font-weight:800;margin-inline-start:6px}
+@media print{#v-certs{display:block!important}#v-certs .btn,#v-certs .chips,#v-certs h2,#v-certs > .row,#v-certs > p{display:none!important}}
+</style>
+<script>
+/* ================= ٧.٤: دفعة التحفيز ================= */
+/* (٧١) مستوى إيمانك الأسبوعي */
+function imanWeek(off){const n=addDays(new Date(),-7*(off||0));let pr=0,jm=0,ad=0,pg=0,rw=0,ql=0;for(let i=0;i<7;i++){const d=day(dkey(addDays(n,-i)));pr+=FIVE.filter(p=>d.prayers[p]).length;jm+=Object.values(d.jamaa||{}).filter(Boolean).length;ad+=(adhAll(d,'m')?1:0)+(adhAll(d,'e')?1:0);pg+=d.pages||0;rw+=Object.values(d.rawatib||{}).filter(Boolean).length;ql+=((d.ram||{}).qiyam?1:0)}
+  const s=Math.round(Math.min(1,pr/35)*35+Math.min(1,jm/20)*15+Math.min(1,ad/14)*20+Math.min(1,pg/((profile.settings.qTarget||20)*7))*20+Math.min(1,rw/35)*10);return s}
+const imanLbl=s=>s>=85?'ممتاز، ما شاء الله 🌟':s>=65?'كويس جدًا 👍':s>=45?'كويس، وتقدر أحسن 💪':'محتاج همّة الأسبوع ده 🤲';
+/* (٧٣) الألقاب */
+const TITLES=[['fajr','المحافظ على الفجر','٧ أيام فجر في وقته ورا بعض',()=>fajrStreak()>=7],['wird','صاحب الورد','٧ أيام ورا بعض كمّلت وردك',()=>{let s=0;for(let i=0;i<7;i++)if((day(dkey(addDays(new Date(),-i))).pages||0)>=(profile.settings.qTarget||20))s++;return s>=7}],['dhakir','الذاكر','٧ أيام أذكار صباح ومساء ورا بعض',()=>adhStreak()>=7],['hafiz','حافظ لكتاب الله','حافظ جزء أو أكتر',()=>Object.keys(profile.hifz||{}).length>=1],['masjid','ابن المسجد','٢٠ صلاة جماعة آخر ٣٠ يوم',()=>{let n=0;for(let i=0;i<30;i++)n+=Object.values(day(dkey(addDays(new Date(),-i))).jamaa||{}).filter(Boolean).length;return n>=20}],['sadiq','المتصدّق','٥ صدقات الشهر ده',()=>(profile.sadaqa||[]).filter(x=>x.d.slice(0,7)===dkey(new Date()).slice(0,7)).length>=5],['rawatib','صاحب الرواتب','الـ ١٢ ركعة ٧ أيام',()=>cntDays(d=>RAW.every(([x])=>(d.rawatib||{})[x]))>=7],['khatim','الخاتم','ختمت القرآن مرة على الأقل',()=>(profile.quran.khatmas||0)>=1],['family','ربّ الأسرة الصالحة','العيلة كمّلت ورد العيلة ٧ أيام',()=>Object.values((profile.fam||{}).wird||{}).filter(D=>famMembers().every(m=>D[m])).length>=7],['steady','المداوم','١٤ يوم ورا بعض بإنجاز ٧٠٪',()=>streak70()>=14]];
+const earnedTitles=()=>TITLES.filter(t=>{try{return t[3]()}catch(e){return false}});
+function curTitle(){const e=earnedTitles(),s=profile.settings.title;return(e.find(t=>t[0]===s)||e[0]||[])[1]||''}
+/* إحصائيات: مستوى إيمانك + ألقابك + أحسن أيامي */
+(function(){const st=$('v-stats'),a=$('b2')?$('b2').closest('.card'):st.lastElementChild;const c1=P5('🕌 مستوى إيمانك الأسبوع ده'),c2=P5('🏷️ ألقابك'),c3=P5('🌟 أحسن أيامي (آخر ٩٠ يوم)');c1.id='imanC';c2.id='ttlC';c3.id='bestC';a.before(c1);a.before(c2);a.after(c3)})();
+function renderMot(){if(!isAct('stats'))return;const s=imanWeek(0),p=imanWeek(1),c1=$('imanC');c1.querySelectorAll(':scope > :not(h3)').forEach(x=>x.remove());const d=el('div','','<div style="display:flex;align-items:center;gap:14px"><div class="ring2" style="width:80px;height:80px"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--soft)" stroke-width="3.2"/><circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--ib)" stroke-width="3.2" stroke-linecap="round"/></svg><b style="font-size:20px"></b></div><div><b style="font-size:16px"></b><p class="sub" style="margin:4px 0 0"></p></div></div>');
+  d.querySelectorAll('circle')[1].setAttribute('stroke-dasharray',s+' 100');d.querySelector('.ring2 b').textContent=ar(s);d.querySelectorAll('b')[1].textContent=imanLbl(s);d.querySelector('.sub').textContent='الأسبوع اللي فات: '+ar(p)+' '+(s>p?'↑ أحسن':s<p?'↓ أقل':'= زيه')+' · من الصلاة في وقتها، والجماعة، والأذكار، والقرآن، والرواتب';c1.appendChild(d);
+  const c2=$('ttlC');c2.querySelectorAll(':scope > :not(h3)').forEach(x=>x.remove());const e=earnedTitles(),ch=el('div','chips');TITLES.forEach(t=>{const got=e.includes(t),b=el('button',got&&curTitle()===t[1]?'on':'');b.textContent=(got?'🏷️ ':'🔒 ')+t[1];b.title=t[2];b.onclick=()=>{if(!got){toast('🔒 '+t[2]);return}profile.settings.title=t[0];saveProfile();renderMot();renderDayCard();toast('لقبك: '+t[1])};ch.appendChild(b)});c2.appendChild(ch);c2.appendChild(Object.assign(el('p','sub'),{textContent:'كسبت '+ar(e.length)+' من '+ar(TITLES.length)+' لقب. المس اللقب المقفول عشان تعرف شرطه.'}));
+  const c3=$('bestC');c3.querySelectorAll(':scope > :not(h3)').forEach(x=>x.remove());const ds=[];for(let i=1;i<=90;i++){const dd=addDays(new Date(),-i),sc=dayScore(dd);if(sc>0)ds.push([dd,sc])}ds.sort((a,b)=>b[1]-a[1]).slice(0,7).forEach(([dd,sc],i)=>{const dy=day(dkey(dd));c3.appendChild(kv(['🥇','🥈','🥉'][i]||'⭐',DAYS[dd.getDay()]+' '+ar(dd.getDate())+'/'+ar(dd.getMonth()+1)+' · '+ar(sc)+'/١٠٠ · '+ar(FIVE.filter(p=>dy.prayers[p]).length)+' صلوات، '+ar(dy.pages||0)+' صفحة'))});if(!ds.length)c3.appendChild(Object.assign(el('p','sub'),{textContent:'لسه بنجمع أيامك'}))}
+renderDayCard=(function(o){return function(){o();const t=curTitle(),q=$('dqQuote');if(!t||!q||q.querySelector('.ttl'))return;const s=el('span','ttl');s.textContent='🏷️ '+t;q.appendChild(s)}})(renderDayCard);
+/* (٧٤) شهاداتي */
+const CT=addTool('certs','📜','شهاداتي','شهادة مطبوعة لكل إنجاز كبير، تحفظها PDF أو تطبعها.');
+showHonor=(function(o){return function(x){o(x);try{const big=/ختمة|تحدي ٤٠|خطة حفظ|مستوى|مسار|هدف|سمعت القرآن|طالب تجويد|الأربعين|حصن|مشروع/.test((x.tierName||'')+' '+(x.title||''))||(x.tier||0)>=3;if(big){(profile.certs=profile.certs||[]).unshift({t:x.title,d:x.text,i:x.icon,at:dkey(new Date())});profile.certs=profile.certs.slice(0,60);saveProfile()}}catch(e){}}})(showHonor);
+let certI=0;function renderCT(){if(!isAct('certs'))return;let b=$('ctB');if(!b){b=el('div');b.id='ctB';CT.appendChild(b)}const C=profile.certs||[];b.innerHTML='';if(!C.length){b.innerHTML='<div class="empty"><i>📜</i>لسه مفيش شهادات. كمّل ختمة، أو تحدي ٤٠ يوم، أو مسار تعلّم، وهتلاقيها هنا</div>';return}
+  const ch=el('div','chips');C.forEach((c,i)=>{const x=el('button',i===certI?'on':'');x.textContent=c.i+' '+c.t.slice(0,24);x.onclick=()=>{certI=i;renderCT()};ch.appendChild(x)});b.appendChild(ch);const c=C[Math.min(certI,C.length-1)],hj=(()=>{try{return hijri(kDate(c.at)).txt}catch(e){return''}})();
+  const cert=el('div','cert','<img alt=""><h2>شهادة إنجاز</h2><p style="margin:4px 0">يشهد تطبيق «يومي» بأن</p><div class="nm"></div><p style="margin:4px 0">قد أتمّ بفضل الله</p><div class="ac"></div><p style="line-height:1.9;margin:6px 0" class="tx"></p><div class="dt"></div>');cert.querySelector('img').src=LOGO_SRC;cert.querySelector('.nm').textContent=profile.settings.name||'—';cert.querySelector('.ac').textContent=c.i+' '+c.t;cert.querySelector('.tx').textContent=c.d;cert.querySelector('.dt').textContent='بتاريخ '+hj+' · '+c.at;b.appendChild(cert);
+  const r=el('div','row');r.style.marginTop='10px';const pb=el('button','btn pri');pb.textContent='🖨️ اطبعها أو احفظها PDF';pb.onclick=()=>window.print();const sb=el('button','btn');sb.textContent='📤 شارك';sb.onclick=()=>hzShare('📜 شهادة إنجاز: '+c.t+' — '+(profile.settings.name||'')+'\n'+c.d);r.append(pb,sb);b.appendChild(r)}
+/* (٧٥) تحدي الشهر بجايزة */
+const MCH=[['صلّي الفجر في وقته ٢٠ يوم الشهر ده',()=>cntDaysM(d=>d.prayers.fajr),20,'ruby','لون «ياقوتي» للتطبيق'],['اقرا ٣٠٠ صفحة الشهر ده',()=>sumDaysM(d=>d.pages),300,'aurora','لون «شفق» للتطبيق'],['أذكار الصباح والمساء ٢٠ يوم',()=>cntDaysM(d=>adhAll(d,'m')&&adhAll(d,'e')),20,'pearl','لون «لؤلؤي» للتطبيق'],['٤٠ صلاة جماعة الشهر ده',()=>sumDaysM(d=>Object.values(d.jamaa||{}).filter(Boolean).length),40,'ruby','لون «ياقوتي» للتطبيق']];
+const monthKeys=()=>allDayKeys().filter(k=>k.slice(0,7)===dkey(new Date()).slice(0,7));const cntDaysM=f=>monthKeys().filter(k=>f(day(k))).length;const sumDaysM=f=>monthKeys().reduce((a,k)=>a+(f(day(k))||0),0);
+Object.assign(ACC,{ruby:['ياقوتي 🔒','#A61E4D','#F06595'],aurora:['شفق 🔒','#5F3DC4','#9775FA'],pearl:['لؤلؤي 🔒','#5C7A89','#A5C2CF']});
+function rewardOk(k){return!!(profile.rewards||{})[k]}
+applyAcc=(function(o){return function(){if(['ruby','aurora','pearl'].includes(profile.settings.acc)&&!rewardOk(profile.settings.acc))profile.settings.acc='gold';o()}})(applyAcc);
+renderNowCards2=(function(o){return function(){o();const n=new Date(),i=(n.getFullYear()*12+n.getMonth())%MCH.length,[t,f,goal,rw,rn]=MCH[i];let v=0;try{v=f()}catch(e){}const done=v>=goal,R=profile.rewards=profile.rewards||{};
+  if(done&&!R[rw]){R[rw]=1;saveProfile();showHonor({icon:'🎁',tierName:'جايزة تحدي الشهر',title:'كسبت '+rn,text:'اختاره من «الثيمات والمظهر» ← اللون المميز.'})}
+  const c=P5('🎁 تحدي الشهر');c.innerHTML+='<p style="margin:0 0 6px;font-weight:700"></p><div class="mbar"><i></i></div><p class="sub" style="margin:4px 0 0"></p>';c.querySelector('p').textContent=t;c.querySelector('.mbar i').style.width=Math.min(100,v/goal*100)+'%';c.querySelector('.sub').textContent=(done?'✅ خلّصته! ':ar(Math.min(v,goal))+' من '+ar(goal)+' · ')+'الجايزة: '+rn;$('nowCards').appendChild(c);applyMods&&applyMods()}})(renderNowCards2);
+NOW_MODS.push(['mch','تحدي الشهر',/تحدي الشهر/]);
+(function(){const ap=$('accP');if(!ap)return;[...ap.children].forEach(b=>{const t=b.textContent;if(/🔒/.test(t)){const k=Object.keys(ACC).find(x=>ACC[x][0]===t.trim()||t.includes(ACC[x][0]));if(k&&rewardOk(k))b.lastChild.textContent=ACC[k][0].replace(' 🔒','');else b.onclick=()=>toast('🔒 بيتفتح لما تخلّص تحدي الشهر')}})})();
+/* (٧٧) رسالة تشجيع لو فوّت يوم */
+function encourage(){const k=dkey(new Date());if(local.get('enc','')===k)return;const y=addDays(new Date(),-1),sy=dayScore(y),yd=day(dkey(y));if(sy>=35&&yd.prayers.fajr)return;local.set('enc',k);
+  setTimeout(()=>{const missF=!yd.prayers.fajr;showHonor({icon:'🌱',color:'#5CC0A6',tierName:'بداية جديدة',title:'النهارده يوم جديد',text:(missF?'لو فاتك الفجر امبارح، مفيش مشكلة، النهارده فرصة جديدة. ':'امبارح كان يوم تقيل شوية، وده طبيعي. ')+'«أحبُّ الأعمالِ إلى اللهِ أدومُها وإن قلَّ». ابدأ بخطوة صغيرة: صلاة في وقتها، وصفحة قرآن.'})},3500)}
+setTimeout(()=>{try{if(allDayKeys().length>3)encourage()}catch(e){}},4000);
+/* (٧٨) قصة يومك المثالي */
+renderReview=(function(o){return function(){o();const box=$('review'),n=new Date(),sc=dayScore(n);if(!box||sc<80||box.querySelector('#storyB'))return;const b=el('button','btn pri');b.id='storyB';b.textContent='📖 احكي قصة يومي المثالي';b.style.marginTop='8px';
+  b.onclick=()=>{const d=day(dkey(n)),pr=FIVE.filter(p=>d.prayers[p]),jm=Object.values(d.jamaa||{}).filter(Boolean).length,t='الحمد لله على يوم جميل 🤍\n'+'بدأته بصلاة الفجر'+(d.prayers.fajr?' في وقتها':'')+'، وصليت '+ar(pr.length)+' صلوات في وقتها'+(jm?'، منهم '+ar(jm)+' جماعة في المسجد':'')+'.\n'+(d.pages?'قريت '+ar(d.pages)+' صفحة من القرآن. ':'')+(adhAll(d,'m')?'قلت أذكار الصباح':'')+(adhAll(d,'e')?' والمساء':'')+'.\n'+(d.focus?'اشتغلت '+ar(d.focus)+' جلسات تركيز. ':'')+(d.water?'وشربت '+ar(d.water)+' كوبايات مية.':'')+'\nدرجة يومي: '+ar(sc)+'/١٠٠ ✨\n— من تطبيق «يومي»';
+    d.story=t;saveDay(dkey(n));showHonor({icon:'📖',color:'#DCB96A',tierName:'يوم مثالي',title:'قصة يومك',text:t.replace(/\n/g,' ')});setTimeout(()=>{$('hoShare').onclick=()=>hzShare(t)},100)};box.appendChild(b)}})(renderReview);
+/* (٨٠) احتفال بأيام الاستخدام */
+setTimeout(()=>{try{const n=allDayKeys().length,H=profile.useHon=profile.useHon||{};[7,30,100,365,1000].forEach(m=>{if(n>=m&&!H[m]){H[m]=1;saveProfile();showHonor({icon:'🎉',tierName:'مع «يومي»',title:ar(m)+' يوم مع بعض',text:'بقالك '+ar(m)+' يوم بتنظّم يومك على طاعة الله. ربنا يثبّتك ويبارك في وقتك.'})}})}catch(e){}},5000);
+(function(){const grps=[...document.querySelectorAll('#v-set .grp')],ty=grps.find(g=>/أدوات يومك/.test(g.textContent));TOOLS_G.forEach(t=>{if(t.parentElement)return;if(ty&&ty.nextElementSibling)ty.nextElementSibling.appendChild(t)});grps.forEach(g=>{const c=g.querySelector('.sub');if(c&&g.nextElementSibling)c.textContent=ar(g.nextElementSibling.children.length)})})();
+const _rx28=renderExtras;renderExtras=function(){_rx28();[renderMot,renderCT].forEach(f=>{try{f()}catch(e){console.error(e)}})};
 </script>
 </body>
 </html>
