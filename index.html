@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018084004">
+<meta name="app-version" content="20261018084910">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٧</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٨</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٧</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٨</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4825,6 +4825,58 @@ HOME_MODS.push(['timeline','🗓️ جدول يومك','#tlCard']);
 const _rx24=renderExtras;renderExtras=function(){_rx24();try{renderTL();applyMods()}catch(e){console.error(e)}};
 setInterval(()=>{try{if(isAct('now'))renderTL()}catch(e){}},60000);
 try{renderTL()}catch(e){}
+</script>
+<style>
+.azr{position:fixed;inset:0;z-index:39;display:flex;flex-direction:column;color:#fff;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(env(safe-area-inset-bottom,0px) + 14px)}.azr[hidden]{display:none}
+.azr.m{background:radial-gradient(circle at 80% 8%,rgba(255,224,150,.55),transparent 32%),linear-gradient(180deg,#F2A65A 0%,#C8705A 35%,#5B3F6E 75%,#2A2550 100%)}
+.azr.e{background:radial-gradient(circle at 20% 10%,rgba(243,226,188,.35),transparent 25%),linear-gradient(180deg,#0B152F,#1B2B5A 60%,#2A3A6E)}
+.azr .top{display:flex;align-items:center;gap:10px}.azr .top b{flex:1;font-family:var(--fh);font-size:18px}.azr .pb{height:6px;border-radius:6px;background:rgba(255,255,255,.2);margin:10px 0;overflow:hidden}.azr .pb i{display:block;height:100%;background:#F3E2BC;transition:width .3s}
+.azr .cd{flex:1;overflow:auto;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:24px;padding:18px;display:flex;flex-direction:column;cursor:pointer;animation:azin .35s ease}
+@keyframes azin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.azr .tx{font-family:"Amiri Quran",Amiri,serif;font-size:var(--azfs,23px);line-height:2.15;text-align:center;flex:1;display:flex;align-items:center;justify-content:center;white-space:pre-line}
+.azr .meta{font-size:13.5px;line-height:1.8;background:rgba(0,0,0,.18);border-radius:16px;padding:10px 12px;margin-top:12px}.azr .meta div+div{margin-top:4px}
+.azr .ctr{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.azr .cnt{width:86px;height:86px;border-radius:50%;border:none;font:inherit;font-size:30px;font-weight:800;color:#2A2550;background:radial-gradient(circle at 35% 30%,#FFF6DD,#E9C77E);box-shadow:0 8px 22px rgba(0,0,0,.3),0 0 0 6px rgba(255,255,255,.18);cursor:pointer;flex-shrink:0}
+.azr .cnt small{display:block;font-size:11px;font-weight:600}
+.azr .nb{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:14px;min-height:46px;padding:0 14px;font:inherit;font-weight:700;cursor:pointer}
+.azr .gr{display:inline-block;border-radius:20px;padding:1px 10px;font-size:12px;font-weight:700;background:#2F9E6E}
+.azr .done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px}
+.azstart{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.azstart button{border:0;border-radius:20px;padding:18px 10px;font:inherit;font-weight:800;font-size:16px;color:#fff;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.azstart small{display:block;font-weight:600;font-size:12px;opacity:.85;margin-top:4px}
+</style>
+<div id="azR" class="azr m" hidden role="dialog" aria-label="الأذكار">
+ <div class="top"><button class="nb" id="azX" aria-label="قفل">✕</button><b id="azT"></b><button class="nb" id="azS" aria-label="اسمع">🔊</button><button class="nb" id="azF" aria-label="كبّر الخط">أ+</button></div>
+ <div class="pb"><i id="azP"></i></div>
+ <div id="azBody" style="flex:1;display:flex;flex-direction:column;min-height:0"></div>
+</div>
+<script>
+/* ================= ٦.٨: أذكار الصباح والمساء بشكل مفصّل وجميل ================= */
+let AZ=null;
+function azItems(kind){const ch=(window.HISN||[]).find(c=>c.g==='fadl'&&c.t===(kind==='m'?'أذكار الصباح':'أذكار المساء'));if(!ch)return ADHKAR[kind].items.map(([t,n])=>({t,n,f:'',r:''}));
+  return ch.x.map((t,i)=>{const f=ch.f[i]||'',r=(f.match(/📖 ([^·]+)/)||[])[1]||'',fd=(f.match(/✨ ([^·]+)/)||[])[1]||'',n=+((f.match(/🔁 (\d+)/)||[])[1]||1);return{t:t.trim(),n,f:fd.trim(),r:r.trim()}})}
+function azGrade(r){if(/سورة|آية|البقرة/.test(r))return['قرآن كريم','#2F7D6B'];if(/البخاري|مسلم|متفق/.test(r))return['صحيح','#2F9E6E'];return['',''] }
+function openAz(kind){loadHisn(()=>{const items=azItems(kind),k=dkey(new Date()),d=day(k),S=(d.azr=d.azr||{})[kind]=(d.azr[kind]||{});AZ={kind,items,i:Math.min(S.i||0,items.length),cnt:S.c||{}};
+  const R=$('azR');R.className='azr '+(kind==='m'?'m':'e');$('azT').textContent=(kind==='m'?'☀️ أذكار الصباح':'🌙 أذكار المساء');R.hidden=false;azPaint()})}
+function azSave(){if(!AZ)return;const k=dkey(new Date()),d=day(k);(d.azr=d.azr||{})[AZ.kind]={i:AZ.i,c:AZ.cnt};if(AZ.i>=AZ.items.length){const A=ADHKAR[AZ.kind];(d.adhkar=d.adhkar||{})[AZ.kind]=A.items.map(it=>it[1])}saveDay(k)}
+function azPaint(){const B=$('azBody'),N=AZ.items.length;$('azP').style.width=(AZ.i/N*100)+'%';B.innerHTML='';
+  if(AZ.i>=N){B.innerHTML='<div class="done"><div style="font-size:72px">'+(AZ.kind==='m'?'☀️':'🌙')+'</div><h2 style="color:#F3E2BC">تقبّل الله</h2><p style="opacity:.9;line-height:1.9">خلّصت '+(AZ.kind==='m'?'أذكار الصباح':'أذكار المساء')+' كاملة، '+ar(N)+' ذكر.<br>حفظك الله في '+(AZ.kind==='m'?'يومك':'ليلتك')+'.</p><button class="nb" id="azAgain">ابدأ من الأول</button></div>';
+    $('azAgain').onclick=()=>{AZ.i=0;AZ.cnt={};azSave();azPaint()};return}
+  const it=AZ.items[AZ.i],done=AZ.cnt[AZ.i]||0,left=Math.max(0,it.n-done),[g,gc]=azGrade(it.r);
+  const c=el('div','cd','<div class="sub" style="color:rgba(255,255,255,.75);text-align:center;margin-bottom:6px"></div><div class="tx"></div><div class="meta"></div>');c.querySelector('.sub').textContent='الذكر '+ar(AZ.i+1)+' من '+ar(N)+(it.n>1?' · يُقال '+ar(it.n)+' مرات':'');c.querySelector('.tx').textContent=it.t;
+  const m=c.querySelector('.meta');if(it.f){const x=el('div');x.textContent='✨ فضله: '+it.f;m.appendChild(x)}if(it.r){const x=el('div');x.innerHTML='📚 المصدر: <span></span> ';x.querySelector('span').textContent=it.r;if(g){const gb=el('span','gr');gb.textContent=g;gb.style.background=gc;x.appendChild(gb)}m.appendChild(x)}if(!m.children.length)m.remove();
+  c.onclick=e=>{if(e.target.closest('button'))return;azCount()};B.appendChild(c);
+  const ct=el('div','ctr','<button class="nb" data-a="p">→ السابق</button><button class="cnt"><span></span><small></small></button><button class="nb" data-a="n">التالي ←</button>');ct.querySelector('.cnt span').textContent=ar(left);ct.querySelector('.cnt small').textContent=left?'المس للعدّ':'✓';
+  ct.querySelector('.cnt').onclick=azCount;ct.querySelector('[data-a=p]').onclick=()=>{if(AZ.i>0){AZ.i--;azSave();azPaint()}};ct.querySelector('[data-a=n]').onclick=()=>{AZ.i++;azSave();azPaint();if(AZ.i>=N)celebrate('تقبّل الله 🤍')};B.appendChild(ct)}
+function azCount(){const it=AZ.items[AZ.i],c=(AZ.cnt[AZ.i]||0)+1;AZ.cnt[AZ.i]=c;try{navigator.vibrate&&navigator.vibrate(c>=it.n?[30,40,30]:15)}catch(e){}if(c>=it.n){AZ.i++;azSave();setTimeout(azPaint,180);if(AZ.i>=AZ.items.length)celebrate('تقبّل الله، خلّصت '+(AZ.kind==='m'?'أذكار الصباح':'أذكار المساء')+' 🤍')}else{azSave();azPaint()}}
+$('azX').onclick=()=>{$('azR').hidden=true;AZ=null;try{speechSynthesis.cancel()}catch(e){}renderAll(true)};
+$('azS').onclick=()=>{if(!AZ||AZ.i>=AZ.items.length)return;unlock();const it=AZ.items[AZ.i];if(/سورة|آية/.test(it.r)&&/الكرسي|255/.test(it.r)){playAyP(2,255);return}gsSay(profile.settings.vLang||'ar',it.t)};
+$('azF').onclick=()=>{profile.settings.azfs=Math.min(34,(profile.settings.azfs||23)+2);if(profile.settings.azfs>=34)profile.settings.azfs=19;saveProfile();document.documentElement.style.setProperty('--azfs',profile.settings.azfs+'px')};
+closeTop=(function(o){return function(){if(!$('azR').hidden){$('azX').click();return true}return o()}})(closeTop);
+/* زراير البداية في الأذكار، وكارت «الأذكار في وقتها» يفتح الوضع الجديد */
+renderAdhkar=(function(o){return function(){o();const L2=$('aList');if(!L2||L2.querySelector('.azstart'))return;const s=el('div','azstart');const d=day(dkey(new Date())),st=k=>{const a=(d.azr||{})[k];return a&&a.i?ar(a.i)+' / ':''};
+  const bm=el('button');bm.style.background='linear-gradient(135deg,#F2A65A,#C8705A)';bm.innerHTML='☀️ أذكار الصباح<small></small>';bm.querySelector('small').textContent=adhAll(d,'m')?'✓ خلّصتها':st('m')+'ابدأ بوضع القراءة';bm.onclick=()=>openAz('m');
+  const be=el('button');be.style.background='linear-gradient(135deg,#1B2B5A,#0B152F)';be.innerHTML='🌙 أذكار المساء<small></small>';be.querySelector('small').textContent=adhAll(d,'e')?'✓ خلّصتها':st('e')+'ابدأ بوضع القراءة';be.onclick=()=>openAz('e');s.append(bm,be);L2.prepend(s)}})(renderAdhkar);
+renderNowCards2=(function(o){return function(){o();const c=[...document.querySelectorAll('#nowCards .card')].find(x=>/دلوقتي$/.test((x.querySelector('h3')||{}).textContent||''));if(!c)return;const k0=adhNow();const b=c.querySelector('.btn.pri');if(b&&(k0==='m'||k0==='e')){b.textContent='ابدأ بوضع القراءة ✨';b.onclick=()=>openAz(k0)}}})(renderNowCards2);
 </script>
 </body>
 </html>
