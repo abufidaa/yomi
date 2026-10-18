@@ -59,7 +59,7 @@ public class YomiReceiver extends BroadcastReceiver {
             ch.setVibrationPattern(new long[]{0, 400, 200, 400});
             nm.createNotificationChannel(ch);
         }
-        if ("adhan".equals(type) && in.getBooleanExtra("full", false)) {
+        if (("adhan".equals(type) && in.getBooleanExtra("full", false)) || in.getBooleanExtra("clap", false)) {
             Intent fs = new Intent(ctx, AdhanActivity.class);
             fs.putExtras(in);
             fs.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION);

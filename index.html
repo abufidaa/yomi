@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261017183659">
+<meta name="app-version" content="20261018025826">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٣</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٤</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٣</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٤</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4160,7 +4160,7 @@ const _ba2=buildAlarms;buildAlarms=function(){const out=_ba2(),s=profile.setting
 const _fsD=focusStart;focusStart=function(mode){_fsD(mode);if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:mode==='work'}).catch(()=>{})};
 const _fstD=focusStop;focusStop=function(){_fstD();if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:false}).catch(()=>{})};
 /* كارت التطبيق الحقيقي: الويدجتات وألوانها والمميزات */
-const APK_LATEST=3,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
+const APK_LATEST=4,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
 const _ryn2=renderYN;renderYN=function(){_ryn2();if(!YN)return;const c=$('ynCard');if(!c||ynVer<3){if(c&&ynVer===2){const w=el('a','btn pri');w.href=APK_URL;w.textContent='⬆️ نسخة جديدة من التطبيق فيها ٥ ويدجتات، حدّث';w.style.cssText='width:100%;margin-top:8px;text-decoration:none';c.appendChild(w)}return}
   const s=profile.settings,x=el('div');x.innerHTML='<h3 style="margin-top:14px">🧩 الويدجتات</h3><p class="sub" style="margin:0 0 6px;line-height:1.8">عندك ٥ ويدجتات: <b>الصلاة الجاية (كبير)</b>، و<b>صغير</b>، و<b>يومك</b>، و<b>آية وذكر</b>، و<b>السبحة</b>. اضغط مطوّل على الشاشة الرئيسية ← <b>الأدوات</b> ← <b>يومي</b>.</p><div class="sub">لون الويدجتات</div><div class="wthm"></div><div class="wprev"><small>🕌 الصلاة الجاية</small><b></b><small></small></div>';
   const g=x.querySelector('.wthm'),pv=x.querySelector('.wprev'),paint=()=>{const t=WTH.find(z=>z[0]===(s.wTheme||'navy'));pv.style.background=t[2];const lt=t[0]==='light';pv.style.color=lt?'#1B2333':'#fff';pv.querySelector('b').style.color=lt?'#8A6A22':'#F3E2BC';const pt=prayerTimes(new Date()),nx=FIVE.find(p=>pt[p]>nowMin())||'fajr';pv.querySelector('b').textContent=PN[nx];pv.querySelectorAll('small')[1].textContent='الساعة '+fmt(pt[nx])};
@@ -4174,6 +4174,22 @@ const _ryn2=renderYN;renderYN=function(){_ryn2();if(!YN)return;const c=$('ynCard
 function renderUpBar(){let b=$('upBar');const need=YN&&ynVer&&ynVer<APK_LATEST;if(!need){if(b)b.remove();return}if(b)return;b=el('div','upbar','<span>✨ فيه نسخة جديدة من التطبيق</span><a class="btn" style="min-height:34px;text-decoration:none">حدّث</a>');b.id='upBar';b.querySelector('a').href=APK_URL;$('v-now').prepend(b)}
 setTimeout(()=>{try{renderUpBar();renderYN()}catch(e){}},2500);
 const _rx15=renderExtras;renderExtras=function(){_rx15();try{renderUpBar()}catch(e){}};
+</script>
+<script>
+/* ===== ٥.٤: إسكات التنبيه بالتصفيق أو بصوت عالي أو بزرار الصوت ===== */
+const _ba3=buildAlarms;buildAlarms=function(){const out=_ba3(),s=profile.settings;if(!s.clapStop)return out;
+  out.forEach(a=>{if(!a.speak||a.type==='steps'||a.type==='dndOn'||a.type==='dndOff')return;const d=new Date(a.at),m=d.getHours()*60+d.getMinutes(),pt=prayerTimes(d);
+    const night=m>=pt.isha+30||m<pt.fajr+45;if(s.clapWhen==='all'||night){a.clap=true;a.sens=s.clapSens||2;if(a.type!=='adhan')a.adhanOn=false}});return out};
+const _ryn3=renderYN;renderYN=function(){_ryn3();if(!YN||ynVer<4)return;const c=$('ynCard2')||$('ynCard');if(!c||c.querySelector('#clapBox'))return;const s=profile.settings,x=el('div');x.id='clapBox';
+  x.innerHTML='<h3 style="margin-top:14px">👏 إسكات التنبيه من بعيد</h3><p class="sub" style="margin:0 0 6px;line-height:1.8">لما التنبيه يتكلم، <b>صفّق مرتين</b>، أو <b>قول «اسكت» بصوت عالي</b>، أو <b>دوس أي زرار صوت</b>، والموبايل هيسكت. الشاشة بتنوّر وقت التنبيه عشان المايك يقدر يسمع.</p>';
+  const r=el('div','set','<div>شغّل الإسكات بالتصفيق</div><label class="sw"><input type="checkbox"><span></span></label>'),i=r.querySelector('input');i.checked=!!s.clapStop;
+  i.onchange=async()=>{s.clapStop=i.checked;saveProfile();if(i.checked){try{const p=await YN.micPerm();if(!p.ok)toast('وافق على إذن المايك عشان يسمع التصفيق')}catch(e){}}};x.appendChild(r);
+  const w=el('div','set','<div>إمتى؟</div><select><option value="night">بالليل بس (بعد العشا لحد الفجر)</option><option value="all">طول اليوم</option></select>'),ws=w.querySelector('select');ws.value=s.clapWhen||'night';ws.onchange=()=>{s.clapWhen=ws.value;saveProfile()};x.appendChild(w);
+  const sv=el('div','set','<div>حساسية السمع</div><div class="chips" style="margin:0"></div>');[[1,'قليلة'],[2,'متوسطة'],[3,'عالية']].forEach(([v,n])=>{const b=el('button',(s.clapSens||2)===v?'on':'');b.textContent=n;b.onclick=()=>{s.clapSens=v;saveProfile();sv.querySelectorAll('button').forEach(y=>y.classList.remove('on'));b.classList.add('on')};sv.querySelector('.chips').appendChild(b)});x.appendChild(sv);
+  const t=el('button','btn pri');t.style.cssText='width:100%;margin-top:8px';t.textContent='🧪 جرّب: تنبيه بعد ٥ ثواني، وصفّق مرتين';
+  t.onclick=async()=>{try{await YN.micPerm()}catch(e){}YN.test({title:'🔔 تجربة الإسكات',body:'صفّق مرتين أو قول اسكت',speak:egy('يا '+(s.name||'')+'، دي تجربة. صفّق مرتين أو قول اسكت بصوت عالي عشان أسكت. ')+egy('أستغفر الله العظيم وأتوب إليه. سبحان الله وبحمده، سبحان الله العظيم.'),lang:s.vLang||'ar',type:'voice',clap:true,sens:s.clapSens||2,adhanOn:false});toast('ابعد عن الموبايل شوية واستنى ٥ ثواني')};x.appendChild(t);
+  c.appendChild(x)};
+try{renderYN()}catch(e){}
 </script>
 </body>
 </html>

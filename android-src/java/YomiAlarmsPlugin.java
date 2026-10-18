@@ -52,7 +52,8 @@ public class YomiAlarmsPlugin extends Plugin {
             Intent it = new Intent(ctx, YomiReceiver.class);
             it.putExtra("title", o.optString("title")); it.putExtra("body", o.optString("body")); it.putExtra("speak", o.optString("speak"));
             it.putExtra("lang", o.optString("lang", "ar")); it.putExtra("type", o.optString("type", "voice")); it.putExtra("prayer", o.optString("prayer", ""));
-            it.putExtra("full", o.optBoolean("full", false)); it.putExtra("adhanOn", o.optBoolean("adhanOn", true)); it.putExtra("nid", nid);
+            it.putExtra("full", o.optBoolean("full", false)); it.putExtra("adhanOn", o.optBoolean("adhanOn", "adhan".equals(o.optString("type")))); it.putExtra("nid", nid);
+            it.putExtra("clap", o.optBoolean("clap", false)); it.putExtra("sens", o.optInt("sens", 2));
             PendingIntent pi = PendingIntent.getBroadcast(ctx, nid, it, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             if (exact) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi);
             else am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi);
@@ -90,6 +91,14 @@ public class YomiAlarmsPlugin extends Plugin {
             WidgetRender.updateAll(getContext());
         } catch (Exception ignored) { }
         call.resolve();
+    }
+
+    @PluginMethod
+    public void micPerm(PluginCall call) {
+        JSObject r = new JSObject();
+        boolean ok = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+        if (!ok && getActivity() != null) ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, 9);
+        r.put("ok", ok); call.resolve(r);
     }
 
     @PluginMethod
@@ -131,7 +140,7 @@ public class YomiAlarmsPlugin extends Plugin {
         JSObject r = new JSObject();
         r.put("exact", Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms());
         r.put("scheduled", ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE).getInt("n", 0));
-        r.put("version", 3);
+        r.put("version", 4);
         call.resolve(r);
     }
 
@@ -207,6 +216,7 @@ public class YomiAlarmsPlugin extends Plugin {
             Intent it = new Intent(ctx, YomiReceiver.class);
             it.putExtra("title", o.getString("title")); it.putExtra("body", o.getString("body")); it.putExtra("speak", o.getString("speak")); it.putExtra("lang", o.getString("lang"));
             it.putExtra("type", o.getString("type")); it.putExtra("prayer", o.getString("prayer")); it.putExtra("full", o.getBoolean("full")); it.putExtra("adhanOn", o.getBoolean("adhanOn")); it.putExtra("nid", 999);
+            it.putExtra("clap", Boolean.TRUE.equals(call.getBoolean("clap", false))); it.putExtra("sens", call.getInt("sens", 2));
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, o.getLong("at"), PendingIntent.getBroadcast(ctx, 999, it, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
         } catch (Exception ignored) { }
