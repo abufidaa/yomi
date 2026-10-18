@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018025826">
+<meta name="app-version" content="20261018031357">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٤</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٥</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٤</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٥</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4160,7 +4160,7 @@ const _ba2=buildAlarms;buildAlarms=function(){const out=_ba2(),s=profile.setting
 const _fsD=focusStart;focusStart=function(mode){_fsD(mode);if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:mode==='work'}).catch(()=>{})};
 const _fstD=focusStop;focusStop=function(){_fstD();if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:false}).catch(()=>{})};
 /* كارت التطبيق الحقيقي: الويدجتات وألوانها والمميزات */
-const APK_LATEST=4,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
+const APK_LATEST=5,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
 const _ryn2=renderYN;renderYN=function(){_ryn2();if(!YN)return;const c=$('ynCard');if(!c||ynVer<3){if(c&&ynVer===2){const w=el('a','btn pri');w.href=APK_URL;w.textContent='⬆️ نسخة جديدة من التطبيق فيها ٥ ويدجتات، حدّث';w.style.cssText='width:100%;margin-top:8px;text-decoration:none';c.appendChild(w)}return}
   const s=profile.settings,x=el('div');x.innerHTML='<h3 style="margin-top:14px">🧩 الويدجتات</h3><p class="sub" style="margin:0 0 6px;line-height:1.8">عندك ٥ ويدجتات: <b>الصلاة الجاية (كبير)</b>، و<b>صغير</b>، و<b>يومك</b>، و<b>آية وذكر</b>، و<b>السبحة</b>. اضغط مطوّل على الشاشة الرئيسية ← <b>الأدوات</b> ← <b>يومي</b>.</p><div class="sub">لون الويدجتات</div><div class="wthm"></div><div class="wprev"><small>🕌 الصلاة الجاية</small><b></b><small></small></div>';
   const g=x.querySelector('.wthm'),pv=x.querySelector('.wprev'),paint=()=>{const t=WTH.find(z=>z[0]===(s.wTheme||'navy'));pv.style.background=t[2];const lt=t[0]==='light';pv.style.color=lt?'#1B2333':'#fff';pv.querySelector('b').style.color=lt?'#8A6A22':'#F3E2BC';const pt=prayerTimes(new Date()),nx=FIVE.find(p=>pt[p]>nowMin())||'fajr';pv.querySelector('b').textContent=PN[nx];pv.querySelectorAll('small')[1].textContent='الساعة '+fmt(pt[nx])};
@@ -4190,6 +4190,28 @@ const _ryn3=renderYN;renderYN=function(){_ryn3();if(!YN||ynVer<4)return;const c=
   t.onclick=async()=>{try{await YN.micPerm()}catch(e){}YN.test({title:'🔔 تجربة الإسكات',body:'صفّق مرتين أو قول اسكت',speak:egy('يا '+(s.name||'')+'، دي تجربة. صفّق مرتين أو قول اسكت بصوت عالي عشان أسكت. ')+egy('أستغفر الله العظيم وأتوب إليه. سبحان الله وبحمده، سبحان الله العظيم.'),lang:s.vLang||'ar',type:'voice',clap:true,sens:s.clapSens||2,adhanOn:false});toast('ابعد عن الموبايل شوية واستنى ٥ ثواني')};x.appendChild(t);
   c.appendChild(x)};
 try{renderYN()}catch(e){}
+</script>
+<style>
+/* ===== ٥.٥: أيقونات أجمل بألوان لكل قسم ===== */
+.tile i,.qgrid i{width:50px;height:50px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:25px;font-style:normal;border:0;
+ background:linear-gradient(145deg,var(--t1,#2B5A9E),var(--t2,#13284F));box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -3px 6px rgba(0,0,0,.18),0 6px 14px color-mix(in srgb,var(--t2,#13284F) 35%,transparent);filter:saturate(1.05)}
+.tiles.t3 .tile{padding:14px 4px 12px}.tiles.t3 .tile span{font-size:12.5px;line-height:1.35}
+.tg-w{--t1:#2FA37A;--t2:#156B50}.tg-p{--t1:#3C7BD4;--t2:#1B3F7A}.tg-t{--t1:#E2B65C;--t2:#A57A28}.tg-s{--t1:#7D8AA6;--t2:#46526B}.tg-a{--t1:#9B6BD3;--t2:#5A3592}
+.qgrid i{--t1:#2B5A9E;--t2:#13284F}.qgrid button:nth-child(2n) i{--t1:#2FA37A;--t2:#156B50}.qgrid button:nth-child(3n) i{--t1:#E2B65C;--t2:#A57A28}
+</style>
+<script>
+/* ===== ٥.٥: ألوان الأيقونات لكل قسم + زرار رجوع الموبايل + إسكات التنبيه في مكان أوضح ===== */
+(function(){const cls=['tg-w','tg-p','tg-t','tg-s','tg-a'];document.querySelectorAll('#v-set .grp').forEach((g,i)=>{const tg=g.nextElementSibling;if(tg)tg.classList.add(cls[Math.min(i,cls.length-1)])})})();
+/* زرار الرجوع بتاع الموبايل في التطبيق الحقيقي */
+let ybLast=0,navStk=[],navPop=false;const _goN=go;go=function(v){const cur=((document.querySelector('.view.act')||{}).id||'v-now').slice(2);if(!navPop&&cur!==v){navStk.push(cur);if(navStk.length>30)navStk.shift()}_goN(v)};
+window.__yomiBack=function(){try{if(closeTop())return'ok';if(!isAct('now')){let prev=navStk.pop();while(prev&&isAct(prev))prev=navStk.pop();navPop=true;popping=true;try{go(prev||'now')}finally{navPop=false;popping=false}return'ok'}
+  if(Date.now()-ybLast<2000)return'exit';ybLast=Date.now();toast('دوس رجوع تاني عشان تخرج');return'ok'}catch(e){return'exit'}};
+/* إسكات التنبيه: يظهر كمان في «الأصوات والنداء» */
+const _ryn4=renderYN;renderYN=function(){_ryn4();const box=$('clapBox');const v=$('v-s-voice');if(!v)return;let c=$('clapHere');
+  if(!YN){if(!c){c=el('div','card');c.id='clapHere';c.innerHTML='<h3>👏 إسكات التنبيه من بعيد</h3><p class="sub" style="margin:0;line-height:1.8">الميزة دي شغالة في <b>تطبيق الأندرويد الحقيقي</b> بس.</p>';(v.querySelector(':scope > p.sub')||v.firstElementChild).after(c)}return}
+  if(ynVer<4){if(!c){c=el('div','card');c.id='clapHere';c.innerHTML='<h3>👏 إسكات التنبيه من بعيد</h3><p class="sub" style="margin:0 0 8px;line-height:1.8">محتاج تحدّث التطبيق عشان تظهر الإعدادات دي.</p>';const a=el('a','btn pri');a.href=APK_URL;a.textContent='⬆️ حدّث التطبيق';a.style.cssText='width:100%;text-decoration:none';c.appendChild(a);(v.querySelector(':scope > p.sub')||v.firstElementChild).after(c)}return}
+  if(box&&box.parentElement!==c){if(c)c.remove();c=el('div','card');c.id='clapHere';box.style.marginTop='0';box.querySelector('h3').style.marginTop='0';c.appendChild(box);(v.querySelector(':scope > p.sub')||v.firstElementChild).after(c)}};
+setTimeout(()=>{try{renderYN()}catch(e){}},3000);
 </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ package net.tantawy.yomi;
 
 import android.Manifest;
 import android.content.Intent;
+import androidx.activity.OnBackPressedCallback;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,17 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(YomiAlarmsPlugin.class);
         super.onCreate(savedInstanceState);
         saveGo(getIntent());
+        /* زرار الرجوع بتاع الموبايل: التطبيق يرجع صفحة صفحة، ومن الرئيسية يدوس مرتين عشان يخرج */
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                try {
+                    getBridge().getWebView().evaluateJavascript("(function(){try{return window.__yomiBack?window.__yomiBack():'exit'}catch(e){return 'exit'}})()", v -> {
+                        if (v != null && v.contains("exit")) moveTaskToBack(true);
+                    });
+                } catch (Exception e) { moveTaskToBack(true); }
+            }
+        });
         if (Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO}, 1);
         }
