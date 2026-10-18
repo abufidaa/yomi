@@ -109,6 +109,8 @@ public class YomiReceiver extends BroadcastReceiver {
             try {
                 String l = (lang == null || lang.isEmpty()) ? "ar" : lang.split("-")[0];
                 t[0].setLanguage(new Locale(l));
+                YomiAlarmsPlugin.applyVoice(t[0], in.getStringExtra("voice"));
+                t[0].setSpeechRate(in.getFloatExtra("rate", 0.9f));
                 t[0].setAudioAttributes(new AudioAttributes.Builder()
                         .setUsage(AudioAttributes.USAGE_ALARM)
                         .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build());

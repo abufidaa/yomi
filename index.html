@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018034247">
+<meta name="app-version" content="20261018035429">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٧</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٨</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٧</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٨</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4160,7 +4160,7 @@ const _ba2=buildAlarms;buildAlarms=function(){const out=_ba2(),s=profile.setting
 const _fsD=focusStart;focusStart=function(mode){_fsD(mode);if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:mode==='work'}).catch(()=>{})};
 const _fstD=focusStop;focusStop=function(){_fstD();if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:false}).catch(()=>{})};
 /* كارت التطبيق الحقيقي: الويدجتات وألوانها والمميزات */
-const APK_LATEST=7,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
+const APK_LATEST=8,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
 const _ryn2=renderYN;renderYN=function(){_ryn2();if(!YN)return;const c=$('ynCard');if(!c||ynVer<3){if(c&&ynVer===2){const w=el('a','btn pri');w.href=APK_URL;w.textContent='⬆️ نسخة جديدة من التطبيق فيها ٥ ويدجتات، حدّث';w.style.cssText='width:100%;margin-top:8px;text-decoration:none';c.appendChild(w)}return}
   const s=profile.settings,x=el('div');x.innerHTML='<h3 style="margin-top:14px">🧩 الويدجتات</h3><p class="sub" style="margin:0 0 6px;line-height:1.8">عندك ٥ ويدجتات: <b>الصلاة الجاية (كبير)</b>، و<b>صغير</b>، و<b>يومك</b>، و<b>آية وذكر</b>، و<b>السبحة</b>. اضغط مطوّل على الشاشة الرئيسية ← <b>الأدوات</b> ← <b>يومي</b>.</p><div class="sub">لون الويدجتات</div><div class="wthm"></div><div class="wprev"><small>🕌 الصلاة الجاية</small><b></b><small></small></div>';
   const g=x.querySelector('.wthm'),pv=x.querySelector('.wprev'),paint=()=>{const t=WTH.find(z=>z[0]===(s.wTheme||'navy'));pv.style.background=t[2];const lt=t[0]==='light';pv.style.color=lt?'#1B2333':'#fff';pv.querySelector('b').style.color=lt?'#8A6A22':'#F3E2BC';const pt=prayerTimes(new Date()),nx=FIVE.find(p=>pt[p]>nowMin())||'fajr';pv.querySelector('b').textContent=PN[nx];pv.querySelectorAll('small')[1].textContent='الساعة '+fmt(pt[nx])};
@@ -4273,6 +4273,36 @@ const _ryn5=renderYN;renderYN=function(){_ryn5();const box=$('clapBox');if(!box|
   else{const a=el('button','btn pri');a.style.width='100%';a.textContent='⬆️ حدّث التطبيق عشان الإسكات الجديد';a.onclick=selfUpdate;c.appendChild(a)}
   const tb=[...box.querySelectorAll('button')].find(x=>/جرّب/.test(x.textContent));if(tb){tb.textContent='🧪 جرّب: تنبيه بعد ٥ ثواني';tb.before(c)}else box.appendChild(c)};
 try{renderYN()}catch(e){}
+</script>
+<script>
+/* ================= ٥.٨: اختيار صوت راجل وصوت ست + سرعة معتدلة ================= */
+if(!profile.settings.rate58){profile.settings.rate58=1;profile.settings.vRate=0.9;saveProfile()}
+const curVoice=()=>{const s=profile.settings;return(s.userFem?(s.voiceF||s.voiceM):(s.voiceM||s.voiceF))||''};
+/* كل الكلام (جوه التطبيق والتنبيهات) بالصوت المختار */
+if(YN&&YN.speak){const _sp=speechSynthesis.speak.bind(speechSynthesis);speechSynthesis.speak=function(u){S_voiceTag(u);
+  speechSynthesis.speaking=true;try{u.onstart&&u.onstart()}catch(e){}YN.speak({text:u.text,lang:u.lang||'ar',rate:u.rate||profile.settings.vRate||.9,pitch:1,volume:u.volume==null?1:u.volume,voice:curVoice()}).then(()=>{speechSynthesis.speaking=false;try{u.onend&&u.onend()}catch(e){}}).catch(()=>{try{u.onerror&&u.onerror()}catch(e){}})}}
+function S_voiceTag(u){if(u&&!u.rate)u.rate=profile.settings.vRate||.9}
+const _ba4=buildAlarms;buildAlarms=function(){const v=curVoice(),r=profile.settings.vRate||.9;return _ba4().map(a=>Object.assign(a,{voice:v,rate:r}))};
+if(YN&&YN.test){const _t=YN.test.bind(YN);YN.test=o=>_t(Object.assign({voice:curVoice(),rate:profile.settings.vRate||.9},o))}
+/* سرعة معتدلة */
+renderCmp=(function(o){return function(){o();const sc=$('spdC');if(!sc)return;sc.innerHTML='';[['🐢 هادي',.8],['⚖️ معتدل',.9],['🐇 أسرع',1]].forEach(([n,v])=>{const b=el('button',Math.abs((profile.settings.vRate||.9)-v)<.01?'on':'');b.textContent=n;b.onclick=()=>{profile.settings.vRate=v;saveProfile();renderCmp();unlock();speak(personalize('يا {n}، هذِهِ سُرْعَةُ الكَلامِ.'))};sc.appendChild(b)})}})(renderCmp);
+/* اختيار الصوت */
+(function(){const c=el('div','card');c.id='vPick';c.innerHTML='<h3>🎙️ صوت الراجل وصوت الست</h3><p class="sub" style="margin:0 0 8px;line-height:1.8">اسمع الأصوات، واختار صوت للراجل وصوت للست. التطبيق هيتكلم بالصوت المناسب حسب المستخدم. <b>🌐 الأصوات عالية الجودة</b> نطقها أحسن، بس محتاجة نت.</p><div id="vPickL"><p class="sub">بيجيب الأصوات…</p></div>';
+  const v=$('v-s-voice');const after=$('clapHere')||(v.querySelector(':scope > p.sub')||v.firstElementChild);after.after(c)})();
+async function renderVPick(){const box=$('vPickL');if(!box)return;if(!YN){$('vPick').style.display='none';return}if(ynVer&&ynVer<8){box.innerHTML='';const a=el('button','btn pri');a.style.width='100%';a.textContent='⬆️ حدّث التطبيق عشان تختار الصوت';a.onclick=selfUpdate;box.appendChild(a);return}
+  let vs=[];try{vs=(await YN.voices()).voices||[]}catch(e){}if(!vs.length){box.innerHTML='<p class="sub">مالقيتش أصوات عربي. نزّل «العربية» من إعدادات تحويل النص إلى كلام في الموبايل.</p>';return}
+  vs.sort((a,b)=>(a.network-b.network)||a.name.localeCompare(b.name));const s=profile.settings;box.innerHTML='';const g=$('userG');if(g){}
+  vs.forEach((v,i)=>{const lab='صوت '+ar(i+1)+(v.network?' 🌐 عالي الجودة':'')+(v.installed?'':' ⬇️ محتاج تنزيل');const r=el('div','vt'+((s.voiceM===v.name||s.voiceF===v.name)?' on':''),'<span></span><span class="row"><button class="btn" data-a="p">▶</button><button class="btn" data-a="m"></button><button class="btn" data-a="f"></button></span>');
+    r.querySelector('span').textContent=lab;const bm=r.querySelector('[data-a=m]'),bf=r.querySelector('[data-a=f]');bm.textContent=s.voiceM===v.name?'✓ للراجل':'👨 للراجل';bf.textContent=s.voiceF===v.name?'✓ للست':'👩 للست';if(s.voiceM===v.name)bm.classList.add('pri');if(s.voiceF===v.name)bf.classList.add('pri');
+    r.querySelector('[data-a=p]').onclick=()=>{unlock();YN.speak({text:smoothAr(personalize('السَّلامُ عَلَيْكُمْ يا {n}. حانَ وَقْتُ صَلاةِ الفَجْرِ، الصَّلاةُ خَيْرٌ مِنَ النَّوْمْ.')),lang:'ar',rate:s.vRate||.9,voice:v.name}).catch(()=>{})};
+    bm.onclick=()=>{s.voiceM=v.name;saveProfile();renderVPick();toast('👨 ده صوت الراجل')};bf.onclick=()=>{s.voiceF=v.name;saveProfile();renderVPick();toast('👩 ده صوت الست')};box.appendChild(r)});
+  const st=el('p','sub');st.style.margin='8px 0 0';st.textContent='المستخدم دلوقتي: '+(s.userFem?'ست 👩':'راجل 👨')+'، وهيتكلم بـ '+(curVoice()?'الصوت اللي اخترته':'الصوت الأساسي للموبايل')+'.';box.appendChild(st)}
+/* لما يتغير المستخدم (راجل/ست) الصوت يتغير معاه */
+(function(){const g=$('userG');if(g)g.addEventListener('change',()=>setTimeout(()=>{renderVPick();syncNative&&syncNative()},200))})();
+/* إخفاء كارت صوت المتصفح القديم في التطبيق الحقيقي */
+if(YN){const vs=$('voiceSel');if(vs){const c=vs.closest('.card');if(c)c.style.display='none'}const gs=document.querySelector('#v-s-voice .gs');if(gs)gs.querySelectorAll('#gsTests,.set').forEach(x=>x.style.display='none')}
+const _rx16=renderExtras;renderExtras=function(){_rx16();if(isAct('s-voice'))renderVPick()};
+setTimeout(()=>{try{renderVPick()}catch(e){}},3000);
 </script>
 </body>
 </html>

@@ -20,6 +20,7 @@ import android.media.AudioAttributes;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
+import android.speech.tts.Voice;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.getcapacitor.JSArray;
@@ -40,6 +41,7 @@ public class YomiAlarmsPlugin extends Plugin {
     static final String PREF = "yomi_alarms";
     private TextToSpeech tts; private boolean ttsReady = false; private boolean ttsInit = false;
     private final ArrayList<PluginCall> pend = new ArrayList<>();
+    private final ArrayList<PluginCall> pendV = new ArrayList<>();
     private final HashMap<String, PluginCall> calls = new HashMap<>();
 
     /* الكلام جوه التطبيق بصوت Google (المتصفح الداخلي مفيهوش ميزة الكلام) */
@@ -54,6 +56,8 @@ public class YomiAlarmsPlugin extends Plugin {
             });
             for (PluginCall c : pend) { if (ttsReady) doSpeak(c); else c.reject("tts"); }
             pend.clear();
+            for (PluginCall c : pendV) listVoices(c);
+            pendV.clear();
         });
     }
     private void doSpeak(PluginCall call) {
@@ -62,6 +66,7 @@ public class YomiAlarmsPlugin extends Plugin {
             tts.setLanguage(new Locale(lang == null || lang.isEmpty() ? "ar" : lang.split("-")[0]));
             tts.setSpeechRate(call.getFloat("rate", 1f));
             tts.setPitch(call.getFloat("pitch", 1f));
+            applyVoice(tts, call.getString("voice", ""));
             tts.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build());
             String id = "u" + System.nanoTime();
             calls.put(id, call);
@@ -69,6 +74,28 @@ public class YomiAlarmsPlugin extends Plugin {
             tts.speak(call.getString("text", ""), TextToSpeech.QUEUE_ADD, b, id);
         } catch (Exception e) { call.resolve(); }
     }
+    static void applyVoice(TextToSpeech t, String name) {
+        if (t == null || name == null || name.isEmpty()) return;
+        try { java.util.Set<Voice> vs = t.getVoices(); if (vs != null) for (Voice v : vs) if (v.getName().equals(name)) { t.setVoice(v); return; } } catch (Exception ignored) { }
+    }
+    private void listVoices(PluginCall call) {
+        JSArray a = new JSArray();
+        try {
+            java.util.Set<Voice> vs = ttsReady ? tts.getVoices() : null;
+            if (vs != null) for (Voice v : vs) {
+                if (v.getLocale() == null || !"ar".equals(v.getLocale().getLanguage())) continue;
+                JSObject o = new JSObject();
+                o.put("name", v.getName()); o.put("locale", v.getLocale().toString()); o.put("quality", v.getQuality());
+                o.put("network", v.isNetworkConnectionRequired());
+                o.put("installed", v.getFeatures() == null || !v.getFeatures().contains("notInstalled"));
+                a.put(o);
+            }
+        } catch (Exception ignored) { }
+        JSObject r = new JSObject(); r.put("voices", a); call.resolve(r);
+    }
+    @PluginMethod
+    public void voices(PluginCall call) { ensureTts(); if (!ttsReady) { pendV.add(call); return; } listVoices(call); }
+
     @PluginMethod
     public void speak(PluginCall call) { ensureTts(); if (!ttsReady) { pend.add(call); return; } doSpeak(call); }
     @PluginMethod
@@ -133,6 +160,7 @@ public class YomiAlarmsPlugin extends Plugin {
             it.putExtra("lang", o.optString("lang", "ar")); it.putExtra("type", o.optString("type", "voice")); it.putExtra("prayer", o.optString("prayer", ""));
             it.putExtra("full", o.optBoolean("full", false)); it.putExtra("adhanOn", o.optBoolean("adhanOn", "adhan".equals(o.optString("type")))); it.putExtra("nid", nid);
             it.putExtra("clap", o.optBoolean("clap", false)); it.putExtra("sens", o.optInt("sens", 2));
+            it.putExtra("voice", o.optString("voice", "")); it.putExtra("rate", (float) o.optDouble("rate", 0.9));
             PendingIntent pi = PendingIntent.getBroadcast(ctx, nid, it, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             if (exact) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi);
             else am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi);
@@ -234,7 +262,7 @@ public class YomiAlarmsPlugin extends Plugin {
         JSObject r = new JSObject();
         r.put("exact", Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms());
         r.put("scheduled", ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE).getInt("n", 0));
-        r.put("version", 7);
+        r.put("version", 8);
         call.resolve(r);
     }
 
@@ -311,6 +339,7 @@ public class YomiAlarmsPlugin extends Plugin {
             it.putExtra("title", o.getString("title")); it.putExtra("body", o.getString("body")); it.putExtra("speak", o.getString("speak")); it.putExtra("lang", o.getString("lang"));
             it.putExtra("type", o.getString("type")); it.putExtra("prayer", o.getString("prayer")); it.putExtra("full", o.getBoolean("full")); it.putExtra("adhanOn", o.getBoolean("adhanOn")); it.putExtra("nid", 999);
             it.putExtra("clap", Boolean.TRUE.equals(call.getBoolean("clap", false))); it.putExtra("sens", call.getInt("sens", 2));
+            it.putExtra("voice", call.getString("voice", "")); it.putExtra("rate", call.getFloat("rate", 0.9f));
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, o.getLong("at"), PendingIntent.getBroadcast(ctx, 999, it, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
         } catch (Exception ignored) { }

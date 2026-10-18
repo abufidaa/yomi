@@ -73,6 +73,8 @@ public class AdhanActivity extends Activity {
         tts = new TextToSpeech(getApplicationContext(), st -> {
             if (st != TextToSpeech.SUCCESS) { h.post(this::afterSpeech); return; }
             tts.setLanguage(new Locale(lang == null || lang.isEmpty() ? "ar" : lang.split("-")[0]));
+            YomiAlarmsPlugin.applyVoice(tts, getIntent().getStringExtra("voice"));
+            tts.setSpeechRate(getIntent().getFloatExtra("rate", 0.9f));
             tts.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build());
             tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                 @Override public void onStart(String i) { }
