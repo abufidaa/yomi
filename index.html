@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018080112">
+<meta name="app-version" content="20261018080906">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٤</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٥</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٤</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٥</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4162,7 +4162,7 @@ const _ba2=buildAlarms;buildAlarms=function(){const out=_ba2(),s=profile.setting
 const _fsD=focusStart;focusStart=function(mode){_fsD(mode);if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:mode==='work'}).catch(()=>{})};
 const _fstD=focusStop;focusStop=function(){_fstD();if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:false}).catch(()=>{})};
 /* كارت التطبيق الحقيقي: الويدجتات وألوانها والمميزات */
-const APK_LATEST=9,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
+const APK_LATEST=10,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
 const _ryn2=renderYN;renderYN=function(){_ryn2();if(!YN)return;const c=$('ynCard');if(!c||ynVer<3){if(c&&ynVer===2){const w=el('a','btn pri');w.href=APK_URL;w.textContent='⬆️ نسخة جديدة من التطبيق فيها ٥ ويدجتات، حدّث';w.style.cssText='width:100%;margin-top:8px;text-decoration:none';c.appendChild(w)}return}
   const s=profile.settings,x=el('div');x.innerHTML='<h3 style="margin-top:14px">🧩 الويدجتات</h3><p class="sub" style="margin:0 0 6px;line-height:1.8">عندك ٥ ويدجتات: <b>الصلاة الجاية (كبير)</b>، و<b>صغير</b>، و<b>يومك</b>، و<b>آية وذكر</b>، و<b>السبحة</b>. اضغط مطوّل على الشاشة الرئيسية ← <b>الأدوات</b> ← <b>يومي</b>.</p><div class="sub">لون الويدجتات</div><div class="wthm"></div><div class="wprev"><small>🕌 الصلاة الجاية</small><b></b><small></small></div>';
   const g=x.querySelector('.wthm'),pv=x.querySelector('.wprev'),paint=()=>{const t=WTH.find(z=>z[0]===(s.wTheme||'navy'));pv.style.background=t[2];const lt=t[0]==='light';pv.style.color=lt?'#1B2333':'#fff';pv.querySelector('b').style.color=lt?'#8A6A22':'#F3E2BC';const pt=prayerTimes(new Date()),nx=FIVE.find(p=>pt[p]>nowMin())||'fajr';pv.querySelector('b').textContent=PN[nx];pv.querySelectorAll('small')[1].textContent='الساعة '+fmt(pt[nx])};
@@ -4679,6 +4679,86 @@ buildAlarms=(function(o){return function(){const out=o(),s=profile.settings;if(s
 (function(){const grps=[...document.querySelectorAll('#v-set .grp')],ib=grps.find(g=>/أدوات العبادة/.test(g.textContent));TOOLS_G.forEach(t=>{if(t.parentElement)return;if(ib&&ib.nextElementSibling)ib.nextElementSibling.appendChild(t)});grps.forEach(g=>{const c=g.querySelector('.sub');if(c&&g.nextElementSibling)c.textContent=ar(g.nextElementSibling.children.length)})})();
 
 const _rx22=renderExtras;renderExtras=function(){_rx22();try{renderDQ()}catch(e){console.error(e)}};
+</script>
+
+<style>.hdb{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}.hdsrc{font-size:12px;color:var(--muted);line-height:1.7;margin-top:4px}
+.cal7{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;direction:rtl}.cal7 div{border:1px solid var(--line);border-radius:10px;min-height:44px;padding:4px;font-size:12px;text-align:center;cursor:pointer;background:var(--card)}.cal7 div.t{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 30%,transparent)}.cal7 i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ib);margin:1px}.cal7 .h{background:none;border:0;font-weight:700;color:var(--muted);min-height:auto;cursor:default}</style>
+<script>
+/* ================= ٦.٥: محرك البحث في الأحاديث + درجة ومصدر كل حديث + الدفعة الخامسة ================= */
+const HBOOKS=[['bukhari','صحيح البخاري'],['muslim','صحيح مسلم'],['abudawud','سنن أبي داود'],['tirmidhi','جامع الترمذي'],['nasai','سنن النسائي'],['ibnmajah','سنن ابن ماجه'],['malik','موطأ مالك']];
+const HB={},HBN={};let hbSel=new Set(local.get('hbSel',HBOOKS.map(b=>b[0]))),hbFilt='all',hbMax=60;
+async function loadBook(b){if(HB[b])return HB[b];let r=null;try{const c=await caches.open('yomi-hadith');r=await c.match('hadith/'+b+'.json');if(!r){const f=await fetch('hadith/'+b+'.json');if(!f.ok)throw 0;await c.put('hadith/'+b+'.json',f.clone());r=f}}catch(e){r=await fetch('hadith/'+b+'.json')}
+  HB[b]=await r.json();HBN[b]=HB[b].map(x=>qn(x[1]));return HB[b]}
+function gradeOf(b,g){if(b==='bukhari')return['صحيح','رواه البخاري في صحيحه'];if(b==='muslim')return['صحيح','رواه مسلم في صحيحه'];if(!g)return['','لم يُذكر حكم'];const al=(g.match(/الألباني: ([^·]+)/)||[])[1];return[(al||g.split(' · ')[0].split(': ')[1]||'').trim(),g]}
+const gCls=t=>/ضعيف|موضوع|منكر|باطل|شاذ|معلول/.test(t)?'weak':/صحيح|حسن/.test(t)?'ok':'mid';
+function hdSnippet(t,q){const n=qn(t);const i=n.indexOf(q);if(i<0)return t.slice(0,300);const st=Math.max(0,i-120);return(st?'… ':'')+t.slice(st,st+360)+(st+360<t.length?' …':'')}
+const DR2=$('v-dorar');if(DR2){const h2=DR2.querySelector('h2');if(h2)h2.textContent='📜 البحث في الأحاديث';const p0=DR2.querySelector(':scope > p.sub');if(p0)p0.textContent='دوّر في الكتب الستة وموطأ مالك (٣٥٬٩٨٢ حديث)، ومع كل حديث مصدره ودرجته. أو دوّر في الدرر السنية.'}
+(function(){const t=[...document.querySelectorAll('#v-set .tile')].find(x=>x.textContent.includes('البحث في الدرر'));if(t)t.querySelector('span').textContent='البحث في الأحاديث'})();
+let hsMode='books';
+renderDR=function(){if(!isAct('dorar'))return;let b=$('drB');if(b)return;b=el('div');b.id='drB';b.innerHTML='<div class="chips" id="hsM"></div><div class="row"><input class="srch" id="drQ" style="flex:1;margin:0" placeholder="📜 اكتب جزء من الحديث…"><button class="btn pri" id="drGo">ابحث</button></div><div id="hsOpt"></div><div id="drR"></div>';(DR2||$('v-dorar')).appendChild(b);
+  const M=$('hsM');[['books','📚 كتب الحديث (بيشتغل من غير نت)'],['dorar','🌐 الدرر السنية']].forEach(([k,n])=>{const x=el('button',hsMode===k?'on':'');x.textContent=n;x.onclick=()=>{hsMode=k;M.querySelectorAll('button').forEach(y=>y.classList.remove('on'));x.classList.add('on');paintOpt();if($('drQ').value.trim())doDR()};M.appendChild(x)});
+  const paintOpt=()=>{const o=$('hsOpt');o.innerHTML='';if(hsMode!=='books')return;const bc=el('div','chips');HBOOKS.forEach(([k,n])=>{const x=el('button',hbSel.has(k)?'on':'');x.textContent=n;x.onclick=()=>{hbSel.has(k)?hbSel.delete(k):hbSel.add(k);local.set('hbSel',[...hbSel]);x.classList.toggle('on')};bc.appendChild(x)});o.appendChild(bc);
+    const fc=el('div','chips');[['all','كل الدرجات'],['ok','الصحيح والحسن'],['weak','الضعيف وما دونه']].forEach(([k,n])=>{const x=el('button',hbFilt===k?'on':'');x.textContent=n;x.onclick=()=>{hbFilt=k;fc.querySelectorAll('button').forEach(y=>y.classList.remove('on'));x.classList.add('on');if($('drQ').value.trim())doDR()};fc.appendChild(x)});o.appendChild(fc)};paintOpt();
+  $('drGo').onclick=()=>{hbMax=60;doDR()};$('drQ').onkeydown=e=>{if(e.key==='Enter'){hbMax=60;doDR()}}};
+doDR=async function(){const q0=$('drQ').value.trim(),R=$('drR');if(!q0){toast('اكتب جزء من الحديث');return}if(hsMode==='dorar')return doDorarNet(q0);const q=qn(q0);if(q.length<3){toast('اكتب كلمتين على الأقل');return}
+  const books=HBOOKS.filter(([k])=>hbSel.has(k));if(!books.length){toast('اختار كتاب واحد على الأقل');return}R.innerHTML='<p class="sub">بيجهّز الكتب…</p>';
+  for(const[k,n]of books){if(!HB[k]){R.innerHTML='<p class="sub">بيحمّل '+n+' (أول مرة بس)…</p>';try{await loadBook(k)}catch(e){R.innerHTML='<div class="empty"><i>📡</i>محتاج نت أول مرة عشان ينزّل '+n+'</div>';return}}}
+  const hits=[];books.forEach(([k,n])=>{const N=HBN[k];for(let i=0;i<N.length;i++){if(N[i].includes(q)){const x=HB[k][i],[g,full]=gradeOf(k,x[2]),cl=gCls(g);if(hbFilt==='ok'&&cl!=='ok')continue;if(hbFilt==='weak'&&cl!=='weak')continue;hits.push([k,n,x,g,full,cl])}}});
+  R.innerHTML='';const s=el('p','sub');s.textContent='لقيت '+ar(hits.length)+' حديث';R.appendChild(s);
+  hits.slice(0,hbMax).forEach(([k,n,x,g,full,cl])=>{const d=el('div','dr','<div class="tx"></div><div class="hdb"><span class="grade"></span><b style="font-size:13px"></b></div><div class="hdsrc"></div><div class="row" style="margin-top:6px"><button class="btn" data-a="c">📋 انسخ</button><button class="btn" data-a="f">📖 الحديث كامل</button></div>');
+    const tx=d.querySelector('.tx');tx.textContent=hdSnippet(x[1],q);const gr=d.querySelector('.grade');gr.textContent=g||'بدون حكم';gr.classList.add(cl);d.querySelector('b').textContent='📚 '+n+' · رقم '+ar(x[0]);d.querySelector('.hdsrc').textContent=full;
+    d.querySelector('[data-a=c]').onclick=()=>navigator.clipboard.writeText(x[1]+'\n['+n+'، رقم '+x[0]+' · '+(g||'')+']').then(()=>toast('اتنسخ')).catch(()=>{});d.querySelector('[data-a=f]').onclick=()=>{tx.textContent=x[1]};R.appendChild(d)});
+  if(hits.length>hbMax){const mo=el('button','btn');mo.style.width='100%';mo.textContent='اعرض أكتر';mo.onclick=()=>{hbMax+=60;doDR()};R.appendChild(mo)}
+  if(!hits.length)R.innerHTML+='<div class="empty"><i>📜</i>مفيش نتايج. جرّب كلمات تانية، أو دوّر في الدرر السنية</div>'};
+async function doDorarNet(q){const R=$('drR');R.innerHTML='<p class="sub">بيدوّر في الدرر السنية…</p>';const url='https://dorar.net/dorar_api.json?skey='+encodeURIComponent(q);let html='';
+  try{if(YN&&YN.httpGet&&ynVer>=10){const r=await YN.httpGet({url});html=(JSON.parse(r.text).ahadith||{}).result||''}else{const r=await fetch(url);html=((await r.json()).ahadith||{}).result||''}}catch(e){}
+  if(!html){await new Promise(res=>{const cb='__dr'+Date.now(),s=document.createElement('script');let done=false;window[cb]=j=>{done=true;html=(j&&j.ahadith&&j.ahadith.result)||'';res()};s.src=url+'&callback='+cb;s.onerror=()=>{done=true;res()};document.head.appendChild(s);setTimeout(()=>{if(!done)res()},10000)})}
+  R.innerHTML='';if(!html){R.innerHTML='<div class="empty"><i>📡</i>الدرر مش متاحة دلوقتي'+(YN&&ynVer<10?'، حدّث التطبيق عشان البحث فيها يشتغل':'')+'. استخدم «كتب الحديث» وهي شغالة من غير نت</div>';const a=el('a','btn pri');a.href='https://dorar.net/hadith/search?q='+encodeURIComponent(q);a.target='_blank';a.rel='noopener';a.textContent='افتح موقع الدرر';a.style.cssText='width:100%;text-decoration:none';R.appendChild(a);return}
+  const tmp=document.createElement('div');tmp.innerHTML=html.replace(/<script[\s\S]*?<\/script>/gi,'');const H=[...tmp.querySelectorAll('.hadith')],I=[...tmp.querySelectorAll('.hadith-info')];
+  H.forEach((x,i)=>{const info=(I[i]?I[i].textContent:'').replace(/\s+/g,' ').trim(),txt=x.textContent.replace(/^\s*\d+\s*-\s*/,'').trim(),g=((info.match(/خلاصة حكم المحدث\s*:?\s*(.+?)(?=\s*(?:الراوي|المحدث|المصدر|الصفحة|التخريج|$))/)||[])[1]||'').trim();
+    const d=el('div','dr','<div class="tx"></div><span class="grade"></span><div class="hdsrc"></div>');d.querySelector('.tx').textContent=txt;const gr=d.querySelector('.grade');gr.textContent=g||'شوف المصدر';gr.classList.add(gCls(g));d.querySelector('.hdsrc').textContent=info;R.appendChild(d)});
+  if(!H.length)R.innerHTML='<div class="empty"><i>📜</i>مفيش نتايج في الدرر</div>'}
+openDorar=function(q){go('dorar');setTimeout(()=>{renderDR();hsMode='books';$('drQ').value=q;doDR()},60)};
+/* مصدر ودرجة الأربعين والقدسية */
+function hdMeta(t0){const t=String(t0).replace(/[\u064B-\u065F\u0670]/g,'');const g=(t.match(/حديث (حسن صحيح|صحيح|حسن)/)||[])[1]||(/البخاري|مسلم/.test(t)?'صحيح':'');const all=[...t.matchAll(/(رواه|أخرجه|رَوَاهُ)[^«»"]{3,160}/g)];const m=all.length?all[all.length-1][0]:'';return{g,src:m.trim().replace(/[.\s\]\)]+$/,'')}}
+renderHadith=(function(o){return function(){o();if(!isAct('hadith'))return;document.querySelectorAll('#hdList .item').forEach((it,i)=>{if(it.querySelector('.hdb'))return;const t=HD[hdTab][i]||'',m=hdMeta(t),w=el('div','hdb','<span class="grade"></span><span class="hdsrc" style="margin:0"></span>');const gr=w.querySelector('.grade');gr.textContent=m.g?'الدرجة: '+m.g:'الدرجة: شوفها في البحث';gr.classList.add(m.g?gCls(m.g):'mid');w.querySelector('.hdsrc').textContent=m.src?'📚 '+m.src:'';
+  const b=el('button','btn');b.textContent='🔍 دوّر عليه';b.onclick=e=>{e.stopPropagation();const mm=t.match(/[«"]([^»"]{20,})[»"]/);openDorar(qn(mm?mm[1]:t).split(/\s+/).slice(0,6).join(' '))};w.appendChild(b);it.insertBefore(w,it.children[1]||null)})}})(renderHadith);
+renderDua=(function(o){return function(){o();const s=[...document.querySelectorAll('#daily .s')].find(x=>/حديث اليوم من الأربعين/.test(x.textContent));if(!s||s.parentElement.querySelector('.hdb'))return;const t=HD.nawawi[doyOf(new Date())%HD.nawawi.length],m=hdMeta(t),w=el('div','hdb','<span class="grade"></span><span class="hdsrc" style="margin:0"></span>');w.style.justifyContent='center';const gr=w.querySelector('.grade');gr.textContent=m.g||'صحيح';gr.classList.add(gCls(m.g||'صحيح'));w.querySelector('.hdsrc').textContent=m.src?'📚 '+m.src:'';s.parentElement.querySelector('.t').after(w)}})(renderDua);
+/* ===== الدفعة الخامسة ===== */
+/* (٣٢) مسار التعلّم */
+const LT=addTool('learn','🎓','مسار التعلّم','درس صغير كل يوم في ٤ مسارات: السيرة، والأسماء الحسنى، والأربعين النووية، وقصص الأنبياء.');
+let TRACKS=()=>[['seerah','🌿 السيرة النبوية',SEERAH.map(([t,x])=>[t,x])],['names','✨ الأسماء الحسنى',NAMES.map(n=>[n,NMEAN[n]||''])],['nawawi','📜 الأربعين النووية',HD.nawawi.map((t,i)=>['الحديث '+ar(i+1),t])],['stories','📖 قصص الأنبياء',STORIES]];
+function renderLT(){if(!isAct('learn'))return;let b=$('ltB');if(!b){b=el('div');b.id='ltB';LT.appendChild(b)}const P=profile.learn=profile.learn||{};b.innerHTML='';
+  TRACKS().forEach(([k,n,L2])=>{const i=Math.min(P[k]||0,L2.length),c=P5(n+' · '+ar(i)+'/'+ar(L2.length));c.innerHTML+='<div class="mbar"><i style="width:'+(i/L2.length*100)+'%"></i></div>';
+    if(i<L2.length){const[t,x]=L2[i];const d=el('div','','<b style="display:block;margin:8px 0 4px"></b><p style="margin:0 0 8px;line-height:1.9"></p>');d.querySelector('b').textContent='📘 الدرس '+ar(i+1)+': '+t;d.querySelector('p').textContent=x;c.appendChild(d);
+      const r=el('div','row');const ok=el('button','btn pri');ok.textContent='✓ اتعلّمته';ok.onclick=()=>{P[k]=i+1;saveProfile();if(P[k]===L2.length)showHonor({icon:'🎓',tierName:'مسار تعلّم',title:'خلّصت مسار '+n,text:'ما شاء الله، ربنا ينفعك بما تعلمت.'});else toast('🎓 برافو');renderLT()};
+      const sp=el('button','btn');sp.textContent='🔊 اسمعه';sp.onclick=()=>{unlock();gsSay(profile.settings.vLang||'ar',t+'. '+x)};r.append(ok,sp);c.appendChild(r)}else c.appendChild(Object.assign(el('p','sub'),{textContent:'✅ خلّصت المسار ده'}));b.appendChild(c)})}
+/* (٣٤) قصص الصحابة */
+const SAHABA=[['أبو بكر الصديق','أول من أسلم من الرجال، وصاحب النبي ﷺ في الهجرة، وأول الخلفاء الراشدين. سُمّي الصديق لتصديقه النبي ﷺ في الإسراء.'],['عمر بن الخطاب','الفاروق الذي فرّق الله به بين الحق والباطل، أسلم فأعز الله به الإسلام، وعُرف بعدله في خلافته.'],['عثمان بن عفان','ذو النورين لزواجه من ابنتي النبي ﷺ، جهّز جيش العسرة، وجمع الناس على مصحف واحد.'],['علي بن أبي طالب','ابن عم النبي ﷺ وزوج ابنته فاطمة، من أوائل من أسلم، عُرف بالشجاعة والعلم.'],['خديجة بنت خويلد','أول من آمن بالنبي ﷺ، ونصرته بمالها ونفسها، وبشّرها جبريل ببيت في الجنة.'],['عائشة بنت أبي بكر','أم المؤمنين، من أعلم الناس بسنة النبي ﷺ، وروت عنه أحاديث كثيرة.'],['بلال بن رباح','مؤذن النبي ﷺ، صبر على العذاب وهو يقول: أحدٌ أحد، وسمع النبي ﷺ دفّ نعليه في الجنة.'],['مصعب بن عمير','أول سفير في الإسلام، أرسله النبي ﷺ إلى المدينة يعلّم أهلها، واستُشهد في أحد.'],['خالد بن الوليد','سيف الله المسلول، قاد جيوش المسلمين في معارك كثيرة ولم يُهزم في معركة.'],['سعد بن أبي وقاص','من العشرة المبشرين بالجنة، أول من رمى بسهم في سبيل الله، وكان مستجاب الدعوة.'],['أبو عبيدة بن الجراح','أمين هذه الأمة كما سماه النبي ﷺ، ومن العشرة المبشرين بالجنة.'],['أسماء بنت أبي بكر','ذات النطاقين، حملت الطعام للنبي ﷺ وأبيها في غار ثور.']];
+TRACKS=(function(o){return()=>o().concat([['sahaba','🌟 قصص الصحابة',SAHABA]])})(TRACKS);
+/* (٣٩) قاموس كلمات القرآن */
+const QDIC=addTool('qdict','📘','قاموس كلمات القرآن','معاني الكلمات الصعبة في كل سورة، من كتاب «السراج في بيان غريب القرآن».');let qdS=1;
+async function renderQDic(){if(!isAct('qdict')||!qdReady())return;let b=$('qdcB');if(!b){b=el('div');b.id='qdcB';b.innerHTML='<select id="qdcS" style="width:100%;margin-bottom:8px"></select><div id="qdcL"></div>';QDIC.appendChild(b);$('qdcS').innerHTML=QD.n.map((n,i)=>'<option value="'+(i+1)+'">سورة '+n+'</option>').join('');$('qdcS').onchange=e=>{qdS=+e.target.value;renderQDic()}}
+  $('qdcS').value=qdS;const L2=$('qdcL');L2.innerHTML='<p class="sub">بيجيب المعاني…</p>';try{const m=await getTaf('g',qdS);L2.innerHTML='';Object.keys(m).sort((a,b)=>a-b).forEach(a=>{if(!m[a])return;const r=el('div','item','<div class="sub"></div><div style="font-family:Amiri,serif;font-size:17px;line-height:1.8;margin:4px 0"></div><div style="line-height:1.9"></div>');r.querySelector('.sub').textContent='آية '+ar(+a);r.querySelector('div:nth-child(2)').textContent=QD.a[qdS-1][a-1]||'';r.querySelector('div:nth-child(3)').textContent=m[a];L2.appendChild(r)});if(!L2.children.length)L2.innerHTML='<div class="empty"><i>📘</i>مفيش كلمات غريبة في السورة دي</div>'}catch(e){L2.innerHTML='<div class="empty"><i>📡</i>محتاج نت أول مرة، وبعدها بيتحفظ</div>'}}
+/* (٤٧) تقويم شهري للمهام */
+let calM=0;(function(){const v=$('v-backlog');if(!v)return;const c=P5('📅 تقويم المهام');c.id='tcal';c.innerHTML+='<div class="row" style="justify-content:space-between;margin-bottom:6px"><button class="btn" data-a="p">→</button><b id="tcalT"></b><button class="btn" data-a="n">←</button></div><div class="cal7" id="tcalG"></div><div id="tcalL" style="margin-top:8px"></div>';c.querySelector('[data-a=p]').onclick=()=>{calM--;renderTCal()};c.querySelector('[data-a=n]').onclick=()=>{calM++;renderTCal()};const mx=$('mxB');(mx?mx.closest('.card'):v.lastElementChild).before(c)})();
+function renderTCal(){const g=$('tcalG');if(!g)return;const n=new Date(),f=new Date(n.getFullYear(),n.getMonth()+calM,1),days=new Date(f.getFullYear(),f.getMonth()+1,0).getDate();$('tcalT').textContent=new Intl.DateTimeFormat('ar-EG',{month:'long',year:'numeric'}).format(f);g.innerHTML='';
+  DSH.forEach(d=>g.appendChild(Object.assign(el('div','h'),{textContent:d})));for(let i=0;i<f.getDay();i++)g.appendChild(el('div','h'));const T=(profile.backlog||[]).filter(x=>x.due);
+  for(let d=1;d<=days;d++){const k=f.getFullYear()+'-'+pad(f.getMonth()+1)+'-'+pad(d),ts=T.filter(x=>x.due===k),c=el('div',k===dkey(n)?'t':'');c.innerHTML='<div>'+ar(d)+'</div>'+ts.slice(0,4).map(x=>'<i style="background:'+(x.done?'var(--muted)':'var(--ib)')+'"></i>').join('');c.onclick=()=>{const L2=$('tcalL');L2.innerHTML='';if(!ts.length){L2.innerHTML='<p class="sub">مفيش مهام يوم '+ar(d)+'</p>';return}ts.forEach(x=>L2.appendChild(kv((x.done?'✅ ':'⏳ ')+x.t,ar(x.pr||0)+'٪')))};g.appendChild(c)}}
+/* (٤٩) أحسن ساعة تركيز */
+focusTick=(function(o){return function(){const k=dkey(new Date()),b=day(k).focus||0;o();if((day(k).focus||0)>b){const d=day(k);(d.fh=d.fh||{})[new Date().getHours()]=(d.fh[new Date().getHours()]||0)+1;saveDay(k)}}})(focusTick);
+renderMonthSum=(function(o){return function(){o();const box=$('mSum');if(!box)return;const H={};for(let i=0;i<30;i++)Object.entries(day(dkey(addDays(new Date(),-i))).fh||{}).forEach(([h,n])=>H[h]=(H[h]||0)+n);const best=Object.entries(H).sort((a,b)=>b[1]-a[1])[0];
+  box.appendChild(kv('🧠 أحسن ساعة تركيز ليك',best?fmt(+best[0]*60)+' ('+ar(best[1])+' جلسة)':'لسه بنجمع بيانات'))}})(renderMonthSum);
+/* (٥١) مهام البيت لكل فرد */
+const CH=addTool('chores','🧹','مهام البيت','كل فرد في البيت بمهامه، وبتتصفّر كل أسبوع.');
+function renderCH(){if(!isAct('chores'))return;let b=$('chB');const wk=weekKey(new Date()),C=profile.chores=profile.chores||{m:[],wk};if(C.wk!==wk){C.m.forEach(x=>x.t.forEach(y=>y.d=0));C.wk=wk;saveProfile()}
+  if(!b){b=el('div');b.id='chB';b.innerHTML='<div class="row" style="margin-bottom:10px"><input id="chN" style="flex:1;min-width:0" placeholder="اسم فرد في البيت"><button class="btn pri" id="chA">ضيف</button></div><div id="chL"></div>';CH.appendChild(b);$('chA').onclick=()=>{const v=$('chN').value.trim();if(!v)return;C.m.push({n:v.slice(0,30),t:[]});saveProfile();$('chN').value='';renderCH()}}
+  const L2=$('chL');L2.innerHTML='';C.m.forEach((m,mi)=>{const dn=m.t.filter(x=>x.d).length,c=P5('👤 '+m.n+' · '+ar(dn)+'/'+ar(m.t.length));m.t.forEach((t,ti)=>{const r=el('div','ltl'+(t.d?' dn':''),'<input type="checkbox"><span class="t"></span><button class="btn dan">✕</button>');r.querySelector('.t').textContent=t.x;const cb=r.querySelector('input');cb.checked=!!t.d;cb.onchange=()=>{t.d=cb.checked?1:0;saveProfile();renderCH()};r.querySelector('button').onclick=()=>{m.t.splice(ti,1);saveProfile();renderCH()};c.appendChild(r)});
+    const a=el('div','row','<input placeholder="مهمة جديدة" style="flex:1;min-width:0"><button class="btn">+</button><button class="btn dan">حذف</button>');a.querySelector('.btn').onclick=()=>{const v=a.querySelector('input').value.trim();if(v){m.t.push({x:v.slice(0,80),d:0});saveProfile();renderCH()}};a.querySelector('.dan').onclick=()=>{if(confirm('تحذف '+m.n+'؟')){C.m.splice(mi,1);saveProfile();renderCH()}};c.appendChild(a);L2.appendChild(c)});
+  if(!C.m.length)L2.innerHTML='<div class="empty"><i>🧹</i>ضيف أفراد البيت ومهامهم</div>'}
+(function(){const grps=[...document.querySelectorAll('#v-set .grp')],ib=grps.find(g=>/أدوات العبادة/.test(g.textContent)),ty=grps.find(g=>/أدوات يومك/.test(g.textContent));TOOLS_G.forEach(t=>{if(t.parentElement)return;const tgt=/مسار التعلّم|قاموس/.test(t.textContent)?ib:ty;if(tgt&&tgt.nextElementSibling)tgt.nextElementSibling.appendChild(t)});grps.forEach(g=>{const c=g.querySelector('.sub');if(c&&g.nextElementSibling)c.textContent=ar(g.nextElementSibling.children.length)})})();
+const _rx23=renderExtras;renderExtras=function(){_rx23();[renderLT,renderQDic,renderTCal,renderCH].forEach(f=>{try{f()}catch(e){console.error(e)}})};
+renderBacklog=(function(o){return function(){o();try{renderTCal()}catch(e){}}})(renderBacklog);
 </script>
 
 </body>

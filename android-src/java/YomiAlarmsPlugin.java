@@ -200,6 +200,26 @@ public class YomiAlarmsPlugin extends Plugin {
         call.resolve();
     }
 
+    /* طلب صفحة من النت من غير قيود المتصفح (للبحث في الدرر السنية) */
+    @PluginMethod
+    public void httpGet(PluginCall call) {
+        final String url = call.getString("url");
+        new Thread(() -> {
+            try {
+                java.net.HttpURLConnection c = (java.net.HttpURLConnection) new java.net.URL(url).openConnection();
+                c.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 14) Yomi");
+                c.setRequestProperty("Accept", "application/json,text/html,*/*");
+                c.setConnectTimeout(15000); c.setReadTimeout(20000); c.setInstanceFollowRedirects(true);
+                int code = c.getResponseCode();
+                java.io.InputStream in = code >= 400 ? c.getErrorStream() : c.getInputStream();
+                java.io.ByteArrayOutputStream bo = new java.io.ByteArrayOutputStream();
+                byte[] b = new byte[16384]; int n;
+                while (in != null && (n = in.read(b)) > 0) bo.write(b, 0, n);
+                JSObject r = new JSObject(); r.put("status", code); r.put("text", bo.toString("UTF-8")); call.resolve(r);
+            } catch (Exception e) { call.reject(String.valueOf(e.getMessage())); }
+        }).start();
+    }
+
     @PluginMethod
     public void calibrate(PluginCall call) {
         Intent i = new Intent(getContext(), AdhanActivity.class);
@@ -262,7 +282,7 @@ public class YomiAlarmsPlugin extends Plugin {
         JSObject r = new JSObject();
         r.put("exact", Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms());
         r.put("scheduled", ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE).getInt("n", 0));
-        r.put("version", 9);
+        r.put("version", 10);
         call.resolve(r);
     }
 
