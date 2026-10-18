@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018090604">
+<meta name="app-version" content="20261018091305">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٧.٠</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٧.١</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٧.٠</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٧.١</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -1560,7 +1560,7 @@ function renderOcc(){const L=$('occList');L.innerHTML='';
     c.querySelector('b').textContent=o.name;c.querySelector('.sub').textContent=ar(dd)+'/'+ar(mm)+' كل سنة';c.querySelector('.big').textContent=n===0?'النهارده 🎉':'بعد '+ar(n)+' يوم';
     c.querySelector('button').onclick=()=>{if(confirm('تحذف «'+o.name+'»؟')){profile.occ=profile.occ.filter(y=>y.id!==o.id);saveProfile();renderOcc()}};L.appendChild(c)})}
 $('occAdd').onclick=()=>{const n=$('occN').value.trim(),d=$('occD').value;if(!n||!d){toast('اكتب الاسم واختار التاريخ');return}
-  profile.occ.push({id:'o'+uid2(),name:n.slice(0,60),date:d.slice(5)});saveProfile();$('occN').value='';$('occD').value='';renderOcc();toast('اتضافت')};
+  profile.occ.push({id:'o'+uid2(),name:n.slice(0,60),date:d.slice(5),year:+d.slice(0,4)||0});saveProfile();$('occN').value='';$('occD').value='';renderOcc();toast('اتضافت')};
 
 /* install */
 let deferredPrompt=null;
@@ -4948,5 +4948,62 @@ const _rx25=renderExtras;renderExtras=function(){_rx25();try{renderMQ()}catch(e)
 setInterval(()=>{try{const cd=$('rmCd');if(cd&&isAct('now')){const pt=prayerTimes(new Date()),m=nowMin(),left=m<pt.maghrib?pt.maghrib-m:((prayerTimes(addDays(new Date(),1)).fajr-10+1440-m)%1440);cd.textContent=pad(Math.floor(left/60))+':'+pad(left%60)}}catch(e){}},30000);
 </script>
 
+<style>.kad{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kadc{border-radius:22px;padding:14px;text-align:center;color:#fff;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.12)}.kadc .e{font-size:44px}.kadc b{display:block;margin-top:4px}
+.kadv{position:fixed;inset:0;z-index:38;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;color:#fff}.kadv[hidden]{display:none}.kadv .e{font-size:110px}.kadv .tx{font-family:Amiri,serif;font-size:28px;line-height:2;margin:14px 0}
+.memg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.memc{border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--line)}.memc img{width:100%;height:130px;object-fit:cover;display:block}.memc div{padding:8px;font-size:13px}
+.dots7{display:flex;gap:6px;justify-content:center;margin:8px 0}.dots7 button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--card);font:inherit;font-size:12px;cursor:pointer}.dots7 button.on{background:var(--ib);color:#fff;border-color:var(--ib)}</style>
+<div id="kadV" class="kadv" hidden><div class="e" id="kadE"></div><h2 id="kadT" style="color:#fff"></h2><div class="tx" id="kadX"></div><p id="kadS" style="opacity:.85;font-size:14px"></p><div class="row" style="justify-content:center;flex-wrap:wrap;margin-top:10px"><button class="hbtn" id="kadP">🔊 اسمع</button><button class="hbtn ghost" id="kadK">⭐ قالها</button><button class="hbtn ghost" id="kadX2">✕</button></div></div>
+<script>
+/* ================= ٧.١: دفعة الأسرة ================= */
+/* (٥٣) أذكار الأطفال بالصور */
+const KAD=[['🍽️','قبل الأكل','بِسْمِ اللهِ','رواه أبو داود والترمذي · صحيح','#F2A65A'],['😋','بعد الأكل','الحَمْدُ لِلّهِ الَّذِي أَطْعَمَنِي هذا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلا قُوَّةٍ','رواه أبو داود والترمذي · حسن','#E07A5F'],['🌙','قبل النوم','بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيا','رواه البخاري · صحيح','#3D5A80'],['☀️','لما تصحى','الحَمْدُ لِلّهِ الَّذِي أَحْيانا بَعْدَ ما أَماتَنا وَإِلَيْهِ النُّشُورُ','رواه البخاري · صحيح','#F4A261'],['🚪','الخروج من البيت','بِسْمِ اللهِ، تَوَكَّلْتُ عَلى اللهِ، وَلا حَوْلَ وَلا قُوَّةَ إِلّا بِاللهِ','رواه أبو داود والترمذي · صحيح','#2A9D8F'],['🚻','دخول الحمّام','اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الخُبُثِ وَالخَبائِثِ','رواه البخاري ومسلم · صحيح','#6D597A'],['✨','الخروج من الحمّام','غُفْرانَكَ','رواه أبو داود والترمذي · صحيح','#B56576'],['🕌','دخول المسجد','اللَّهُمَّ افْتَحْ لِي أَبْوابَ رَحْمَتِكَ','رواه مسلم · صحيح','#1E6B57'],['👕','لبس الهدوم','الحَمْدُ لِلّهِ الَّذِي كَساني هذا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلا قُوَّةٍ','رواه أبو داود · حسن','#457B9D'],['🤧','لما تعطس','الحَمْدُ لِلّهِ، ويقول له اللي جنبه: يَرْحَمُكَ اللهُ','رواه البخاري · صحيح','#E9C46A'],['😠','لما تتعصّب','أَعُوذُ بِاللهِ مِنَ الشَّيْطانِ الرَّجِيمِ','رواه البخاري ومسلم · صحيح','#C0392B'],['🚗','ركوب العربية','سُبْحانَ الَّذِي سَخَّرَ لَنا هذا وَما كُنّا لَهُ مُقْرِنِينَ، وَإِنّا إِلى رَبِّنا لَمُنْقَلِبُونَ','القرآن الكريم · سورة الزخرف','#264653']];
+const KA=addTool('kadhkar','🧒','أذكار الأطفال','أذكار يوم الطفل بالصور، والتطبيق يقولها لهم بالصوت.');let kadI=0;
+function renderKA(){if(!isAct('kadhkar')||$('kaB'))return;const b=el('div','kad');b.id='kaB';KAD.forEach(([e,t,,,c],i)=>{const x=el('div','kadc','<div class="e"></div><b></b>');x.style.background='linear-gradient(145deg,'+c+','+c+'CC)';x.querySelector('.e').textContent=e;x.querySelector('b').textContent=t;x.onclick=()=>openKA(i);b.appendChild(x)});KA.appendChild(b)}
+function openKA(i){kadI=i;const[e,t,x,s,c]=KAD[i];const V=$('kadV');V.style.background='radial-gradient(circle at 50% 20%,rgba(255,255,255,.25),transparent 40%),linear-gradient(160deg,'+c+',#1B2333)';$('kadE').textContent=e;$('kadT').textContent=t;$('kadX').textContent=x;$('kadS').textContent='📚 '+s;V.hidden=false;unlock();gsSay(profile.settings.vLang||'ar',x)}
+$('kadP').onclick=()=>{unlock();gsSay(profile.settings.vLang||'ar',KAD[kadI][2])};$('kadX2').onclick=()=>$('kadV').hidden=true;
+$('kadK').onclick=()=>{const K=profile.kids||[];if(!K.length){toast('ضيف العيال من «نجوم العيال» الأول');return}const n=K.length===1?0:+prompt('مين اللي قالها؟\n'+K.map((k,i)=>(i+1)+'. '+k.name).join('\n'),'1')-1;const k=K[n];if(!k)return;k.stars=(k.stars||0)+1;saveProfile();celebrate('⭐ برافو يا '+k.name)};
+closeTop=(function(o){return function(){if(!$('kadV').hidden){$('kadV').hidden=true;return true}return o()}})(closeTop);
+/* (٥٤ و٥٥) العيلة سوا: تحدي الأسبوع + ورد العيلة اليومي */
+const FCH=['نصلي المغرب مع بعض ٣ أيام','نقرا سورة الملك مع بعض قبل النوم كل ليلة','عشا العيلة من غير موبايلات ٤ أيام','كل واحد يساعد في البيت كل يوم','نزور قريب أو نكلّمه','نحفظ سورة قصيرة مع بعض','صدقة من العيلة كلها','نقول أذكار المساء مع بعض كل يوم','نقعد ساعة كل يوم من غير شاشات','كل واحد يقول حاجة حلوة عن التاني كل يوم'];
+const FW=[['📖','نقرا صفحة من المصحف'],['📜','نقرا حديث من الأربعين'],['🤲','ندعي لبعض'],['✨','نحفظ اسم من أسماء الله'],['🌙','نقول أذكار المساء']];
+const FSV=addTool('family','👨‍👩‍👧','العيلة سوا','تحدي أسبوعي للعيلة كلها، وورد يومي تعملوه مع بعض.');
+const famMembers=()=>['أنا'].concat((profile.kids||[]).map(k=>k.name));
+function renderFS(){if(!isAct('family'))return;let b=$('fsB');if(!b){b=el('div');b.id='fsB';FSV.appendChild(b)}const n=new Date(),wk=weekKey(n),F=profile.fam=profile.fam||{},W=F[wk]=F[wk]||{days:{}},ch=FCH[Math.floor(new Date(wk).getTime()/6048e5)%FCH.length];b.innerHTML='';
+  const c1=P5('🏆 تحدي العيلة الأسبوع ده');c1.innerHTML+='<p style="font-size:18px;font-weight:700;text-align:center;margin:6px 0"></p><div class="dots7"></div><p class="sub" style="text-align:center;margin:0">علّم كل يوم عملتوه فيه</p>';c1.querySelector('p').textContent=ch;
+  const ws=new Date(wk);for(let i=0;i<7;i++){const dd=addDays(ws,i),dk=dkey(dd),x=el('button',W.days[dk]?'on':'');x.textContent=DSH[dd.getDay()];x.onclick=()=>{W.days[dk]=!W.days[dk];saveProfile();if(Object.values(W.days).filter(Boolean).length===4)celebrate('👨‍👩‍👧 ما شاء الله على العيلة');renderFS()};c1.querySelector('.dots7').appendChild(x)}b.appendChild(c1);
+  const k=dkey(n),D=(F.wird=F.wird||{})[k]=F.wird[k]||{},w=FW[doyOf(n)%FW.length],c2=P5('🕌 ورد العيلة النهارده');c2.innerHTML+='<p style="font-size:18px;text-align:center;margin:6px 0"></p><div class="chips" style="justify-content:center"></div>';c2.querySelector('p').textContent=w[0]+' '+w[1];
+  famMembers().forEach(m=>{const x=el('button',D[m]?'on':'');x.textContent=(D[m]?'✓ ':'')+m;x.onclick=()=>{D[m]=!D[m];saveProfile();const all=famMembers().every(y=>D[y]);if(all)celebrate('🕌 العيلة كلها خلّصت الورد');renderFS()};c2.querySelector('.chips').appendChild(x)});b.appendChild(c2)}
+/* (٥٦) لحظات حلوة */
+const MM=addTool('memories','📸','لحظات حلوة','صور ولحظات حلوة مع العيلة، محفوظة على موبايلك بس.');
+function resizeImg(file){return new Promise(r=>{const img=new Image();img.onload=()=>{const s=Math.min(1,900/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=img.width*s;c.height=img.height*s;c.getContext('2d').drawImage(img,0,0,c.width,c.height);c.toBlob(r,'image/jpeg',.8)};img.onerror=()=>r(null);img.src=URL.createObjectURL(file)})}
+async function renderMM(){if(!isAct('memories'))return;let b=$('mmB');if(!b){b=el('div');b.id='mmB';b.innerHTML='<div class="card"><textarea id="mmT" style="width:100%;min-height:60px" placeholder="إيه اللحظة الحلوة؟"></textarea><div class="row" style="margin-top:6px"><label class="btn">📷 صورة<input type="file" accept="image/*" id="mmF" hidden></label><button class="btn pri" id="mmA">احفظ اللحظة</button><span class="sub" id="mmI"></span></div></div><div class="memg" id="mmG"></div>';MM.appendChild(b);
+  let file=null;$('mmF').onchange=e=>{file=e.target.files[0];$('mmI').textContent=file?'✓ اتختارت صورة':''};
+  $('mmA').onclick=async()=>{const t=$('mmT').value.trim();if(!t&&!file){toast('اكتب حاجة أو اختار صورة');return}const id='mem-'+uid2();if(file){const bl=await resizeImg(file);if(bl)await fput(id,bl)}(profile.memories=profile.memories||[]).unshift({id,t:t.slice(0,300),d:dkey(new Date()),img:!!file});saveProfile();$('mmT').value='';file=null;$('mmI').textContent='';toast('📸 اتحفظت');renderMM()}}
+  const G=$('mmG');G.innerHTML='';for(const[i,x]of(profile.memories||[]).entries()){const c=el('div','memc','<div></div>');c.querySelector('div').textContent=x.d.slice(5).replace('-','/')+(x.t?' · '+x.t:'');if(x.img){const bl=await fget(x.id);if(bl){const im=el('img');im.src=URL.createObjectURL(bl);im.alt=x.t||'لحظة';c.prepend(im)}}c.onclick=async()=>{if(confirm('تحذف اللحظة دي؟')){await fput(x.id,null);profile.memories.splice(i,1);saveProfile();renderMM()}};G.appendChild(c)}
+  if(!(profile.memories||[]).length)G.innerHTML='<div class="empty" style="grid-column:1/-1"><i>📸</i>سجّل أول لحظة حلوة</div>'}
+/* (٥٧) مذاكرة العيال */
+const KS2=addTool('kstudy','📚','مذاكرة العيال','مواد كل طفل في كل يوم، وتعلّم لما يذاكر، ويكسب نجمة.');
+function renderKS(){if(!isAct('kstudy'))return;let b=$('ksB2');if(!b){b=el('div');b.id='ksB2';KS2.appendChild(b)}const K=profile.kids||[],S=profile.kstudy=profile.kstudy||{},n=new Date(),k=dkey(n),wd=n.getDay();b.innerHTML='';
+  if(!K.length){b.innerHTML='<div class="empty"><i>📚</i>ضيف العيال من «نجوم العيال» الأول</div>';return}
+  K.forEach(kid=>{const P=S[kid.id]=S[kid.id]||{plan:{},done:{}},today=(P.plan[wd]||[]),D=P.done[k]=P.done[k]||{},c=P5('📚 '+kid.name+' · '+DAYS[wd]);
+    if(!today.length)c.appendChild(Object.assign(el('p','sub'),{textContent:'مفيش مواد النهارده. ضيف تحت.'}));
+    today.forEach((sb,i)=>{const r=el('div','ltl'+(D[i]?' dn':''),'<input type="checkbox"><span class="t"></span><button class="btn dan">✕</button>');r.querySelector('.t').textContent=sb;const cb=r.querySelector('input');cb.checked=!!D[i];cb.onchange=()=>{D[i]=cb.checked;if(cb.checked){kid.stars=(kid.stars||0)+1;toast('⭐ '+kid.name+' ذاكر '+sb)}saveProfile();renderKS()};r.querySelector('.dan').onclick=()=>{today.splice(i,1);P.plan[wd]=today;saveProfile();renderKS()};c.appendChild(r)});
+    const a=el('div','row','<input placeholder="مادة ليوم '+DAYS[wd]+'" style="flex:1;min-width:0"><button class="btn">+</button>');a.querySelector('button').onclick=()=>{const v=a.querySelector('input').value.trim();if(!v)return;(P.plan[wd]=P.plan[wd]||[]).push(v.slice(0,40));saveProfile();renderKS()};c.appendChild(a);b.appendChild(c)})}
+/* (٥٨) متجر النجوم */
+renderKids=(function(o){return function(){o();const L2=$('kidList');if(!L2||!(profile.kids||[]).length)return;const S=profile.kStore=profile.kStore||[{t:'🍦 آيس كريم',p:10},{t:'🎮 ساعة لعب',p:15},{t:'🌳 خروجة',p:30},{t:'🎁 هدية',p:50}];
+  const c=P5('🏪 متجر النجوم');c.innerHTML+='<p class="sub" style="margin:0 0 8px">العيال يجمعوا النجوم ويشتروا بيها مكافآت انت تحددها.</p>';
+  S.forEach((it,i)=>{const r=el('div','kv','<span></span><span class="row"></span>');r.querySelector('span').textContent=it.t+' · '+ar(it.p)+'⭐';const rr=r.querySelector('.row');
+    profile.kids.forEach(k=>{const b=el('button','btn');b.textContent=k.name;b.disabled=(k.stars||0)<it.p;b.onclick=()=>{if(!confirm(k.name+' يشتري «'+it.t+'» بـ '+it.p+' نجمة؟'))return;k.stars-=it.p;(profile.kBuy=profile.kBuy||[]).unshift({k:k.name,t:it.t,d:dkey(new Date())});saveProfile();celebrate('🎉 مبروك يا '+k.name+'، كسبت '+it.t);renderKids()};rr.appendChild(b)});
+    const x=el('button','btn dan');x.textContent='✕';x.onclick=()=>{S.splice(i,1);saveProfile();renderKids()};rr.appendChild(x);c.appendChild(r)});
+  const a=el('div','row','<input placeholder="مكافأة جديدة" style="flex:1;min-width:0"><input type="number" placeholder="كام نجمة" style="width:90px"><button class="btn pri">ضيف</button>');a.style.marginTop='8px';a.querySelector('.pri').onclick=()=>{const[t,p]=a.querySelectorAll('input');if(!t.value.trim()||!(+p.value>0))return;S.push({t:t.value.trim().slice(0,30),p:+p.value});saveProfile();renderKids()};c.appendChild(a);
+  if((profile.kBuy||[]).length){const h2=el('p','sub');h2.style.margin='8px 0 0';h2.textContent='آخر مكافأة: '+profile.kBuy[0].k+' · '+profile.kBuy[0].t;c.appendChild(h2)}L2.after(c)}})(renderKids);
+/* (٥٢) أعمار وأعياد الميلاد */
+renderOcc=(function(o){return function(){o();const L2=$('occList');if(!L2)return;const its=[...L2.querySelectorAll('.item')],arr=profile.occ.map(x=>({o:x,n:occDays(x)})).sort((a,b)=>a.n-b.n);
+  its.forEach((it,i)=>{const x=arr[i]&&arr[i].o;if(!x||it.querySelector('.age'))return;const sub=it.querySelector('.sub');if(x.year&&x.year>1900){const ny=new Date().getFullYear()+(arr[i].n>0&&new Date(new Date().getFullYear(),+x.date.split('-')[0]-1,+x.date.split('-')[1])<new Date(new Date().toDateString())?1:0),age=ny-x.year;const s=el('span','age');s.textContent=' · هيكمّل '+ar(age)+' سنة';sub.appendChild(s)}
+    const a=el('a','btn');a.target='_blank';a.rel='noopener';a.style.cssText='margin-top:6px;text-decoration:none;min-height:34px';a.textContent='💌 ابعت تهنئة';a.href='https://wa.me/?text='+encodeURIComponent('كل سنة وانت طيب'+(/ميلاد/.test(x.name)?'، ربنا يبارك في عمرك':'')+' 🤍');it.appendChild(a)})}})(renderOcc);
+(function(){const d=$('occD');if(d){const l=el('p','sub');l.style.margin='4px 0 0';l.textContent='💡 لو عيد ميلاد، اختار سنة الميلاد الحقيقية، وهيقولك هيكمّل كام سنة.';d.closest('.row')?d.closest('.row').after(l):d.after(l)}})();
+(function(){const grps=[...document.querySelectorAll('#v-set .grp')],org=grps.find(g=>/تنظيم يومك/.test(g.textContent));TOOLS_G.forEach(t=>{if(t.parentElement)return;if(org&&org.nextElementSibling)org.nextElementSibling.appendChild(t)});grps.forEach(g=>{const c=g.querySelector('.sub');if(c&&g.nextElementSibling)c.textContent=ar(g.nextElementSibling.children.length)})})();
+const _rx26=renderExtras;renderExtras=function(){_rx26();[renderKA,renderFS,renderMM,renderKS].forEach(f=>{try{f()}catch(e){console.error(e)}})};
+</script>
 </body>
 </html>
