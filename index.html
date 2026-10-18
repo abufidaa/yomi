@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018035429">
+<meta name="app-version" content="20261018073045">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٨</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٥.٩</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٨</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٥.٩</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4303,6 +4303,45 @@ async function renderVPick(){const box=$('vPickL');if(!box)return;if(!YN){$('vPi
 if(YN){const vs=$('voiceSel');if(vs){const c=vs.closest('.card');if(c)c.style.display='none'}const gs=document.querySelector('#v-s-voice .gs');if(gs)gs.querySelectorAll('#gsTests,.set').forEach(x=>x.style.display='none')}
 const _rx16=renderExtras;renderExtras=function(){_rx16();if(isAct('s-voice'))renderVPick()};
 setTimeout(()=>{try{renderVPick()}catch(e){}},3000);
+</script>
+<script>
+/* ================= ٥.٩: تخصيص كل حاجة + شيل بقايا «بابا وماما» ================= */
+/* ١) شيل «بابا وماما وحبيبي…» من ضبط النطق، ويفضل ضبط أي كلمة تكتبها */
+Object.keys(PRON_C).forEach(k=>delete PRON_C[k]);(function(){const m=profile.settings.pron||{};['بابا','ماما','بابي','مامي','عمو','طنط','حبيبي','حبيبتي'].forEach(w=>delete m[w]);saveProfile();try{renderPron()}catch(e){}})();
+/* ٢) جمل التنبيهات بتاعتك */
+const CUS_KEYS=[['p:fajr','🕌 أذان الفجر'],['p:dhuhr','🕌 أذان الظهر'],['p:asr','🕌 أذان العصر'],['p:maghrib','🕌 أذان المغرب'],['p:isha','🕌 أذان العشاء'],['pre','⏳ قبل الأذان']];
+function applyCustom(){const C=profile.settings.customPh||{};Object.keys(C).forEach(k=>{if(!C[k])return;if(k.startsWith('b:'))BLOCK_PH[k.slice(2)]=C[k];else PHRASES[k]=C[k]})}
+applyDialect=(function(o){return function(){o();applyCustom()}})(applyDialect);applyDialect();
+/* ٣) صفحة «التخصيص» */
+const CU=mkSub('custom','🎛️ خصّص كل حاجة','أهدافك، وجمل التنبيهات، والتنبيهات نفسها، والتاريخ الهجري، كله من هنا.');
+(function(){const t=tile('🎛️','خصّص كل حاجة',()=>go('custom'));const g=[...document.querySelectorAll('#v-set .grp')].find(x=>/الإعدادات/.test(x.textContent));if(g&&g.nextElementSibling)g.nextElementSibling.prepend(t)})();
+function numRow(lbl,sub,key,def,min,max,step,after){const r=el('div','set','<div><span></span><small></small></div><input type="number" style="width:90px">');r.querySelector('div span').textContent=lbl;r.querySelector('small').textContent=sub||'';
+  const i=r.querySelector('input');i.min=min;i.max=max;i.step=step||1;i.value=profile.settings[key]??def;i.onchange=()=>{const v=Math.max(min,Math.min(max,+i.value||def));i.value=v;profile.settings[key]=v;saveProfile();after&&after();renderAll(true);toast('اتظبط')};return r}
+function swRow(lbl,sub,key,def){const r=el('div','set','<div><span></span><small></small></div><label class="sw"><input type="checkbox"><span></span></label>');r.querySelector('div span').textContent=lbl;r.querySelector('small').textContent=sub||'';
+  const i=r.querySelector('input');i.checked=profile.settings[key]==null?def:!!profile.settings[key];i.onchange=()=>{profile.settings[key]=i.checked;saveProfile()};return r}
+function renderCustom(){if(!isAct('custom'))return;let b=$('cuB');if(b)return;b=el('div');b.id='cuB';CU.appendChild(b);
+  /* أهدافك */
+  const g=P5('🎯 أهدافك اليومية');[['📖 ورد القرآن','صفحة في اليوم','qTarget',20,1,120],['💧 الماية','كوباية في اليوم','waterGoal',8,1,20],['🚶 الخطوات','خطوة في اليوم','stepGoal',6000,1000,30000,500],['🤲 الاستغفار','مرة في اليوم','istGoal',100,10,10000,10],['🌱 الحفظ','آية في اليوم','hifzGoal',3,1,50],['🎯 جلسة التركيز','دقيقة','fWork',25,5,120,5],['☕ الراحة','دقيقة','fBreak',5,1,30]].forEach(a=>g.appendChild(numRow(...a)));b.appendChild(g);
+  /* التنبيهات */
+  const n=P5('🔔 التنبيهات: شغّل اللي تحبه');[['🕌 الأذان','وقت كل صلاة','adhan',true],['⏳ قبل الأذان','بالدقايق اللي تحت','notif',true],['🕌 قبل الإقامة','قبلها بـ ٥ دقايق','iqAlert',true],['☀️ أذكار الصباح','بعد الفجر بنص ساعة','rmM',true],['🌙 أذكار المساء','بعد العصر بربع ساعة','rmE',true],['📖 سورة الكهف','الجمعة الصبح','rmKahf',true],['📖 سورة الملك','قبل النوم','rmMulk',true],['🌙 جهّز نفسك للنوم','الساعة ١٠','rmSleep',true],['🍃 الصيام','الليلة اللي قبلها','rmFast',true],['📿 ترحيب صوتي','أول ما تفتح','welcome',true],['🔊 الكلام بالصوت','كل التنبيهات بالصوت','voice',true]].forEach(a=>n.appendChild(swRow(...a)));
+  n.appendChild(numRow('⏳ قبل الأذان بـ','دقيقة','pre',10,0,60));b.appendChild(n);
+  /* جمل التنبيهات */
+  const ph=P5('✍️ جمل التنبيهات');ph.innerHTML+='<p class="sub" style="margin:0 0 8px;line-height:1.8">اكتب الجملة اللي عايز التطبيق يقولها. اكتب <b>{n}</b> مكان اسمك، وشكّل الكلام عشان يتنطق صح. ولو سبتها فاضية، بترجع للجملة الأساسية.</p>';
+  const C=profile.settings.customPh=profile.settings.customPh||{},keys=CUS_KEYS.concat(dayBlocks(new Date()).map(({b:bb})=>['b:'+bb.id,'⏰ '+bb.title]));
+  keys.forEach(([k,lbl])=>{const w=el('div','item','<b></b><textarea style="width:100%;margin-top:6px;min-height:60px"></textarea><div class="row" style="margin-top:4px"><button class="btn" data-a="p">▶ اسمع</button><button class="btn pri" data-a="s">احفظ</button><button class="btn" data-a="r">الأساسي</button></div>');
+    w.querySelector('b').textContent=lbl;const ta=w.querySelector('textarea');ta.value=C[k]||(k.startsWith('b:')?(BL_FUS[k.slice(2)]||''):(PH_FUS[k]||''));tashkeelPad(ta);
+    w.querySelector('[data-a=p]').onclick=()=>{unlock();speak(smoothAr(personalize(ta.value)))};
+    w.querySelector('[data-a=s]').onclick=()=>{C[k]=ta.value.trim();saveProfile();applyDialect();syncNative&&syncNative();toast('✅ اتحفظت')};
+    w.querySelector('[data-a=r]').onclick=()=>{delete C[k];saveProfile();if(k.startsWith('b:'))BLOCK_PH[k.slice(2)]=BL_FUS[k.slice(2)]||BLOCK_PH[k.slice(2)];else PHRASES[k]=PH_FUS[k];ta.value=k.startsWith('b:')?(BL_FUS[k.slice(2)]||''):(PH_FUS[k]||'');applyDialect();toast('رجعت للأساسي')};ph.appendChild(w)});b.appendChild(ph);
+  /* التاريخ الهجري */
+  const hj=P5('🌙 التاريخ الهجري');hj.appendChild(numRow('تعديل اليوم','لو التاريخ مختلف يوم عن بلدك','hijriAdj',0,-2,2));b.appendChild(hj);
+  /* روابط باقي التخصيص */
+  const L2=P5('🧩 وكمان تقدر تخصّص');[['🎨 الألوان والصور والخطوط','s-look'],['🔊 الصوت والاسم والسرعة','s-voice'],['🕌 مواقيت الصلاة والإقامة','s-adhan'],['📅 جدول يومك وفقراته','plan'],['✅ عاداتك','habits'],['📿 الأذكار والتذكيرات','s-adhkar']].forEach(([t2,v])=>{const bt=el('button','hzc','<b></b><small>←</small>');bt.querySelector('b').textContent=t2;bt.onclick=()=>go(v);L2.appendChild(bt)});b.appendChild(L2)}
+/* تعديل الهجري */
+const _hp=hparts;hparts=function(d){const a=profile.settings.hijriAdj||0;return _hp(a?addDays(d,a):d)};
+const _hj=hijri;hijri=function(d){const a=profile.settings.hijriAdj||0;return _hj(a?addDays(d,a):d)};
+/* ماية بهدف تختاره */
+const _rx17=renderExtras;renderExtras=function(){_rx17();try{renderCustom()}catch(e){console.error(e)}};
 </script>
 </body>
 </html>
