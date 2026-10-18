@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="app-version" content="20261018085933">
+<meta name="app-version" content="20261018090604">
 <title>يومي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -296,10 +296,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 </head>
 <body>
-<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٦.٩</span></div>
+<div id="splash"><img class="brandlogo" alt=""><b>يومي</b><span>محمود الطنطاوي</span><span style="opacity:.75;font-size:12px;margin-top:6px">الإصدار ٧.٠</span></div>
 <div class="wrap">
 
-<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٦.٩</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
+<header class="appbar"><img class="brandlogo" alt="شعار محمود الطنطاوي"><div class="ab-t"><b>يومي <small class="vbadge">إصدار ٧.٠</small></b><span id="abDate">محمود الطنطاوي</span></div><button class="abchip" id="abNext"></button></header>
 <section class="view act" id="v-now">
   <div class="npc" id="npc">
     <div class="npc-in">
@@ -4162,7 +4162,7 @@ const _ba2=buildAlarms;buildAlarms=function(){const out=_ba2(),s=profile.setting
 const _fsD=focusStart;focusStart=function(mode){_fsD(mode);if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:mode==='work'}).catch(()=>{})};
 const _fstD=focusStop;focusStop=function(){_fstD();if(YN&&YN.dnd&&profile.settings.dndFocus)YN.dnd({on:false}).catch(()=>{})};
 /* كارت التطبيق الحقيقي: الويدجتات وألوانها والمميزات */
-const APK_LATEST=10,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
+const APK_LATEST=11,WTH=[['navy','كحلي','linear-gradient(160deg,#1F4378,#0B152F)'],['emerald','زمردي','linear-gradient(160deg,#1E7A60,#0D3B2E)'],['light','فاتح','linear-gradient(160deg,#FFFDF7,#F3E9D2)'],['glass','زجاجي','linear-gradient(160deg,rgba(11,21,47,.8),rgba(11,21,47,.55))']];
 const _ryn2=renderYN;renderYN=function(){_ryn2();if(!YN)return;const c=$('ynCard');if(!c||ynVer<3){if(c&&ynVer===2){const w=el('a','btn pri');w.href=APK_URL;w.textContent='⬆️ نسخة جديدة من التطبيق فيها ٥ ويدجتات، حدّث';w.style.cssText='width:100%;margin-top:8px;text-decoration:none';c.appendChild(w)}return}
   const s=profile.settings,x=el('div');x.innerHTML='<h3 style="margin-top:14px">🧩 الويدجتات</h3><p class="sub" style="margin:0 0 6px;line-height:1.8">عندك ٥ ويدجتات: <b>الصلاة الجاية (كبير)</b>، و<b>صغير</b>، و<b>يومك</b>، و<b>آية وذكر</b>، و<b>السبحة</b>. اضغط مطوّل على الشاشة الرئيسية ← <b>الأدوات</b> ← <b>يومي</b>.</p><div class="sub">لون الويدجتات</div><div class="wthm"></div><div class="wprev"><small>🕌 الصلاة الجاية</small><b></b><small></small></div>';
   const g=x.querySelector('.wthm'),pv=x.querySelector('.wprev'),paint=()=>{const t=WTH.find(z=>z[0]===(s.wTheme||'navy'));pv.style.background=t[2];const lt=t[0]==='light';pv.style.color=lt?'#1B2333':'#fff';pv.querySelector('b').style.color=lt?'#8A6A22':'#F3E2BC';const pt=prayerTimes(new Date()),nx=FIVE.find(p=>pt[p]>nowMin())||'fajr';pv.querySelector('b').textContent=PN[nx];pv.querySelectorAll('small')[1].textContent='الساعة '+fmt(pt[nx])};
@@ -4883,5 +4883,70 @@ renderNowCards2=(function(o){return function(){o();const c=[...document.querySel
 (function(){const s=profile.settings,ok=k=>RECITERS.some(r=>r[0]===k);if(!s.reciter||!ok(s.reciter))s.reciter='Husary_128kbps';const M=s.surReciter||{};Object.keys(M).forEach(k=>{if(!ok(M[k]))delete M[k]});saveProfile();
   document.querySelectorAll('select').forEach(sel=>{if([...sel.options].some(o=>/Alafasy/.test(o.value))){sel.innerHTML='';RECITERS.forEach(([v,n])=>{const o=el('option');o.value=v;o.textContent=n;sel.appendChild(o)});sel.value=s.reciter}})})();
 </script>
+<style>.rmd{background:radial-gradient(circle at 85% 10%,rgba(243,226,188,.4),transparent 30%),linear-gradient(160deg,#2A1B5C,#0E0A2A);color:#fff;border:1px solid #C9A24A}.rmd h3{color:#F3E2BC}.rmd .sub{color:rgba(255,255,255,.75)}
+.rmd .big{font-family:var(--fh);font-size:34px;font-weight:800;color:#F3E2BC;text-align:center;direction:ltr}.rmd .chips button{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.25)}.rmd .chips button.on{background:#C9A24A;color:#1B1240}
+.vcm{position:fixed;inset:0;z-index:40;background:rgba(5,10,25,.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px}.vcm[hidden]{display:none}.vcm .bx{background:var(--card);border-radius:24px;padding:22px;max-width:420px;width:100%;text-align:center;border:1px solid var(--gold)}
+.vcm .mic{width:96px;height:96px;border-radius:50%;margin:8px auto 12px;display:flex;align-items:center;justify-content:center;font-size:42px;background:radial-gradient(circle,#E9C77E,#B08A3E);animation:pulse 1.2s infinite}@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,185,106,.6)}50%{box-shadow:0 0 0 18px rgba(220,185,106,0)}}</style>
+<div id="vcmO" class="vcm" hidden><div class="bx"><div class="mic">🎙️</div><b id="vcmT">قول أمرك…</b><p class="sub" id="vcmH" style="line-height:1.9;margin:8px 0">مثلًا: «صليت العصر»، «فاضل قد إيه على المغرب؟»، «افتح أذكار المساء»، «قريت ٥ صفحات»، «شربت كوباية مية»، «لخّص يومي»</p><button class="btn" id="vcmX">إلغاء</button></div></div>
+<script>
+/* ================= ٧.٠: وضع رمضان + المصلّي الذكي + الأوامر الصوتية ================= */
+/* ---- (١) وضع رمضان الكامل ---- */
+const isRamadan=d=>{const h=hparts(d||new Date());return(h&&h.m===9)||!!profile.settings.ramPreview};
+const ramDay=()=>{const h=hparts(new Date());return h&&h.m===9?h.d:(profile.settings.ramPreview?Math.min(30,(Math.floor((Date.now()-(profile.settings.ramPreview||Date.now()))/864e5)+1)):0)};
+renderNowCards2=(function(o){return function(){o();if(!isRamadan())return;const n=new Date(),k=dkey(n),d=day(k),R=d.ram=d.ram||{},pt=prayerTimes(n),m=nowMin(),rd=ramDay(),imsak=prayerTimes(addDays(n,m>pt.isha?1:0)).fajr-10;
+  const c=el('div','card rmd');c.innerHTML='<h3>🌙 رمضان كريم · اليوم '+ar(rd)+' من ٣٠</h3><div class="big" id="rmCd"></div><p class="sub" id="rmL" style="text-align:center;margin:0 0 10px"></p>';
+  const iftar=m<pt.maghrib,left=iftar?pt.maghrib-m:((imsak+1440-m)%1440);c.querySelector('#rmCd').textContent=pad(Math.floor(left/60))+':'+pad(left%60);c.querySelector('#rmL').textContent=iftar?'على الإفطار (المغرب '+fmt(pt.maghrib)+')':'على الإمساك ('+fmt(imsak)+')';
+  const row=(t,arr,key)=>{const w=el('div','','<div class="sub" style="margin:6px 0 4px"></div><div class="chips"></div>');w.querySelector('.sub').textContent=t;arr.forEach(([v,lb])=>{const b=el('button',R[key]===v?'on':'');b.textContent=lb;b.onclick=()=>{R[key]=R[key]===v?null:v;if(key==='fast'&&R.fast){(profile.fastLog=profile.fastLog||{})[k]='r';saveProfile()}saveDay(k);renderNowCards()};w.querySelector('.chips').appendChild(b)});c.appendChild(w)};
+  row('الصيام',[[1,'✅ صايم الحمد لله']],'fast');row('صلاة التراويح',[[8,'٨ ركعات'],[11,'١١ ركعة'],[20,'٢٠ ركعة']],'tar');
+  const yr=n.getFullYear(),start=allDayKeys().filter(x=>{const h=hparts(kDate(x));return h&&h.m===9&&x.startsWith(String(yr))}),pages=start.reduce((a,x)=>a+(day(x).pages||0),0),need=Math.round(604/30*rd);
+  const q=el('div');q.innerHTML='<div class="sub" style="margin:8px 0 4px">📖 ختمة رمضان: '+ar(pages)+' صفحة (المفروض لحد النهارده '+ar(need)+')</div><div class="mbar"><i style="width:'+Math.min(100,pages/604*100)+'%"></i></div>';c.appendChild(q);
+  const du=el('div','msg2');du.style.cssText='margin-top:10px;background:rgba(255,255,255,.1);color:#fff';du.innerHTML='🤲 <b>دعاء الإفطار:</b> «ذهب الظمأ، وابتلت العروق، وثبت الأجر إن شاء الله» <span class="sub">رواه أبو داود · حسن</span>';c.appendChild(du);
+  if(rd>=21){const odd=rd%2===1,l=el('div','msg2');l.style.cssText='margin-top:8px;background:rgba(201,162,74,.25);color:#fff';l.innerHTML='✨ <b>العشر الأواخر'+(odd?' · ليلة وتر، تحرَّ ليلة القدر':'')+'</b><br>«اللهم إنك عفو تحب العفو فاعف عني» <span class="sub">رواه الترمذي · صحيح</span>';c.appendChild(l);row('قيام الليل',[[1,'🌙 قمت الليلة']],'qiyam');row('الاعتكاف',[[1,'🕌 معتكف']],'itikaf')}
+  if(rd>=25){const z=el('div','msg2');z.style.cssText='margin-top:8px;background:rgba(255,255,255,.1);color:#fff';z.innerHTML='🌾 <b>زكاة الفطر</b> لازم تطلع قبل صلاة العيد. <span class="row" style="margin-top:6px;display:flex"><input type="number" id="zfN" min="1" value="'+(profile.settings.famN||4)+'" style="width:70px;min-height:34px" aria-label="عدد الأفراد"> فرد × <input type="number" id="zfA" min="0" value="'+(profile.settings.zfA||'')+'" placeholder="المبلغ للفرد" style="width:110px;min-height:34px"> = <b id="zfT"></b></span><span class="sub">المبلغ للفرد بتحدده دار الإفتاء في بلدك كل سنة</span>';c.appendChild(z);
+    setTimeout(()=>{const f=()=>{const nn=+$('zfN').value||0,aa=+$('zfA').value||0;profile.settings.famN=nn;profile.settings.zfA=aa;saveProfile();$('zfT').textContent=aa?fmtN(nn*aa):'—'};$('zfN').oninput=f;$('zfA').oninput=f;f()},0)}
+  $('nowCards').prepend(c);applyMods&&applyMods()}})(renderNowCards2);
+buildAlarms=(function(o){return function(){const out=o(),s=profile.settings;for(let i=0;i<2;i++){const d=addDays(new Date(),i),hh=hparts(d);if(!(hh&&hh.m===9))continue;const pt=prayerTimes(d),v=String(curVoice()).replace(/-network$/,'-local'),r=s.vRate||.9,P=(at,title,sp)=>{if(at>Date.now())out.push({at,title,body:'',speak:smoothAr(sp),lang:'ar',voice:v,rate:r})};
+  P(atMin(d,pt.fajr-(s.suhoorMin||45)),'🌙 السحور','يا '+NM()+'، حانَ وَقْتُ السَّحُورِ. تَسَحَّرُوا فَإِنَّ في السَّحُورِ بَرَكَةً.');P(atMin(d,pt.fajr-10),'⏳ الإمساك','بَقِيَتْ عَشْرُ دَقائِقَ عَلى أَذانِ الفَجْرِ.');
+  P(atMin(d,pt.maghrib-5),'🤲 قبل الإفطار','اقْتَرَبَ الإِفْطارُ، وَلِلصّائِمِ دَعْوَةٌ لا تُرَدُّ، فَأَكْثِرُوا مِنَ الدُّعاءِ.')}return out.sort((a,b)=>a.at-b.at)}})(buildAlarms);
+/* ---- (٢) المصلّي الذكي: يعرف إنك في المسجد ---- */
+function nearMosque(la,lo){return(profile.mosques||[]).find(mq=>kmBetween(mq.lat,mq.lng,la,lo)<0.09)}
+function smartPray(){const s=profile.settings;if(s.smartPray===false||!(profile.mosques||[]).length||!navigator.geolocation)return;const n=new Date(),m=nowMin(),pt=prayerTimes(n),p=FIVE.find(x=>m>=pt[x]-5&&m<=pt[x]+iqOf(x)+40);if(!p)return;const k=dkey(n),d=day(k);if((d.jamaa||{})[p])return;
+  navigator.geolocation.getCurrentPosition(pos=>{const mq=nearMosque(pos.coords.latitude,pos.coords.longitude);if(!mq)return;(d.jamaa=d.jamaa||{})[p]=true;d.prayers[p]=true;saveDay(k);toast('🕌 أهلًا بيك في '+mq.n+'، سجّلت '+PN[p]+' جماعة');if(YN&&YN.dnd&&s.dndPray)YN.dnd({on:true}).catch(()=>{});renderAll(true)},()=>{},{timeout:12000,maximumAge:120000})}
+setInterval(smartPray,5*60000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')setTimeout(smartPray,1500)});
+(function(){const c=P5('🕌 المصلّي الذكي');c.innerHTML+='<p class="sub" style="margin:0 0 8px;line-height:1.8">سجّل مسجدك مرة واحدة وانت فيه. بعد كده، لما تفتح التطبيق وانت في المسجد وقت الصلاة، بيسجّل الصلاة جماعة لوحده، ويسكّت الموبايل لو مشغّل «اسكت وقت الصلاة».</p><button class="btn pri" id="mqAdd">📍 أنا في المسجد دلوقتي، سجّله</button><div id="mqL" style="margin-top:8px"></div>';
+  c.appendChild(swRow('شغّل المصلّي الذكي','','smartPray',true));const a=cardOf('iqOn');(a||$('v-s-adhan').lastElementChild).after(c);
+  $('mqAdd').onclick=()=>{if(!navigator.geolocation){toast('الموبايل مش بيدعم المكان');return}toast('📍 بيحدد مكانك…');navigator.geolocation.getCurrentPosition(p=>{const nm=prompt('اسم المسجد؟','مسجد الحي')||'المسجد';(profile.mosques=profile.mosques||[]).push({n:nm.slice(0,40),lat:+p.coords.latitude.toFixed(5),lng:+p.coords.longitude.toFixed(5)});saveProfile();renderMQ();toast('✅ اتسجّل '+nm)},()=>toast('اسمح بالمكان'),{enableHighAccuracy:true,timeout:15000})}})();
+function renderMQ(){const L2=$('mqL');if(!L2)return;L2.innerHTML='';(profile.mosques||[]).forEach((mq,i)=>{const r=el('div','ltl','<span class="t"></span><button class="btn dan">✕</button>');r.querySelector('.t').textContent='🕌 '+mq.n;r.querySelector('button').onclick=()=>{profile.mosques.splice(i,1);saveProfile();renderMQ()};L2.appendChild(r)})}
+/* ---- (٣) الأوامر الصوتية ---- */
+const PRX={'الفجر':'fajr','فجر':'fajr','الظهر':'dhuhr','الضهر':'dhuhr','ظهر':'dhuhr','العصر':'asr','عصر':'asr','المغرب':'maghrib','مغرب':'maghrib','العشاء':'isha','العشا':'isha','عشاء':'isha'};
+const ARN=s=>String(s).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d));const WNUM={'واحد':1,'واحدة':1,'صفحة':1,'اتنين':2,'اثنين':2,'صفحتين':2,'تلاتة':3,'ثلاثة':3,'تلات':3,'اربعة':4,'أربعة':4,'خمسة':5,'خمس':5,'ستة':6,'سبعة':7,'تمانية':8,'ثمانية':8,'تسعة':9,'عشرة':10,'عشر':10,'عشرين':20,'خمستاشر':15};
+function voiceCmd(t0){const t=qn(t0||'').replace(/[؟?!.،]/g,' ').trim(),k=dkey(new Date()),d=day(k),say2=(f,e)=>{toast('🎙️ '+e);speak(L(f,e))};if(!t){toast('ماسمعتش، جرّب تاني');return}
+  let m;const pk=Object.keys(PRX).find(w=>t.includes(qn(w)));
+  if(/صليت|صلّيت/.test(t)&&pk){const p=PRX[pk];d.prayers[p]=true;if(/جماعه|المسجد|الجامع/.test(t))(d.jamaa=d.jamaa||{})[p]=true;saveDay(k);renderAll(true);return say2('تَقَبَّلَ اللهُ، سَجَّلْتُ صَلاةَ '+{fajr:'الفَجْرِ',dhuhr:'الظُّهْرِ',asr:'العَصْرِ',maghrib:'المَغْرِبِ',isha:'العِشاءِ'}[p]+'.','تقبّل الله، سجّلت '+PN[p])}
+  if(/فاضل|باقي|امتي|إمتى|امتى|كام/.test(t)&&(pk||/الصلاه|الاذان|الصلاة/.test(t)))return speakNow();
+  if((m=t.match(/قريت\s*(\S+)?\s*(صفح|صفحه|صفحات)?/))&&/قريت|قرات/.test(t)){const nn=+(ARN(t).match(/\d+/)||[])[0]||WNUM[(t.match(/قريت\s+(\S+)/)||[])[1]]||1;addPages(nn);return say2('ما شاءَ اللهُ، سَجَّلْتُ '+nn+' صَفَحاتٍ.','سجّلت '+ar(nn)+' صفحة')}
+  if(/شربت|مايه|مية|ماء/.test(t)){d.water=(d.water||0)+1;saveDay(k);renderAll(true);return say2('سَجَّلْتُ كُوبَ ماءٍ.','سجّلت كوباية مية ('+ar(d.water)+')')}
+  if(/اذكار الصباح|أذكار الصباح/.test(t0)||/اذكار الصباح/.test(t))return openAz('m');if(/اذكار المساء/.test(t))return openAz('e');
+  if(/افتح المصحف|المصحف|اقرا قران|القران/.test(t))return openWird('m');if(/السبحه|سبحه|تسبيح/.test(t))return openWird('z');if(/القبله|قبله/.test(t))return go('qibla');if(/الاذكار|اذكار/.test(t))return openWird('a');
+  if(/لخص|ملخص|عملت ايه/.test(t))return speakDay();if(/يومي|جدولي|الجدول/.test(t))return speakPlan();if(/ركز|تركيز/.test(t)){focusStart('work');go('now');return say2('بَدَأَتْ جَلْسَةُ التَّرْكِيزِ، وَفَّقَكَ اللهُ.','بدأت جلسة التركيز')}
+  if(/مواقيت|المواعيد/.test(t))return speakTimes();if(/الساعه كام|الساعة كام/.test(t)){const n=new Date();return say2('السّاعَةُ الآنَ '+tts12(n.getHours()*60+n.getMinutes())+'.','الساعة '+fmt(nowMin()))}
+  toast('🎙️ «'+t0+'»: مش فاهم الأمر ده لسه');speak(L('عُذْرًا، لَمْ أَفْهَمِ الأَمْرَ.','معلش، مافهمتش.'))}
+async function startVoice(){unlock();$('vcmO').hidden=false;$('vcmT').textContent='قول أمرك…';
+  try{if(YN&&YN.listen&&ynVer>=11){try{await YN.micPerm()}catch(e){}const r=await YN.listen({lang:'ar-EG'});$('vcmO').hidden=true;voiceCmd(r.text);return}
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){$('vcmO').hidden=true;toast(YN?'حدّث التطبيق عشان الأوامر الصوتية':'المتصفح ده مش بيدعم الأوامر الصوتية');return}
+    const r=new SR();r.lang='ar-EG';r.onresult=e=>{$('vcmO').hidden=true;voiceCmd(e.results[0][0].transcript)};r.onerror=()=>{$('vcmO').hidden=true;toast('ماسمعتش، جرّب تاني')};r.onend=()=>setTimeout(()=>{$('vcmO').hidden=true},300);r.start()}
+  catch(e){$('vcmO').hidden=true;toast('ماسمعتش، جرّب تاني')}}
+$('vcmX').onclick=()=>$('vcmO').hidden=true;
+(function(){const ab=$('abNext'),b=el('button','abtheme');b.textContent='🎙️';b.setAttribute('aria-label','أمر صوتي');b.onclick=startVoice;ab.before(b)})();
+renderFab=(function(o){return function(){o();const m=$('fabMenu');if(!m||m.querySelector('[data-vc]'))return;const b=el('button','btn');b.dataset.vc=1;b.textContent='🎙️ أمر صوتي';b.onclick=()=>{m.hidden=true;startVoice()};m.insertBefore(b,m.firstElementChild)}})(renderFab);
+closeTop=(function(o){return function(){if(!$('vcmO').hidden){$('vcmO').hidden=true;return true}return o()}})(closeTop);
+/* تجربة وضع رمضان */
+renderCustom=(function(o){return function(){o();const b=$('cuB');if(!b||b.querySelector('#ramPv'))return;const c=P5('🌙 وضع رمضان');c.id='ramPv';c.innerHTML+='<p class="sub" style="margin:0 0 8px;line-height:1.8">بيشتغل لوحده أول يوم رمضان. ولو حابب تشوفه دلوقتي، شغّل التجربة.</p>';
+  const t=el('button','btn'+(profile.settings.ramPreview?' pri':''));t.textContent=profile.settings.ramPreview?'⏹ وقّف تجربة رمضان':'👀 جرّب وضع رمضان';t.onclick=()=>{profile.settings.ramPreview=profile.settings.ramPreview?0:Date.now()-20*864e5;saveProfile();renderAll(true);go('now')};c.appendChild(t);
+  c.appendChild(numRow('🌙 السحور قبل الفجر بـ','دقيقة','suhoorMin',45,15,120));b.appendChild(c)}})(renderCustom);
+const _rx25=renderExtras;renderExtras=function(){_rx25();try{renderMQ()}catch(e){}};
+setInterval(()=>{try{const cd=$('rmCd');if(cd&&isAct('now')){const pt=prayerTimes(new Date()),m=nowMin(),left=m<pt.maghrib?pt.maghrib-m:((prayerTimes(addDays(new Date(),1)).fajr-10+1440-m)%1440);cd.textContent=pad(Math.floor(left/60))+':'+pad(left%60)}}catch(e){}},30000);
+</script>
+
 </body>
 </html>

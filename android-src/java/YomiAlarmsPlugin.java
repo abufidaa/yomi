@@ -21,6 +21,9 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.speech.tts.Voice;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.getcapacitor.JSArray;
@@ -220,6 +223,43 @@ public class YomiAlarmsPlugin extends Plugin {
         }).start();
     }
 
+    /* الأوامر الصوتية: بيسمع جملة واحدة بالعربي ويرجّعها نص */
+    @PluginMethod
+    public void listen(PluginCall call) {
+        final android.app.Activity act = getActivity();
+        if (act == null) { call.reject("no activity"); return; }
+        act.runOnUiThread(() -> {
+            try {
+                if (!SpeechRecognizer.isRecognitionAvailable(getContext())) { call.reject("unavailable"); return; }
+                final SpeechRecognizer sr = SpeechRecognizer.createSpeechRecognizer(getContext());
+                Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, call.getString("lang", "ar-EG"));
+                it.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+                final boolean[] done = {false};
+                sr.setRecognitionListener(new RecognitionListener() {
+                    @Override public void onReadyForSpeech(Bundle b) { notifyListeners("listenState", new JSObject().put("s", "ready")); }
+                    @Override public void onBeginningOfSpeech() { }
+                    @Override public void onRmsChanged(float v) { }
+                    @Override public void onBufferReceived(byte[] b) { }
+                    @Override public void onEndOfSpeech() { notifyListeners("listenState", new JSObject().put("s", "end")); }
+                    @Override public void onError(int e) { if (done[0]) return; done[0] = true; call.reject("err" + e); try { sr.destroy(); } catch (Exception ignored) { } }
+                    @Override public void onResults(Bundle b) {
+                        if (done[0]) return; done[0] = true;
+                        ArrayList<String> r = b.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                        JSObject o = new JSObject(); JSArray a = new JSArray();
+                        if (r != null) for (String x : r) a.put(x);
+                        o.put("text", (r != null && !r.isEmpty()) ? r.get(0) : ""); o.put("all", a);
+                        call.resolve(o); try { sr.destroy(); } catch (Exception ignored) { }
+                    }
+                    @Override public void onPartialResults(Bundle b) { }
+                    @Override public void onEvent(int t, Bundle b) { }
+                });
+                sr.startListening(it);
+            } catch (Exception e) { call.reject(String.valueOf(e.getMessage())); }
+        });
+    }
+
     @PluginMethod
     public void calibrate(PluginCall call) {
         Intent i = new Intent(getContext(), AdhanActivity.class);
@@ -282,7 +322,7 @@ public class YomiAlarmsPlugin extends Plugin {
         JSObject r = new JSObject();
         r.put("exact", Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms());
         r.put("scheduled", ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE).getInt("n", 0));
-        r.put("version", 10);
+        r.put("version", 11);
         call.resolve(r);
     }
 

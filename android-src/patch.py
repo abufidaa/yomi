@@ -11,7 +11,7 @@ x = open(m, encoding='utf8').read()
 perms = ['REQUEST_INSTALL_PACKAGES', 'USE_FULL_SCREEN_INTENT', 'ACTIVITY_RECOGNITION', 'POST_NOTIFICATIONS', 'SCHEDULE_EXACT_ALARM', 'USE_EXACT_ALARM', 'WAKE_LOCK', 'VIBRATE', 'RECEIVE_BOOT_COMPLETED',
          'ACCESS_FINE_LOCATION', 'ACCESS_COARSE_LOCATION', 'RECORD_AUDIO', 'MODIFY_AUDIO_SETTINGS']
 add = ''.join('    <uses-permission android:name="android.permission.%s" />\n' % p for p in perms if p not in x)
-x = x.replace('<application', add + '\n    <application', 1)
+x = x.replace('<application', add + '    <queries><intent><action android:name="android.speech.RecognitionService" /></intent></queries>\n    <application', 1)
 extra = '''        <receiver android:name=".YomiReceiver" android:exported="false" />
         <activity android:name=".AdhanActivity" android:exported="false" android:showWhenLocked="true" android:turnScreenOn="true" android:launchMode="singleTop" android:excludeFromRecents="true" android:theme="@style/AppTheme.NoActionBar" />
         <receiver android:name=".YomiWidget" android:exported="true" android:label="يومي: الصلاة الجاية (كبير)">
