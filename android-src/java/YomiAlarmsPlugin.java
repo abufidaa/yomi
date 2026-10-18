@@ -262,7 +262,7 @@ public class YomiAlarmsPlugin extends Plugin {
         JSObject r = new JSObject();
         r.put("exact", Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms());
         r.put("scheduled", ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE).getInt("n", 0));
-        r.put("version", 8);
+        r.put("version", 9);
         call.resolve(r);
     }
 

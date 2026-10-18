@@ -180,6 +180,9 @@ public class WidgetRender {
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("🕌 الصلاة الجاية: " + nx[0].optString("n"))
                     .setContentText("الساعة " + fmt(at) + "  ·  " + d.optString("hijri", ""))
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText("الساعة " + fmt(at) + "  ·  " + d.optString("hijri", "")
+                            + (d.optString("dhikr", "").isEmpty() ? "" : "\n📿 " + d.optString("dhikr", ""))
+                            + (d.optString("mit", "").isEmpty() ? "" : "\n" + d.optString("mit", ""))))
                     .setOngoing(true).setSilent(true).setOnlyAlertOnce(true).setShowWhen(true).setWhen(at).setUsesChronometer(true)
                     .setPriority(NotificationCompat.PRIORITY_LOW).setContentIntent(open(c, 73));
             if (Build.VERSION.SDK_INT >= 24) b.setChronometerCountDown(true);
